@@ -10,9 +10,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="321.0" minWidth="342.0" prefHeight="321.0" prefWidth="342.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.crs.controller.UserUIController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutY="254.0" prefHeight="20.0" prefWidth="101.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <VBox fx:id="vBox" alignment="TOP_CENTER" layoutY="254.0" prefHeight="12.0" prefWidth="342.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#btnLoginOnAction" text="Login" />
+            <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#btnLoginOnAction" text="Login" />
          </children>
       </VBox>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutY="20.0" prefHeight="0.0" prefWidth="0.0" text="WELLCOME" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

@@ -8,7 +8,9 @@ public class UserDTO {
     private Role role;
     private String studentOrFacultyId;
 
-    
+    public UserDTO() {
+    }
+
     public UserDTO(String userName, String password) {
         this.userName = userName;
         this.password = password;

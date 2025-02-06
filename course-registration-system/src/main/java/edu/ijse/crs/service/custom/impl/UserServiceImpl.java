@@ -9,24 +9,26 @@ import edu.ijse.crs.entity.UserEntity.Role;
 import edu.ijse.crs.service.custom.UserService;
 import edu.ijse.crs.util.EntityDTOConversion;
 
-public class UserServiceImpl implements UserService{
-    UserDao userDao=(UserDao) DaoFactory.getInstance().getDao(DaoTypes.USER);
+public class UserServiceImpl implements UserService {
+    UserDao userDao = (UserDao) DaoFactory.getInstance().getDao(DaoTypes.USER);
+
     @Override
     public void saveUser(UserDTO userDTO) throws Exception {
-       userDao.save(EntityDTOConversion.toEntity(userDTO)); 
+        userDao.save(EntityDTOConversion.toUserEntity(userDTO));
     }
+
     @Override
-    public Role getRole(UserDTO userDTO) throws Exception {
-        try {
-            UserEntity searchUserEntity = userDao.search(userDTO.getUserName());
-            if(searchUserEntity!=null){
-                if(searchUserEntity.getPassword().equals(userDTO.getPassword())){
-                    return searchUserEntity.getRole();
-                }
+    public UserDTO login(UserDTO userDTO) throws Exception {
+        UserEntity searchUserEntity = userDao.search(userDTO.getUserName());
+
+        if (searchUserEntity != null) {
+            if (searchUserEntity.getPassword().equals(userDTO.getPassword())) {
+                return EntityDTOConversion.toUserDTO(searchUserEntity);
+            } else {
+                throw new RuntimeException("Invalid Password");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            throw new RuntimeException("Invalid User Name");
         }
-        return null;
-    } 
+    }
 }
