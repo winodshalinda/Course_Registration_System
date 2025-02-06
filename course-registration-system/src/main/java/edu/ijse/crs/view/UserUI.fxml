@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="321.0" minWidth="342.0" prefHeight="321.0" prefWidth="342.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.crs.controller.UserUIController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutY="254.0" prefHeight="20.0" prefWidth="101.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#btnLoginOnAction" text="Login" />
+         </children>
+      </VBox>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="20.0" prefHeight="0.0" prefWidth="0.0" text="WELLCOME" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="Rockwell" size="44.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutY="112.0" text="User Name" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="SansSerif Regular" size="16.0" />
+         </font>
+      </Label>
+      <HBox alignment="TOP_CENTER" layoutY="136.0" prefHeight="0.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <TextField fx:id="txtUserName" minHeight="25.0" minWidth="149.0" prefHeight="25.0" prefWidth="149.0" />
+         </children>
+      </HBox>
+      <Label alignment="CENTER" layoutY="175.0" text="Password" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="SansSerif Regular" size="16.0" />
+         </font>
+      </Label>
+      <HBox alignment="TOP_CENTER" layoutY="202.0" prefHeight="0.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <TextField fx:id="txtPassword" minHeight="25.0" minWidth="149.0" prefHeight="25.0" prefWidth="149.0" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
