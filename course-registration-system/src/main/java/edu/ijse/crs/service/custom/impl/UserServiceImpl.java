@@ -5,7 +5,6 @@ import edu.ijse.crs.dao.DaoFactory.DaoTypes;
 import edu.ijse.crs.dao.custom.UserDao;
 import edu.ijse.crs.dto.UserDTO;
 import edu.ijse.crs.entity.UserEntity;
-import edu.ijse.crs.entity.UserEntity.Role;
 import edu.ijse.crs.service.custom.UserService;
 import edu.ijse.crs.util.EntityDTOConversion;
 
@@ -18,11 +17,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO login(UserDTO userDTO) throws Exception {
-        UserEntity searchUserEntity = userDao.search(userDTO.getUserName());
+    public UserDTO login(String userName, String password) throws Exception {
+        UserEntity searchUserEntity = userDao.search(userName);
 
         if (searchUserEntity != null) {
-            if (searchUserEntity.getPassword().equals(userDTO.getPassword())) {
+            if (searchUserEntity.getPassword().equals(password)) {
                 return EntityDTOConversion.toUserDTO(searchUserEntity);
             } else {
                 throw new RuntimeException("Invalid Password");
