@@ -49,7 +49,6 @@ public class UserUIController {
             ancLoginUI.getChildren().clear();
             switch (userDTO.getRole()) {
                 case Role.ADMIN: {
-                    
                     URL resource = getClass().getResource("../view/AdminUI.fxml");
                     Parent node = FXMLLoader.load(resource);
                     ancLoginUI.getChildren().add(node);
