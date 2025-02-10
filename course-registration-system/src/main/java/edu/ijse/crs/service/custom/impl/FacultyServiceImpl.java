@@ -12,6 +12,7 @@ import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.entity.FacultyEntity;
 import edu.ijse.crs.entity.UserEntity;
 import edu.ijse.crs.entity.UserEntity.Role;
+import edu.ijse.crs.exception.CustomException;
 import edu.ijse.crs.service.custom.FacultyService;
 import edu.ijse.crs.util.EntityDTOConversion;
 import edu.ijse.crs.util.HibernateUtil;
@@ -20,7 +21,6 @@ public class FacultyServiceImpl implements FacultyService {
 
     FacultyDao facultyDao = (FacultyDao) DaoFactory.getInstance().getDao(DaoTypes.FACULTY);
     UserDao userDao = (UserDao) DaoFactory.getInstance().getDao(DaoTypes.USER);
-    
 
     @Override
     public String saveFaculty(FacultyDTO facultyDTO) throws Exception {
@@ -57,21 +57,54 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public void updateFaculty(FacultyDTO facultyDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateFaculty'");
+    public String updateFaculty(FacultyDTO facultyDTO) throws Exception {
+        if (facultyDTO.getFacultyId().isEmpty() || facultyDTO.getFacultyName().isEmpty()) {
+            return "Faculty ID and Name are required";
+        }
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        facultyDao.update(EntityDTOConversion.toFacultyEntity(facultyDTO), session);
+        session.getTransaction().commit();
+        session.close();
+        return "Faculty Updated Successfully";
     }
 
     @Override
-    public void deleteFaculty(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteFaculty'");
+    public String deleteFaculty(String id) throws Exception {
+        if (id.isEmpty()) {
+            return "Faculty ID is required";
+        }
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        try {
+            userDao.delete(id, session);
+            try {
+                facultyDao.delete(id, session);
+                session.getTransaction().commit();
+                return "Faculty Deleted Successfully";
+            } catch (Exception e) {
+                session.getTransaction().rollback();
+                throw e;
+            }
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        }
     }
 
     @Override
-    public FacultyDTO searchFaculty(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchFaculty'");
+    public FacultyDTO searchFaculty(String id) throws Exception {
+        Session session = HibernateUtil.getSession();
+        if (id.isEmpty()) {
+            throw new CustomException("Faculty ID cannot be null or empty");
+        } else {
+            FacultyEntity facultyEntity = facultyDao.search(id, session);
+            if (facultyEntity != null) {
+                return EntityDTOConversion.toFacultyDTO(facultyEntity);
+            } else {
+                throw new CustomException("Faculty not found with ID: " + id);
+            }
+        }
     }
 
     @Override
@@ -87,7 +120,5 @@ public class FacultyServiceImpl implements FacultyService {
             session.close();
         }
         return null;
-
     }
-
 }

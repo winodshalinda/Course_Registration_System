@@ -1,8 +1,11 @@
 package edu.ijse.crs.controller.adminUIController;
 
 import java.util.List;
+
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 import edu.ijse.crs.dto.FacultyDTO;
+import edu.ijse.crs.exception.CustomException;
 import edu.ijse.crs.service.ServiceFactory;
 import edu.ijse.crs.service.ServiceFactory.ServiceTypes;
 import edu.ijse.crs.service.custom.FacultyService;
@@ -17,9 +20,19 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 public class ManageFacultyController {
+    @FXML
+    private TextField txtSearch;
+
+    @FXML
+    private TextField txtSelectedFacultyId;
+
+    @FXML
+    private TextField txtSelectedFacultyName;
+
     @FXML
     private TableColumn<FacultyDTO, String> colFacId;
 
@@ -41,6 +54,9 @@ public class ManageFacultyController {
     @FXML
     private TextField txtRePassword;
 
+    @FXML
+    private Pane paneGetFaculty;
+
     FacultyService facultyService = (FacultyService) ServiceFactory.getInstance().getService(ServiceTypes.FACULTY);
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
@@ -51,11 +67,14 @@ public class ManageFacultyController {
         colFacId.setCellValueFactory(new PropertyValueFactory<>("facultyId"));
         colFacName.setCellValueFactory(new PropertyValueFactory<>("facultyName"));
         startPolling();
-    }
 
-    @FXML
-    void btnDeleteOnAction(ActionEvent event) {
-        // TODO
+        tblFaculty.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                paneGetFaculty.setVisible(true);
+                txtSelectedFacultyId.setText(newSelection.getFacultyId());
+                txtSelectedFacultyName.setText(newSelection.getFacultyName());
+            }
+        });
     }
 
     @FXML
@@ -79,7 +98,62 @@ public class ManageFacultyController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        // TODO
+        FacultyDTO facultyDTO = new FacultyDTO(txtSelectedFacultyId.getText(), txtSelectedFacultyName.getText(), null,
+                null);
+        alert.setTitle("Update Faculty");
+        alert.setHeaderText(null);
+        try {
+            String updateFaculty = facultyService.updateFaculty(facultyDTO);
+            alert.setContentText(updateFaculty);
+            alert.showAndWait();
+            paneGetFaculty.setVisible(false);
+            getAllFaculty();
+        } catch (OptimisticLockException e) {
+            alert.setContentText("Faculty Not Found");
+            alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void btnDeleteOnAction(ActionEvent event) {
+        alert.setTitle("Delete Faculty");
+        alert.setHeaderText(null);
+        try {
+            String deleteFaculty = facultyService.deleteFaculty(txtSelectedFacultyId.getText());
+            alert.setContentText(deleteFaculty);
+            alert.showAndWait();
+            paneGetFaculty.setVisible(false);
+        } catch (CustomException e) {
+            alert.setContentText("Faculty Not Found");
+            e.printStackTrace();
+            alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void btnSearchOnAction(ActionEvent event) {
+        try {
+            FacultyDTO searchFaculty = facultyService.searchFaculty(txtSearch.getText());
+            if (searchFaculty != null) {
+                paneGetFaculty.setVisible(true);
+                txtSelectedFacultyId.setText(searchFaculty.getFacultyId());
+                txtSelectedFacultyName.setText(searchFaculty.getFacultyName());
+            } else {
+                alert.setContentText("Faculty Not Found");
+                alert.showAndWait();
+            }
+
+        } catch (CustomException e) {
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void getAllFaculty() {

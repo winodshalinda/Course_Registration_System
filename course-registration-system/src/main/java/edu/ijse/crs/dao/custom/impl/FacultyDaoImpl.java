@@ -31,10 +31,7 @@ public class FacultyDaoImpl implements FacultyDao {
     @Override
     public void delete(String id, Session session) throws Exception {
         FacultyEntity entity = search(id, session);
-        if (entity != null) {
-            session.delete(entity);
-        }
-        //TODO
+        session.delete(entity);
     }
 
     @Override

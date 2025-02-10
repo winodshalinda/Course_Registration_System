@@ -13,10 +13,10 @@ import edu.ijse.crs.util.HibernateUtil;
 
 public class UserServiceImpl implements UserService {
     UserDao userDao = (UserDao) DaoFactory.getInstance().getDao(DaoTypes.USER);
-    Session session = HibernateUtil.getSession();
-
+    
     @Override
     public void saveUser(UserDTO userDTO) throws Exception {
+        Session session = HibernateUtil.getSession();
         session.beginTransaction();
         userDao.save(EntityDTOConversion.toUserEntity(userDTO), session);
         session.getTransaction().commit();
@@ -24,10 +24,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO login(String userName, String password) throws Exception {
-        
+        Session session = HibernateUtil.getSession();
         session.beginTransaction();
         UserEntity searchUserEntity = userDao.search(userName, session);
-
+        session.close();
         if (searchUserEntity != null) {
             if (searchUserEntity.getPassword().equals(password)) {
                 return EntityDTOConversion.toUserDTO(searchUserEntity);
