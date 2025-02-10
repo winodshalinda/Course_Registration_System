@@ -1,6 +1,11 @@
 package edu.ijse.crs.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.dto.UserDTO;
+import edu.ijse.crs.entity.FacultyEntity;
 import edu.ijse.crs.entity.UserEntity;
 
 public class EntityDTOConversion {
@@ -10,7 +15,7 @@ public class EntityDTOConversion {
         userEntity.setUserName(dto.getUserName());
         userEntity.setPassword(dto.getPassword());
         userEntity.setRole(dto.getRole());
-        userEntity.setStudentOrFacultyId(dto.getStudentOrFacultyId());
+        userEntity.setFaculty(null);
         return userEntity;
     }
 
@@ -19,7 +24,29 @@ public class EntityDTOConversion {
         userDTO.setUserName(entity.getUserName());
         userDTO.setPassword(entity.getPassword());
         userDTO.setRole(entity.getRole());
-        userDTO.setStudentOrFacultyId(entity.getStudentOrFacultyId());
+        userDTO.setFacultyDTO(null);
         return userDTO;
+    }
+
+
+    //Faculty
+
+    public static FacultyEntity toFacultyEntity(FacultyDTO dto){
+        return new FacultyEntity(
+            dto.getFacultyId(),dto.getFacultyName()
+        );
+    }
+
+    public static FacultyDTO toFacultyDTO(FacultyEntity entity){
+        return new FacultyDTO(entity.getFacultyId(), entity.getFacultyName(), null, null);
+    }
+
+    public static List<FacultyDTO> toListFacultyDTOs(List<FacultyEntity> entityList){
+        List<FacultyDTO> dtoList = new ArrayList<FacultyDTO>();
+        for (FacultyEntity entity : entityList) {
+            FacultyDTO facultyDTO = toFacultyDTO(entity);
+            dtoList.add(facultyDTO);
+        }
+        return dtoList;
     }
 }

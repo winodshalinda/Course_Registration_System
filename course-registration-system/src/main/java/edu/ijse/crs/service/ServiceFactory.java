@@ -1,7 +1,7 @@
 package edu.ijse.crs.service;
 
+import edu.ijse.crs.service.custom.impl.FacultyServiceImpl;
 import edu.ijse.crs.service.custom.impl.UserServiceImpl;
-
 
 public class ServiceFactory {
     private static ServiceFactory serviceFactory;
@@ -14,12 +14,15 @@ public class ServiceFactory {
     }
 
     public enum ServiceTypes {
-        USER
+        USER, FACULTY
     }
+
     public SuperService getService(ServiceTypes serviceTypes) {
         switch (serviceTypes) {
             case USER:
                 return new UserServiceImpl();
+            case FACULTY:
+                return new FacultyServiceImpl();
             default:
                 return null;
         }

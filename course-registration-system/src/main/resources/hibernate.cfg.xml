@@ -10,5 +10,6 @@
         <property name="show_sql">true</property>
         <!-- <property name="format_sql">true</property> -->
         <mapping class="edu.ijse.crs.entity.UserEntity"/>
+        <mapping class="edu.ijse.crs.entity.FacultyEntity"/>
     </session-factory>
 </hibernate-configuration>

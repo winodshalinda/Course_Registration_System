@@ -6,7 +6,7 @@ public class UserDTO {
     private String userName;
     private String password;
     private Role role;
-    private String studentOrFacultyId;
+    private FacultyDTO facultyDTO;
 
     public UserDTO() {
     }
@@ -16,11 +16,11 @@ public class UserDTO {
         this.password = password;
     }
 
-    public UserDTO(String userName, String password, Role role, String studentOrFacultyId) {
+    public UserDTO(String userName, String password, Role role, FacultyDTO facultyDTO) {
         this.userName = userName;
         this.password = password;
         this.role = role;
-        this.studentOrFacultyId = studentOrFacultyId;
+        this.facultyDTO = facultyDTO;
     }
 
     public String getUserName() {
@@ -47,17 +47,16 @@ public class UserDTO {
         this.role = role;
     }
 
-    public String getStudentOrFacultyId() {
-        return studentOrFacultyId;
+    public FacultyDTO getFacultyDTO() {
+        return facultyDTO;
     }
 
-    public void setStudentOrFacultyId(String studentOrFacultyId) {
-        this.studentOrFacultyId = studentOrFacultyId;
+    public void setFacultyDTO(FacultyDTO facultyDTO) {
+        this.facultyDTO = facultyDTO;
     }
 
     @Override
     public String toString() {
-        return "UserDTO [userName=" + userName + ", password=" + password + ", role=" + role + ", studentOrFacultyId="
-                + studentOrFacultyId + "]";
+        return "UserDTO [userName=" + userName + ", role=" + role + ", facultyDTO=" + facultyDTO + "]";
     }
 }

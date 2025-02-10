@@ -6,45 +6,35 @@ import org.hibernate.Session;
 
 import edu.ijse.crs.dao.custom.UserDao;
 import edu.ijse.crs.entity.UserEntity;
-import edu.ijse.crs.util.HibernateUtil;
 
 public class UserDaoImpl implements UserDao {
 
     @Override
-    public void save(UserEntity userEntity) throws Exception {
-        Session session = HibernateUtil.getSession();
-        session.beginTransaction();
-        session.save(userEntity);
-        session.getTransaction().commit();
-        session.close();
+    public Boolean save(UserEntity userEntity, Session session) throws Exception {
+        return session.save(userEntity)!=null;
     }
 
     @Override
-    public void update(UserEntity entity) throws Exception {
+    public UserEntity search(String id, Session session) throws Exception {
+        UserEntity userEntity = session.get(UserEntity.class, id);
+        return userEntity;
+    }
+
+    @Override
+    public void update(UserEntity entity, Session session) throws Exception {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
     @Override
-    public void delete(String id) throws Exception {
+    public void delete(String id, Session session) throws Exception {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
     @Override
-    public UserEntity search(String id) throws Exception {
-        Session session = HibernateUtil.getSession();
-        session.beginTransaction();
-        UserEntity userEntity = session.get(UserEntity.class, id);
-        session.getTransaction().commit();
-        session.close();
-        return userEntity;
-    }
-
-    @Override
-    public List<UserEntity> getAll() throws Exception {
+    public List<UserEntity> getAll(Session session) throws Exception {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAll'");
     }
-
 }

@@ -5,20 +5,30 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class UserEntity {
     @Id
     private String userName;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    private String studentOrFacultyId;
-    
+    @OneToOne
+    private FacultyEntity faculty;
+    // TODO
+
     public UserEntity() {
+    }
+
+    public UserEntity(String userName, String password, Role role, FacultyEntity faculty) {
+        this.userName = userName;
+        this.password = password;
+        this.role = role;
+        this.faculty = faculty;
     }
 
     public String getUserName() {
@@ -45,21 +55,15 @@ public class UserEntity {
         this.role = role;
     }
 
-    public String getStudentOrFacultyId() {
-        return studentOrFacultyId;
+    public FacultyEntity getFaculty() {
+        return faculty;
     }
 
-    public void setStudentOrFacultyId(String studentOrFacultyId) {
-        this.studentOrFacultyId = studentOrFacultyId;
+    public void setFaculty(FacultyEntity faculty) {
+        this.faculty = faculty;
     }
 
-    @Override
-    public String toString() {
-        return "UserEntity [userName=" + userName + ", password=" + password + ", role=" + role
-                + ", studentOrFacultyId=" + studentOrFacultyId + "]";
-    }
-
-   public enum Role {
+    public enum Role {
         ADMIN, STUDENT, FACULTY
     }
 }
