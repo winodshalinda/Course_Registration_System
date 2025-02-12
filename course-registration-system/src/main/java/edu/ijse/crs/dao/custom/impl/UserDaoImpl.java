@@ -37,7 +37,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<UserEntity> getAll(Session session) throws Exception {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAll'");
     }
 }

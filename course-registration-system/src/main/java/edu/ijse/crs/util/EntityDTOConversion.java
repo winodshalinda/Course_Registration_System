@@ -24,7 +24,7 @@ public class EntityDTOConversion {
         userDTO.setUserName(entity.getUserName());
         userDTO.setPassword(entity.getPassword());
         userDTO.setRole(entity.getRole());
-        userDTO.setFacultyDTO(null);
+        userDTO.setFacultyDTO(EntityDTOConversion.toFacultyDTO(entity.getFaculty()));
         return userDTO;
     }
 

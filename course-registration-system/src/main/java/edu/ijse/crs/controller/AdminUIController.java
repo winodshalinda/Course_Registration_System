@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -19,18 +18,12 @@ public class AdminUIController {
     private Button btnBack;
 
     @FXML
-    private Button btnMngFaculty;
-
-    @FXML
-    private Button btnMngStudent;
-
-    @FXML
-    private ScrollPane scrollPane;
+    private AnchorPane ancScrollPane;
 
     @FXML
     void btnBackOnAction(ActionEvent event) {
         btnBack.setVisible(false);
-        // TODO
+        //TODO
     }
 
     @FXML
@@ -38,9 +31,8 @@ public class AdminUIController {
         btnBack.setVisible(true);
         URL resource = getClass().getResource("../view/adminUiPane/ManageFacultyUI.fxml");
         Parent node = FXMLLoader.load(resource);
-        scrollPane.setContent(node);
-        ((Stage) ancAdminUI.getScene().getWindow()).setMinWidth(775);
-        // TODO
+        ancScrollPane.getChildren().add(node);
+        ((Stage) ancAdminUI.getScene().getWindow()).setMinWidth(968);
     }
 
     @FXML
@@ -48,6 +40,7 @@ public class AdminUIController {
         btnBack.setVisible(true);
         URL resource = getClass().getResource("../view/adminUiPane/ManageStudentUI.fxml");
         Parent node = FXMLLoader.load(resource);
-        scrollPane.setContent(node);
+        ancScrollPane.getChildren().add(node);
+        //TODO
     }
 }

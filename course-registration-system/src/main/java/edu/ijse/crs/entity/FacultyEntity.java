@@ -18,6 +18,14 @@ public class FacultyEntity {
     public FacultyEntity() {
     }
 
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+
     public FacultyEntity(String facultyId, String facultyName) {
         this.facultyId = facultyId;
         this.facultyName = facultyName;

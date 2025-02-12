@@ -60,7 +60,22 @@ public class UserUIController {
                     stage.centerOnScreen();
                 }
                     break;
-                // TODO
+                case Role.FACULTY: {
+                    System.out.println(userDTO.getFacultyDTO());
+                    URL resource = getClass().getResource("../view/FacultyUI.fxml");
+                    FXMLLoader fxmlLoader = new FXMLLoader(resource);
+                    Parent node = fxmlLoader.load();
+                    FacultyUIController controller = fxmlLoader.getController();
+                    controller.setFacultyDTO(userDTO.getFacultyDTO());
+                    ancLoginUI.getChildren().add(node);
+                    AnchorPane.setTopAnchor(node, 0.0);
+                    AnchorPane.setBottomAnchor(node, 0.0);
+                    AnchorPane.setLeftAnchor(node, 0.0);
+                    AnchorPane.setRightAnchor(node, 0.0);
+                    stage.setTitle("Faculty Panel");
+                    stage.centerOnScreen();
+                }
+                    break;
                 default:
                     break;
             }

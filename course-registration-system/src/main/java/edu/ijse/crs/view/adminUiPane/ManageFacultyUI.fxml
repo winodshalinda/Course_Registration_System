@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="-Infinity" minWidth="741.0" prefHeight="675.0" prefWidth="1300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.crs.controller.adminUIController.ManageFacultyController">
+<AnchorPane minHeight="-Infinity" minWidth="741.0" prefHeight="675.0" prefWidth="937.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.crs.controller.adminUIController.ManageFacultyController">
    <children>
       <VBox layoutX="14.0" prefHeight="675.0" prefWidth="463.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -51,17 +51,17 @@
                   </HBox>
                </children>
             </VBox>
-            <TableView fx:id="tblFaculty" prefHeight="600.0" prefWidth="323.0">
+            <TableView fx:id="tblFaculty" prefHeight="600.0" prefWidth="321.0">
               <columns>
                 <TableColumn fx:id="colFacId" prefWidth="176.0" text="faculty ID" />
-                <TableColumn fx:id="colFacName" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="286.0" text="Faculty Name" />
+                <TableColumn fx:id="colFacName" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="285.0" text="Faculty Name" />
               </columns>
             </TableView>
          </children>
       </VBox>
       <TextField fx:id="txtSearch" layoutX="544.0" layoutY="14.0" prefHeight="35.0" prefWidth="161.0" promptText="Search By Faculty Id" />
       <Button layoutX="729.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnSearchOnAction" prefHeight="35.0" prefWidth="71.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-background-radius: 150px; -fx-border-radius: 150px;" text="Search" />
-      <Pane fx:id="paneGetFaculty" layoutX="550.0" layoutY="69.0" prefHeight="200.0" prefWidth="410.0" visible="false">
+      <Pane fx:id="paneGetFaculty" layoutX="550.0" layoutY="69.0" prefHeight="200.0" prefWidth="385.0" visible="false">
          <children>
             <HBox layoutY="14.0" prefHeight="36.0" prefWidth="410.0">
                <children>
@@ -75,7 +75,7 @@
                   <TextField fx:id="txtSelectedFacultyName" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="238.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutY="126.0" prefHeight="36.0" prefWidth="410.0" spacing="100.0">
+            <HBox alignment="CENTER" layoutY="126.0" prefHeight="36.0" prefWidth="385.0" spacing="100.0">
                <children>
                   <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: blue; -fx-background-radius: 50;" text="UPDATE" textFill="WHITE" />
                   <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: red; -fx-background-radius: 50;" text="DELETE" textFill="WHITE" />

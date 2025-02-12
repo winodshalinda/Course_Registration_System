@@ -13,7 +13,7 @@ import edu.ijse.crs.util.HibernateUtil;
 
 public class UserServiceImpl implements UserService {
     UserDao userDao = (UserDao) DaoFactory.getInstance().getDao(DaoTypes.USER);
-    
+
     @Override
     public void saveUser(UserDTO userDTO) throws Exception {
         Session session = HibernateUtil.getSession();
