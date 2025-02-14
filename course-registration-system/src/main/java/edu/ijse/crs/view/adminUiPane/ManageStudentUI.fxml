@@ -69,7 +69,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="354.0">
                <children>
-                  <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="132.0" text="Email / Gmail">
+                  <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="132.0" text="Contract Number">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

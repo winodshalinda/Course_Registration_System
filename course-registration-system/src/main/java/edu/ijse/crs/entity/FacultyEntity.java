@@ -1,20 +1,27 @@
 package edu.ijse.crs.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Faculty")
+@Table(name = "faculty")
 public class FacultyEntity {
     @Id
     private String facultyId;
     @Column(nullable = false)
     private String facultyName;
+
     @OneToOne(mappedBy = "faculty")
     private UserEntity userEntity;
+    @OneToMany(mappedBy = "faculty")
+    private List<ProgramEntity> program;
+
     public FacultyEntity() {
     }
 
