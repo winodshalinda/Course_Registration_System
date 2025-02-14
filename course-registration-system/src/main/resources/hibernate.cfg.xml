@@ -9,7 +9,17 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
         <!-- <property name="format_sql">true</property> -->
-        <mapping class="edu.ijse.crs.entity.UserEntity"/>
+
+        <mapping class="edu.ijse.crs.entity.CourseEntity"/>
+        <mapping class="edu.ijse.crs.entity.DepartmentEntity"/>
+        <mapping class="edu.ijse.crs.entity.EnrollmentEntity"/>
         <mapping class="edu.ijse.crs.entity.FacultyEntity"/>
+        <mapping class="edu.ijse.crs.entity.PrerequisitesEntity"/>
+        <mapping class="edu.ijse.crs.entity.ProgramDetailsEntity"/>
+        <mapping class="edu.ijse.crs.entity.ProgramEntity"/>
+        <mapping class="edu.ijse.crs.entity.ProgramSemesterEntity"/>
+        <mapping class="edu.ijse.crs.entity.StudentEntity"/>
+        <mapping class="edu.ijse.crs.entity.UserEntity"/>
+
     </session-factory>
 </hibernate-configuration>
