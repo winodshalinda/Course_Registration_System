@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +22,9 @@ public class StudentEntity {
     private int year;
     private int contractNumber;
     private String address;
+
+    @OneToOne(mappedBy = "student")
+    private UserEntity user;
 
     public StudentEntity() {
     }

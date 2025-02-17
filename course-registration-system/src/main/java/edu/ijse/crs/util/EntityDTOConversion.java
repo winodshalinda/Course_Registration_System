@@ -15,7 +15,8 @@ public class EntityDTOConversion {
         userEntity.setUserName(dto.getUserName());
         userEntity.setPassword(dto.getPassword());
         userEntity.setRole(dto.getRole());
-        userEntity.setFaculty(null);
+        userEntity.setFaculty(toFacultyEntity(dto.getFacultyDTO()));
+        userEntity.setStudent(null);
         return userEntity;
     }
 
@@ -38,6 +39,9 @@ public class EntityDTOConversion {
     }
 
     public static FacultyDTO toFacultyDTO(FacultyEntity entity){
+        if(entity==null){
+            return null;
+        }
         return new FacultyDTO(entity.getFacultyId(), entity.getFacultyName(), null, null);
     }
 

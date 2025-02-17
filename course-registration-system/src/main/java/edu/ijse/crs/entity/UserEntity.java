@@ -19,16 +19,18 @@ public class UserEntity {
     private Role role;
     @OneToOne
     private FacultyEntity faculty;
-    // TODO
+    @OneToOne
+    private StudentEntity student;
 
     public UserEntity() {
     }
 
-    public UserEntity(String userName, String password, Role role, FacultyEntity faculty) {
+    public UserEntity(String userName, String password, Role role, FacultyEntity faculty, StudentEntity student) {
         this.userName = userName;
         this.password = password;
         this.role = role;
         this.faculty = faculty;
+        this.student= student;
     }
 
     public String getUserName() {
@@ -61,6 +63,14 @@ public class UserEntity {
 
     public void setFaculty(FacultyEntity faculty) {
         this.faculty = faculty;
+    }
+
+    public StudentEntity getStudent() {
+        return student;
+    }
+
+    public void setStudent(StudentEntity student) {
+        this.student = student;
     }
 
     public enum Role {
