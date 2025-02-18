@@ -9,4 +9,5 @@ import edu.ijse.crs.service.SuperService;
 public interface ProgramService extends SuperService{
     String saveProgram(ProgramDTO programDTO) throws Exception;
     List<ProgramDTO> loadTable(FacultyDTO facultyDTO) throws Exception;
+    ProgramDTO searchProgram(String id,String facultyId) throws Exception;
 }

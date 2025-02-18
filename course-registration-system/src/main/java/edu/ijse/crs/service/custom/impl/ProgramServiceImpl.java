@@ -11,6 +11,7 @@ import edu.ijse.crs.dao.custom.ProgramDao;
 import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.dto.ProgramDTO;
 import edu.ijse.crs.entity.ProgramEntity;
+import edu.ijse.crs.exception.CustomException;
 import edu.ijse.crs.service.custom.ProgramService;
 import edu.ijse.crs.util.EntityDTOConversion;
 import edu.ijse.crs.util.HibernateUtil;
@@ -52,5 +53,20 @@ public class ProgramServiceImpl implements ProgramService {
         }
         session.close();
         return programDTOs;
+    }
+
+    @Override
+    public ProgramDTO searchProgram(String id,String facultyId) throws Exception {
+        Session session=HibernateUtil.getSession();
+        ProgramEntity search = programDao.search(id, session);
+        if(search==null){
+            throw new CustomException("Program Not Found");
+        }
+        ProgramDTO programDTO = EntityDTOConversion.toProgramDTO(search);
+        if(!programDTO.getFacultyDTO().getFacultyId().equals(facultyId)){
+            throw new CustomException("Program Not Allowed This Faculty");
+        }
+        session.close();
+        return programDTO;
     }
 }

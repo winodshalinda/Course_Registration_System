@@ -15,11 +15,7 @@ public class ProgramEntity {
     @Id
     private String programId;
     @Column(nullable = false)
-<<<<<<< HEAD
-    private String progarmTitle;
-=======
     private String programTitle;
->>>>>>> main
     @Column(nullable = false)
     private int totalSemester;
     @ManyToOne
@@ -31,12 +27,6 @@ public class ProgramEntity {
     private List<StudentEntity> student;
     @OneToMany(mappedBy = "program")
     private List<ProgramSemesterEntity> semester;
-<<<<<<< HEAD
-
-    public ProgramEntity() {
-    }
-
-=======
     
     public ProgramEntity() {
     }
@@ -48,7 +38,6 @@ public class ProgramEntity {
         this.faculty = faculty;
     }
 
->>>>>>> main
     public String getProgramId() {
         return programId;
     }
@@ -57,21 +46,12 @@ public class ProgramEntity {
         this.programId = programId;
     }
 
-<<<<<<< HEAD
-    public String getProgarmTitle() {
-        return progarmTitle;
-    }
-
-    public void setProgarmTitle(String progarmTitle) {
-        this.progarmTitle = progarmTitle;
-=======
     public String getProgramTitle() {
         return programTitle;
     }
 
     public void setProgramTitle(String programTitle) {
         this.programTitle = programTitle;
->>>>>>> main
     }
 
     public int getTotalSemester() {
@@ -90,39 +70,5 @@ public class ProgramEntity {
         this.faculty = faculty;
     }
 
-<<<<<<< HEAD
-    public List<ProgramDetailsEntity> getProgramDetails() {
-        return programDetails;
-    }
-
-    public void setProgramDetails(List<ProgramDetailsEntity> programDetails) {
-        this.programDetails = programDetails;
-    }
-
-    public List<StudentEntity> getStudent() {
-        return student;
-    }
-
-    public void setStudent(List<StudentEntity> student) {
-        this.student = student;
-    }
-
-    public List<ProgramSemesterEntity> getSemester() {
-        return semester;
-    }
-
-    public void setSemester(List<ProgramSemesterEntity> semester) {
-        this.semester = semester;
-    }
-
-    @Override
-    public String toString() {
-        return "ProgramEntity [programId=" + programId + ", progarmTitle=" + progarmTitle + ", totalSemester="
-                + totalSemester + ", faculty=" + faculty + ", programDetails=" + programDetails + ", student=" + student
-                + ", semester=" + semester + "]";
-    }
-
-=======
     
->>>>>>> main
 }

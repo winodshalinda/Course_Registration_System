@@ -5,6 +5,7 @@ import java.util.List;
 import edu.ijse.crs.controller.FacultyUIController;
 import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.dto.ProgramDTO;
+import edu.ijse.crs.exception.CustomException;
 import edu.ijse.crs.service.ServiceFactory;
 import edu.ijse.crs.service.ServiceFactory.ServiceTypes;
 import edu.ijse.crs.service.custom.ProgramService;
@@ -17,7 +18,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 
 public class ManageProgramController {
     public static FacultyDTO facultyDTO;
@@ -35,6 +39,18 @@ public class ManageProgramController {
     private TableView<ProgramDTO> tblProgram;
 
     @FXML
+    private Button btnCancel;
+
+    @FXML
+    private Button btnDelete;
+
+    @FXML
+    private Button btnSave;
+
+    @FXML
+    private Button btnUpdate;
+
+    @FXML
     private TextField txtProgramId;
 
     @FXML
@@ -46,8 +62,13 @@ public class ManageProgramController {
     @FXML
     private TextField txtTotalSemester;
 
+    @FXML
+    private TextFlow tFlowProgram;
+
     ProgramService programService = (ProgramService) ServiceFactory.getInstance().getService(ServiceTypes.PROGRAM);
     Alert alert = new Alert(AlertType.INFORMATION);
+
+    private ProgramDTO programDTO;
 
     public void initialize() {
         ManageProgramController.facultyDTO = FacultyUIController.facultyDTO;
@@ -61,7 +82,11 @@ public class ManageProgramController {
 
     @FXML
     void btnCancelOnAction(ActionEvent event) {
-        // TODO
+        btnSave.setVisible(true);
+        btnCancel.setVisible(false);
+        btnUpdate.setVisible(false);
+        btnDelete.setVisible(false);
+        clearform();
     }
 
     @FXML
@@ -81,8 +106,10 @@ public class ManageProgramController {
             alert.showAndWait();
             return;
         }
-        int totalSemester= Integer.parseInt(txtTotalSemester.getText());
-        if(totalSemester<=0){
+
+        int totalSemester = Integer.parseInt(txtTotalSemester.getText());
+
+        if (totalSemester <= 0) {
             alert.setHeaderText("Total Semesters Wrong ");
             alert.setContentText("Must be more then 0");
             alert.showAndWait();
@@ -92,6 +119,7 @@ public class ManageProgramController {
             String saveProgram = programService.saveProgram(new ProgramDTO(txtProgramId.getText(),
                     txtProgramName.getText(), Integer.parseInt(txtTotalSemester.getText()),
                     ManageProgramController.facultyDTO));
+
             alert.setContentText(saveProgram);
             alert.showAndWait();
             loadTable();
@@ -104,8 +132,34 @@ public class ManageProgramController {
 
     @FXML
     void btnSearchOnAction(ActionEvent event) {
-        System.out.println();
-        // TODO
+        alert.setHeaderText(null);
+        if (txtSearch.getText().isEmpty()) {
+            alert.setContentText("Search Field Empty");
+            alert.showAndWait();
+        }
+        try {
+            programDTO = programService.searchProgram(txtSearch.getText(), facultyDTO.getFacultyId());
+
+            txtProgramId.setText(programDTO.getProgramId());
+            txtProgramName.setText(programDTO.getProgramTitle());
+            txtTotalSemester.setText(String.valueOf(programDTO.getTotalSemester()));
+
+            btnSave.setVisible(false);
+            btnCancel.setVisible(true);
+            btnUpdate.setVisible(true);
+            btnDelete.setVisible(true);
+
+            tFlowProgram.setVisible(true);
+            tFlowProgram.getChildren().addAll(new Text(programDTO.toString()));
+
+        } catch (CustomException e) {
+            alert.setContentText(e.getMessage());
+            alert.show();
+        } catch (Exception e) {
+            alert.setContentText("Program Service Error");
+            alert.showAndWait();
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -122,5 +176,11 @@ public class ManageProgramController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void clearform(){
+        txtProgramId.clear();
+        txtProgramName.clear();
+        txtTotalSemester.clear();
     }
 }

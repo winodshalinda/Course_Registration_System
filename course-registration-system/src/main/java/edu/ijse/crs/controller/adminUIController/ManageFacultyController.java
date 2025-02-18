@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -49,10 +50,10 @@ public class ManageFacultyController {
     private TextField txtFacultyName;
 
     @FXML
-    private TextField txtPassword;
+    private PasswordField txtPassword;
 
     @FXML
-    private TextField txtRePassword;
+    private PasswordField txtRePassword;
 
     @FXML
     private Pane paneGetFaculty;

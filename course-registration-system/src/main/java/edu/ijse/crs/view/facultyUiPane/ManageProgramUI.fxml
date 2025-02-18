@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.text.TextFlow?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1346.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.crs.controller.facultyUIControllers.ManageProgramController">
    <children>
@@ -46,9 +46,10 @@
       </TableView>
       <TextField fx:id="txtSearch" layoutX="417.0" layoutY="14.0" prefHeight="35.0" prefWidth="161.0" promptText="Search" />
       <Button layoutX="602.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnSearchOnAction" prefHeight="35.0" prefWidth="71.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-background-radius: 150px; -fx-border-radius: 150px;" text="Search" />
-      <Button layoutX="22.0" layoutY="199.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: green; -fx-background-radius: 50;" text="SAVE" textFill="WHITE" />
-      <Button layoutX="19.0" layoutY="189.0" mnemonicParsing="false" onAction="#btnCancelOnAction" prefHeight="35.0" prefWidth="71.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-background-radius: 150px; -fx-border-radius: 150px;" text="Cancel" visible="false" />
-      <Button layoutX="119.0" layoutY="199.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: blue; -fx-background-radius: 50;" text="UPDATE" textFill="WHITE" visible="false" />
-      <Button layoutX="212.0" layoutY="199.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: red; -fx-background-radius: 50;" text="DELETE" textFill="WHITE" visible="false" />
+      <Button fx:id="btnSave" layoutX="22.0" layoutY="199.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: green; -fx-background-radius: 50;" text="SAVE" textFill="WHITE" />
+      <Button fx:id="btnCancel" layoutX="19.0" layoutY="199.0" mnemonicParsing="false" onAction="#btnCancelOnAction" prefHeight="35.0" prefWidth="71.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-background-radius: 150px; -fx-border-radius: 150px;" text="Cancel" visible="false" />
+      <Button fx:id="btnUpdate" layoutX="119.0" layoutY="199.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: blue; -fx-background-radius: 50;" text="UPDATE" textFill="WHITE" visible="false" />
+      <Button fx:id="btnDelete" layoutX="212.0" layoutY="199.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: red; -fx-background-radius: 50;" text="DELETE" textFill="WHITE" visible="false" />
+      <TextFlow fx:id="tFlowProgram" layoutX="417.0" layoutY="60.0" lineSpacing="15.0" prefHeight="200.0" prefWidth="271.0" visible="false" AnchorPane.leftAnchor="417.0" />
    </children>
 </AnchorPane>

@@ -49,4 +49,10 @@ public class ProgramDTO {
         this.programTitle = programTitle;
     }
 
+    @Override
+    public String toString() {
+        return "Program Id: " + programId + "\nProgram Title: " + programTitle + "\nTotal Semester: "
+                + totalSemester;
+    }
+
 }
