@@ -15,7 +15,11 @@ public class ProgramEntity {
     @Id
     private String programId;
     @Column(nullable = false)
+<<<<<<< HEAD
     private String progarmTitle;
+=======
+    private String programTitle;
+>>>>>>> main
     @Column(nullable = false)
     private int totalSemester;
     @ManyToOne
@@ -27,10 +31,24 @@ public class ProgramEntity {
     private List<StudentEntity> student;
     @OneToMany(mappedBy = "program")
     private List<ProgramSemesterEntity> semester;
+<<<<<<< HEAD
 
     public ProgramEntity() {
     }
 
+=======
+    
+    public ProgramEntity() {
+    }
+
+    public ProgramEntity(String programId, String programTitle, int totalSemester, FacultyEntity faculty) {
+        this.programId = programId;
+        this.programTitle = programTitle;
+        this.totalSemester = totalSemester;
+        this.faculty = faculty;
+    }
+
+>>>>>>> main
     public String getProgramId() {
         return programId;
     }
@@ -39,12 +57,21 @@ public class ProgramEntity {
         this.programId = programId;
     }
 
+<<<<<<< HEAD
     public String getProgarmTitle() {
         return progarmTitle;
     }
 
     public void setProgarmTitle(String progarmTitle) {
         this.progarmTitle = progarmTitle;
+=======
+    public String getProgramTitle() {
+        return programTitle;
+    }
+
+    public void setProgramTitle(String programTitle) {
+        this.programTitle = programTitle;
+>>>>>>> main
     }
 
     public int getTotalSemester() {
@@ -63,6 +90,7 @@ public class ProgramEntity {
         this.faculty = faculty;
     }
 
+<<<<<<< HEAD
     public List<ProgramDetailsEntity> getProgramDetails() {
         return programDetails;
     }
@@ -94,4 +122,7 @@ public class ProgramEntity {
                 + ", semester=" + semester + "]";
     }
 
+=======
+    
+>>>>>>> main
 }

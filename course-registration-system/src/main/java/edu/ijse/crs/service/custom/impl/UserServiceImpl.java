@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         UserEntity searchUserEntity = userDao.search(userName, session);
+        session.getTransaction().commit();
         session.close();
         if (searchUserEntity != null) {
             if (searchUserEntity.getPassword().equals(password)) {

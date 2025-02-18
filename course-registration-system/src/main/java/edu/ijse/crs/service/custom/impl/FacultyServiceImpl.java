@@ -36,7 +36,7 @@ public class FacultyServiceImpl implements FacultyService {
             if (isFacultySaved) {
                 Boolean isUserSaved = userDao
                         .save(new UserEntity(facultyDTO.getFacultyId(), facultyDTO.getPassword(),
-                                Role.FACULTY, EntityDTOConversion.toFacultyEntity(facultyDTO)), session);
+                                Role.FACULTY, EntityDTOConversion.toFacultyEntity(facultyDTO), null), session);
                 if (isUserSaved) {
                     session.getTransaction().commit();
                     session.close();
@@ -77,18 +77,25 @@ public class FacultyServiceImpl implements FacultyService {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         try {
-            userDao.delete(id, session);
-            try {
-                facultyDao.delete(id, session);
-                session.getTransaction().commit();
-                return "Faculty Deleted Successfully";
-            } catch (Exception e) {
+            FacultyEntity search = facultyDao.search(id, session);
+        if (search == null) {
+            return "Faculty Not Found";
+        } else {
+            Boolean isUserFacultyDeleted = userDao.deleteByFacultyId(search, session);
+            if (!isUserFacultyDeleted) {
                 session.getTransaction().rollback();
-                throw e;
+                return "Faculty User Data not found";
+            }else{
+                facultyDao.delete(search, session);
+                session.getTransaction().commit();
+                return "Faculty Delete Success";
             }
+        }
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
+        }finally{
+            session.close();
         }
     }
 

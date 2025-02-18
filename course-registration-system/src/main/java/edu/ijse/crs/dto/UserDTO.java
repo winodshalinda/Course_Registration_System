@@ -7,6 +7,7 @@ public class UserDTO {
     private String password;
     private Role role;
     private FacultyDTO facultyDTO;
+    // private StudentDTO studentDTO; TODO
 
     public UserDTO() {
     }

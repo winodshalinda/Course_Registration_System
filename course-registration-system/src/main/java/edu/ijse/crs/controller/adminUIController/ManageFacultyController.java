@@ -125,11 +125,7 @@ public class ManageFacultyController {
             alert.setContentText(deleteFaculty);
             alert.showAndWait();
             paneGetFaculty.setVisible(false);
-        } catch (CustomException e) {
-            alert.setContentText("Faculty Not Found");
-            e.printStackTrace();
-            alert.showAndWait();
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
