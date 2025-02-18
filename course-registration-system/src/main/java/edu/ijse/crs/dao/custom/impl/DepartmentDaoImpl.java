@@ -8,7 +8,7 @@ import edu.ijse.crs.entity.DepartmentEntity;
 
 public class DepartmentDaoImpl extends CrudUtil<DepartmentEntity,String,Session> implements DepartmentDao{
 
-    DepartmentDaoImpl(Class<DepartmentEntity> entityClass) {
+    public DepartmentDaoImpl(Class<DepartmentEntity> entityClass) {
         super(entityClass);
     }
 

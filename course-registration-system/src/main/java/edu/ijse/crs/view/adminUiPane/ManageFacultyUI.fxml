@@ -33,13 +33,13 @@
             <HBox prefHeight="36.0" prefWidth="608.0">
                <children>
                   <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="137.0" text="Enter Password" />
-                  <TextField fx:id="txtPassword" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="161.0" />
+                  <PasswordField fx:id="txtPassword" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="161.0" />
                </children>
             </HBox>
             <HBox prefHeight="36.0" prefWidth="608.0">
                <children>
                   <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="137.0" text="Re-enter Password" />
-                  <TextField fx:id="txtRePassword" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="161.0" />
+                  <PasswordField fx:id="txtRePassword" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="161.0" />
                </children>
             </HBox>
             <VBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="1300.0">

@@ -15,7 +15,7 @@ public class ProgramEntity {
     @Id
     private String programId;
     @Column(nullable = false)
-    private String progarmTitle;
+    private String programTitle;
     @Column(nullable = false)
     private int totalSemester;
     @ManyToOne
@@ -27,8 +27,15 @@ public class ProgramEntity {
     private List<StudentEntity> student;
     @OneToMany(mappedBy = "program")
     private List<ProgramSemesterEntity> semester;
-
+    
     public ProgramEntity() {
+    }
+
+    public ProgramEntity(String programId, String programTitle, int totalSemester, FacultyEntity faculty) {
+        this.programId = programId;
+        this.programTitle = programTitle;
+        this.totalSemester = totalSemester;
+        this.faculty = faculty;
     }
 
     public String getProgramId() {
@@ -39,12 +46,12 @@ public class ProgramEntity {
         this.programId = programId;
     }
 
-    public String getProgarmTitle() {
-        return progarmTitle;
+    public String getProgramTitle() {
+        return programTitle;
     }
 
-    public void setProgarmTitle(String progarmTitle) {
-        this.progarmTitle = progarmTitle;
+    public void setProgramTitle(String programTitle) {
+        this.programTitle = programTitle;
     }
 
     public int getTotalSemester() {
@@ -63,35 +70,5 @@ public class ProgramEntity {
         this.faculty = faculty;
     }
 
-    public List<ProgramDetailsEntity> getProgramDetails() {
-        return programDetails;
-    }
-
-    public void setProgramDetails(List<ProgramDetailsEntity> programDetails) {
-        this.programDetails = programDetails;
-    }
-
-    public List<StudentEntity> getStudent() {
-        return student;
-    }
-
-    public void setStudent(List<StudentEntity> student) {
-        this.student = student;
-    }
-
-    public List<ProgramSemesterEntity> getSemester() {
-        return semester;
-    }
-
-    public void setSemester(List<ProgramSemesterEntity> semester) {
-        this.semester = semester;
-    }
-
-    @Override
-    public String toString() {
-        return "ProgramEntity [programId=" + programId + ", progarmTitle=" + progarmTitle + ", totalSemester="
-                + totalSemester + ", faculty=" + faculty + ", programDetails=" + programDetails + ", student=" + student
-                + ", semester=" + semester + "]";
-    }
-
+    
 }
