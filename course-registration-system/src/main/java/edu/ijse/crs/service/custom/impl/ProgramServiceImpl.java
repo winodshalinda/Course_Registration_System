@@ -69,4 +69,20 @@ public class ProgramServiceImpl implements ProgramService {
         session.close();
         return programDTO;
     }
+
+    @Override
+    public String deleteProgram(ProgramDTO programDTO)throws Exception{
+        Session session=HibernateUtil.getSession();
+        session.beginTransaction();
+        try {
+            programDao.delete(EntityDTOConversion.toProgramEntity(programDTO), session);
+            session.getTransaction().commit();
+            return ""+programDTO.getProgramId()+" Program Delete Success";
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw new CustomException("program DAO Error");
+        }finally{
+            session.close();
+        }
+    }
 }

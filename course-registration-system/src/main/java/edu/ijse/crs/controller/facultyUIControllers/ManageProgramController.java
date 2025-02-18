@@ -86,12 +86,30 @@ public class ManageProgramController {
         btnCancel.setVisible(false);
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
+        tFlowProgram.setVisible(false);
         clearform();
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        // TODO
+        String deleteProgram;
+        try {
+            deleteProgram = programService.deleteProgram(programDTO);
+            alert.setContentText(deleteProgram);
+            alert.show();
+        } catch (CustomException e) {
+            alert.setContentText(e.getMessage());
+            alert.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        btnSave.setVisible(true);
+        btnCancel.setVisible(false);
+        btnUpdate.setVisible(false);
+        btnDelete.setVisible(false);
+        tFlowProgram.setVisible(false);
+        clearform();
     }
 
     @FXML
@@ -178,7 +196,7 @@ public class ManageProgramController {
         }
     }
 
-    public void clearform(){
+    public void clearform() {
         txtProgramId.clear();
         txtProgramName.clear();
         txtTotalSemester.clear();
