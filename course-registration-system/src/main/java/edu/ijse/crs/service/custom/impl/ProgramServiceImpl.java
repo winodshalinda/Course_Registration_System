@@ -85,4 +85,22 @@ public class ProgramServiceImpl implements ProgramService {
             session.close();
         }
     }
+
+    @Override
+    public String updateProgram(ProgramDTO programDTO) throws Exception {
+        Session session=HibernateUtil.getSession();
+        session.beginTransaction();
+        try {
+            programDao.update(EntityDTOConversion.toProgramEntity(programDTO), session);
+            session.getTransaction().commit();
+            return ""+programDTO.getProgramId()+" Program Update Success";
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+            throw new CustomException("program DAO Error");
+        }finally{
+            session.close();
+        }
+    }
+    
 }

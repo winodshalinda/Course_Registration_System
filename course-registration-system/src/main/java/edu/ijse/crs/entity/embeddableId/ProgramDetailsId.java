@@ -10,21 +10,12 @@ import edu.ijse.crs.entity.ProgramEntity;
 
 @Embeddable
 public class ProgramDetailsId implements Serializable {
-    private int semester;
     @ManyToOne
     private CourseEntity course;
     @ManyToOne
     private ProgramEntity program;
 
     public ProgramDetailsId() {
-    }
-
-    public int getSemester() {
-        return semester;
-    }
-
-    public void setSemester(int semester) {
-        this.semester = semester;
     }
 
     public CourseEntity getCourse() {
@@ -47,7 +38,6 @@ public class ProgramDetailsId implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + semester;
         result = prime * result + ((course == null) ? 0 : course.hashCode());
         result = prime * result + ((program == null) ? 0 : program.hashCode());
         return result;
@@ -62,8 +52,6 @@ public class ProgramDetailsId implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         ProgramDetailsId other = (ProgramDetailsId) obj;
-        if (semester != other.semester)
-            return false;
         if (course == null) {
             if (other.course != null)
                 return false;
@@ -76,4 +64,5 @@ public class ProgramDetailsId implements Serializable {
             return false;
         return true;
     }
+
 }

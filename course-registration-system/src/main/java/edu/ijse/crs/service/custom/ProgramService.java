@@ -11,4 +11,5 @@ public interface ProgramService extends SuperService{
     List<ProgramDTO> loadTable(FacultyDTO facultyDTO) throws Exception;
     ProgramDTO searchProgram(String id,String facultyId) throws Exception;
     String deleteProgram(ProgramDTO programDTO)throws Exception;
+    String updateProgram(ProgramDTO programDTO) throws Exception;
 }

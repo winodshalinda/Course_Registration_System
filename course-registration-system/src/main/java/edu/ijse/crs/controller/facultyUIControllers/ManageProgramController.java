@@ -51,6 +51,12 @@ public class ManageProgramController {
     private Button btnUpdate;
 
     @FXML
+    private Button btnCourse;
+
+    @FXML
+    private Button btnTerm;
+
+    @FXML
     private TextField txtProgramId;
 
     @FXML
@@ -82,34 +88,35 @@ public class ManageProgramController {
 
     @FXML
     void btnCancelOnAction(ActionEvent event) {
+        clearform();
         btnSave.setVisible(true);
         btnCancel.setVisible(false);
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
+        btnCourse.setVisible(false);
+        btnTerm.setVisible(false);
+        txtProgramId.setDisable(false);
         tFlowProgram.setVisible(false);
-        clearform();
+        tFlowProgram.getChildren().clear();
     }
 
-    @FXML
+    @FXML // TODO
     void btnDeleteOnAction(ActionEvent event) {
         String deleteProgram;
         try {
             deleteProgram = programService.deleteProgram(programDTO);
+
             alert.setContentText(deleteProgram);
             alert.show();
+            loadTable();
+            btnCancelOnAction(event);
+
         } catch (CustomException e) {
             alert.setContentText(e.getMessage());
             alert.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        btnSave.setVisible(true);
-        btnCancel.setVisible(false);
-        btnUpdate.setVisible(false);
-        btnDelete.setVisible(false);
-        tFlowProgram.setVisible(false);
-        clearform();
     }
 
     @FXML
@@ -154,6 +161,7 @@ public class ManageProgramController {
         if (txtSearch.getText().isEmpty()) {
             alert.setContentText("Search Field Empty");
             alert.showAndWait();
+            return;
         }
         try {
             programDTO = programService.searchProgram(txtSearch.getText(), facultyDTO.getFacultyId());
@@ -166,6 +174,9 @@ public class ManageProgramController {
             btnCancel.setVisible(true);
             btnUpdate.setVisible(true);
             btnDelete.setVisible(true);
+            btnCourse.setVisible(true);
+            btnTerm.setVisible(true);
+            txtProgramId.setDisable(true);
 
             tFlowProgram.setVisible(true);
             tFlowProgram.getChildren().addAll(new Text(programDTO.toString()));
@@ -182,6 +193,47 @@ public class ManageProgramController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        if (txtProgramName.getText().isEmpty() || txtTotalSemester.getText().isEmpty()) {
+
+            alert.setContentText("All Fields Required");
+            alert.show();
+            return;
+        }
+
+        int totalSemester = Integer.parseInt(txtTotalSemester.getText());
+
+        if (totalSemester <= 0) {
+            alert.setHeaderText("Total Semesters Wrong ");
+            alert.setContentText("Must be more then 0");
+            alert.showAndWait();
+            return;
+        }
+        try {
+            String updateProgram = programService.updateProgram(new ProgramDTO(
+                    programDTO.getProgramId(),
+                    txtProgramName.getText(),
+                    totalSemester,
+                    ManageProgramController.facultyDTO));
+
+            alert.setContentText(updateProgram);
+            alert.show();
+            loadTable();
+            btnCancelOnAction(event);
+        } catch (CustomException e) {
+            alert.setContentText(e.getMessage());
+            alert.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void btnCourseOnAction(ActionEvent event) {
+        // TODO
+    }
+
+    @FXML
+    void btnTremOnAction(ActionEvent event) {
         // TODO
     }
 
@@ -201,4 +253,5 @@ public class ManageProgramController {
         txtProgramName.clear();
         txtTotalSemester.clear();
     }
+
 }
