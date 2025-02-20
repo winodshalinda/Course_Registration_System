@@ -15,8 +15,8 @@ public class CourseEntity {
     private String courseId;
     private String courseTitle;
     private int enrollmentCapacity;
-    private int avelableEnrollment;
-    private int credit_hours;
+    private int availableEnrollment;
+    private int creditHours;
     @ManyToOne
     private DepartmentEntity department;
 
@@ -52,14 +52,6 @@ public class CourseEntity {
         this.enrollmentCapacity = enrollmentCapacity;
     }
 
-    public int getCredit_hours() {
-        return credit_hours;
-    }
-
-    public void setCredit_hours(int credit_hours) {
-        this.credit_hours = credit_hours;
-    }
-
     public DepartmentEntity getDepartment() {
         return department;
     }
@@ -84,19 +76,27 @@ public class CourseEntity {
         this.programDetails = programDetails;
     }
 
+    public int getCreditHours() {
+        return creditHours;
+    }
+
+    public void setCreditHours(int creditHours) {
+        this.creditHours = creditHours;
+    }
+
+    public int getAvailableEnrollment() {
+        return availableEnrollment;
+    }
+
+    public void setAvailableEnrollment(int availableEnrollment) {
+        this.availableEnrollment = availableEnrollment;
+    }
+
     @Override
     public String toString() {
         return "CourseEntity [courseId=" + courseId + ", courseTitle=" + courseTitle + ", enrollmentCapacity="
-                + enrollmentCapacity + ", credit_hours=" + credit_hours + ", department=" + department
-                + ", prerequisites=" + prerequisites + ", programDetails=" + programDetails + "]";
-    }
-
-    public int getAvelableEnrollment() {
-        return avelableEnrollment;
-    }
-
-    public void setAvelableEnrollment(int avelableEnrollment) {
-        this.avelableEnrollment = avelableEnrollment;
+                + enrollmentCapacity + ", availableEnrollment=" + availableEnrollment + ", creditHours=" + creditHours
+                + ", department=" + department + ", prerequisites=" + prerequisites + "]";
     }
 
 }

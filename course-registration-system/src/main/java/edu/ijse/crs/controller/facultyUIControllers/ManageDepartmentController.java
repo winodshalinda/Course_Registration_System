@@ -1,10 +1,12 @@
 package edu.ijse.crs.controller.facultyUIControllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.PersistenceException;
 
 import edu.ijse.crs.controller.FacultyUIController;
+import edu.ijse.crs.controller.facultyUIControllers.departmentUIStageController.ManageCourseController;
 import edu.ijse.crs.dto.DepartmentDTO;
 import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.exception.CustomException;
@@ -15,6 +17,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 
@@ -86,7 +91,6 @@ public class ManageDepartmentController {
         btnCancel.setVisible(false);
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
-        btnMngCourse.setVisible(false);
         txtDepartmentId.setDisable(false);
         tFlowDepartment.setVisible(false);
         tFlowDepartment.getChildren().clear();
@@ -206,17 +210,23 @@ public class ManageDepartmentController {
     }
 
     @FXML
-    void btnMngCourseOnAction(ActionEvent event) {
-
-        // Stage stage=new Stage();
-        try {
-            // TODO
-
-        } catch (Exception e) {
-            alert.setContentText("Window load Field");
-            alert.show();
-            e.printStackTrace();
+    void btnMngCourseOnAction(ActionEvent event) throws IOException {
+        
+        btnSearchOnAction(event);
+        if (departmentDTO == null) {
+            return;
         }
+
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/edu/ijse/crs/view/facultyUiPane/departmentUiStage/ManageCourseUIStage.fxml"));
+        stage.setScene(new Scene(loader.load()));
+
+        ManageCourseController controller = loader.getController();
+        controller.setDepartmentDTO(departmentDTO);
+
+        stage.setTitle("Course Management");
+        stage.show();
     }
 
     public void loadTable() {
