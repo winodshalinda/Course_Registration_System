@@ -1,5 +1,6 @@
 package edu.ijse.crs.service;
 
+import edu.ijse.crs.service.custom.impl.CourseServiceImpl;
 import edu.ijse.crs.service.custom.impl.DepartmentServiceImpl;
 import edu.ijse.crs.service.custom.impl.FacultyServiceImpl;
 import edu.ijse.crs.service.custom.impl.ProgramServiceImpl;
@@ -16,7 +17,7 @@ public class ServiceFactory {
     }
 
     public enum ServiceTypes {
-        USER, FACULTY, STUDENT, PROGRAM , DEPARTMENT
+        USER, FACULTY, STUDENT, PROGRAM, DEPARTMENT, COURSE
     }
 
     public SuperService getService(ServiceTypes serviceTypes) {
@@ -29,6 +30,8 @@ public class ServiceFactory {
                 return new ProgramServiceImpl();
             case DEPARTMENT:
                 return new DepartmentServiceImpl();
+            case COURSE:
+                return new CourseServiceImpl();
             // TODO
             default:
                 return null;

@@ -24,6 +24,14 @@ public class PrerequisitesEntity {
     public PrerequisitesEntity() {
     }
 
+    public PrerequisitesEntity(CourseEntity course, CourseEntity prerequisitesCourse) {
+        this.id=new PrerequisiteId();
+        this.id.setCourse(course);
+        this.id.setPrerequisitesCourse(prerequisitesCourse);
+        this.course = course;
+        this.prerequisitesCourse = prerequisitesCourse;
+    }
+
     public PrerequisiteId getId() {
         return id;
     }

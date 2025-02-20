@@ -28,6 +28,16 @@ public class CourseEntity {
     public CourseEntity() {
     }
 
+    public CourseEntity(String courseId, String courseTitle, int enrollmentCapacity, int availableEnrollment,
+            int creditHours, DepartmentEntity department) {
+        this.courseId = courseId;
+        this.courseTitle = courseTitle;
+        this.enrollmentCapacity = enrollmentCapacity;
+        this.availableEnrollment = availableEnrollment;
+        this.creditHours = creditHours;
+        this.department = department;
+    }
+
     public String getCourseId() {
         return courseId;
     }
@@ -60,13 +70,6 @@ public class CourseEntity {
         this.department = department;
     }
 
-    public List<PrerequisitesEntity> getPrerequisites() {
-        return prerequisites;
-    }
-
-    public void setPrerequisites(List<PrerequisitesEntity> prerequisites) {
-        this.prerequisites = prerequisites;
-    }
 
     public List<ProgramDetailsEntity> getProgramDetails() {
         return programDetails;
@@ -92,11 +95,12 @@ public class CourseEntity {
         this.availableEnrollment = availableEnrollment;
     }
 
-    @Override
-    public String toString() {
-        return "CourseEntity [courseId=" + courseId + ", courseTitle=" + courseTitle + ", enrollmentCapacity="
-                + enrollmentCapacity + ", availableEnrollment=" + availableEnrollment + ", creditHours=" + creditHours
-                + ", department=" + department + ", prerequisites=" + prerequisites + "]";
+    public List<PrerequisitesEntity> getPrerequisites() {
+        return prerequisites;
+    }
+
+    public void setPrerequisites(List<PrerequisitesEntity> prerequisites) {
+        this.prerequisites = prerequisites;
     }
 
 }

@@ -3,12 +3,16 @@ package edu.ijse.crs.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.ijse.crs.dto.CourseDTO;
 import edu.ijse.crs.dto.DepartmentDTO;
 import edu.ijse.crs.dto.FacultyDTO;
+import edu.ijse.crs.dto.PrerequisitesDTO;
 import edu.ijse.crs.dto.ProgramDTO;
 import edu.ijse.crs.dto.UserDTO;
+import edu.ijse.crs.entity.CourseEntity;
 import edu.ijse.crs.entity.DepartmentEntity;
 import edu.ijse.crs.entity.FacultyEntity;
+import edu.ijse.crs.entity.PrerequisitesEntity;
 import edu.ijse.crs.entity.ProgramEntity;
 import edu.ijse.crs.entity.UserEntity;
 
@@ -72,17 +76,51 @@ public class EntityDTOConversion {
                 toFacultyDTO(entity.getFaculty()));
     }
 
-    //Department
+    // Department
 
-    public static DepartmentDTO toDepartmentDTO(DepartmentEntity entity){
+    public static DepartmentDTO toDepartmentDTO(DepartmentEntity entity) {
         return new DepartmentDTO(entity.getDepartmentId(),
-        entity.getDepartmentName(),
-        toFacultyDTO(entity.getFaculty()));
+                entity.getDepartmentName(),
+                toFacultyDTO(entity.getFaculty()));
     }
 
-    public static DepartmentEntity toDepartmentEntity(DepartmentDTO dto){
+    public static DepartmentEntity toDepartmentEntity(DepartmentDTO dto) {
         return new DepartmentEntity(dto.getDepartmentId(),
-        dto.getDepartmentName(),
-        toFacultyEntity(dto.getFacultyDTO()));
+                dto.getDepartmentName(),
+                toFacultyEntity(dto.getFacultyDTO()));
+    }
+
+    // Course
+
+    public static CourseEntity toCourseEntity(CourseDTO dto) {
+        return new CourseEntity(dto.getCourseId(),
+                dto.getCourseTitle(),
+                dto.getEnrollmentCapacity(),
+                dto.getAvailableEnrollment(),
+                dto.getCreditHours(),
+                toDepartmentEntity(dto.getDepartmentDTO()));
+    }
+
+    public static CourseDTO toCourseDTO(CourseEntity entity) {
+        return new CourseDTO(entity.getCourseId(),
+                entity.getCourseTitle(),
+                entity.getEnrollmentCapacity(),
+                entity.getAvailableEnrollment(),
+                entity.getCreditHours(),
+                toDepartmentDTO(entity.getDepartment()));
+    }
+
+    // Prerequisites
+
+    public static PrerequisitesDTO toPrerequisitesDTO(PrerequisitesEntity entity) {
+        return new PrerequisitesDTO(
+                toCourseDTO(entity.getCourse()),
+                toCourseDTO(entity.getPrerequisitesCourse()));
+    }
+
+    public static PrerequisitesEntity toPrerequisitesEntity(PrerequisitesDTO dto) {
+        return new PrerequisitesEntity(
+                toCourseEntity(dto.getCourseDTO()),
+                toCourseEntity(dto.getPrerequisitesDTO()));
     }
 }
