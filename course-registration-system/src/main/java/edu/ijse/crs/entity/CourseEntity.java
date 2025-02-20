@@ -15,6 +15,7 @@ public class CourseEntity {
     private String courseId;
     private String courseTitle;
     private int enrollmentCapacity;
+    private int avelableEnrollment;
     private int credit_hours;
     @ManyToOne
     private DepartmentEntity department;
@@ -88,6 +89,14 @@ public class CourseEntity {
         return "CourseEntity [courseId=" + courseId + ", courseTitle=" + courseTitle + ", enrollmentCapacity="
                 + enrollmentCapacity + ", credit_hours=" + credit_hours + ", department=" + department
                 + ", prerequisites=" + prerequisites + ", programDetails=" + programDetails + "]";
+    }
+
+    public int getAvelableEnrollment() {
+        return avelableEnrollment;
+    }
+
+    public void setAvelableEnrollment(int avelableEnrollment) {
+        this.avelableEnrollment = avelableEnrollment;
     }
 
 }

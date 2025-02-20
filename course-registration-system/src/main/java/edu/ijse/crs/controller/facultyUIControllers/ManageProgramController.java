@@ -2,7 +2,10 @@ package edu.ijse.crs.controller.facultyUIControllers;
 
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import edu.ijse.crs.controller.FacultyUIController;
+import edu.ijse.crs.controller.facultyUIControllers.programUIStageController.ProgramDetailsController;
 import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.dto.ProgramDTO;
 import edu.ijse.crs.exception.CustomException;
@@ -13,6 +16,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -20,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 
@@ -79,6 +85,14 @@ public class ManageProgramController {
     public void initialize() {
         ManageProgramController.facultyDTO = FacultyUIController.facultyDTO;
         loadTable();
+        
+        // Only allows numeric input in txtTotalSemester
+        txtTotalSemester.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+            txtTotalSemester.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+
 
         colId.setCellValueFactory(new PropertyValueFactory<>("programId"));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("programTitle"));
@@ -98,6 +112,7 @@ public class ManageProgramController {
         txtProgramId.setDisable(false);
         tFlowProgram.setVisible(false);
         tFlowProgram.getChildren().clear();
+        programDTO=null;
     }
 
     @FXML // TODO
@@ -148,6 +163,9 @@ public class ManageProgramController {
             alert.setContentText(saveProgram);
             alert.showAndWait();
             loadTable();
+        }catch(PersistenceException e){
+            alert.setContentText("Program ID Already Exists");
+            alert.show();
         } catch (Exception e) {
             alert.setContentText("Error saving program");
             alert.showAndWait();
@@ -157,7 +175,9 @@ public class ManageProgramController {
 
     @FXML
     void btnSearchOnAction(ActionEvent event) {
+        tFlowProgram.getChildren().clear();
         alert.setHeaderText(null);
+        
         if (txtSearch.getText().isEmpty()) {
             alert.setContentText("Search Field Empty");
             alert.showAndWait();
@@ -229,7 +249,21 @@ public class ManageProgramController {
 
     @FXML
     void btnCourseOnAction(ActionEvent event) {
-        // TODO
+        Stage stage=new Stage();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/ijse/crs/view/facultyUiPane/programUiStage/ProgramDetailsUIStage.fxml"));
+            stage.setScene(new Scene(loader.load()));
+            // send programDTO loaded UI
+            ProgramDetailsController controller = loader.getController();
+            controller.setProgramDTO(programDTO);
+
+            stage.setTitle("Program Course Management");
+            stage.show();
+        } catch (Exception e) {
+            alert.setContentText("Window load Field");
+            alert.show();
+            e.printStackTrace();
+        }
     }
 
     @FXML

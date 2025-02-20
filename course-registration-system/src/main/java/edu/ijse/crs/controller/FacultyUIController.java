@@ -1,7 +1,9 @@
 package edu.ijse.crs.controller;
 
+import java.io.IOException;
 import java.net.URL;
 
+import edu.ijse.crs.controller.facultyUIControllers.ManageDepartmentController;
 import edu.ijse.crs.controller.facultyUIControllers.ManageProgramController;
 import edu.ijse.crs.dto.FacultyDTO;
 import javafx.event.ActionEvent;
@@ -28,7 +30,9 @@ public class FacultyUIController {
     private Label txtFacultyName;
 
     public void setFacultyDTO(FacultyDTO facultyDTO) {
+
         FacultyUIController.facultyDTO = facultyDTO;
+        
         if (facultyDTO != null) {
             txtFacultyName.setText(facultyDTO.getFacultyName());
         }
@@ -40,17 +44,35 @@ public class FacultyUIController {
     }
 
     @FXML
-    void btnMngDepartmentOnAction(ActionEvent event) {
+    void btnMngDepartmentOnAction(ActionEvent event) throws IOException {
+        ancPane.getChildren().clear();
+
+        ManageDepartmentController.facultyDTO = FacultyUIController.facultyDTO;
+
+        URL resourse = getClass().getResource("../view/facultyUiPane/ManageDepartmentUI.fxml");
+        FXMLLoader loader = new FXMLLoader(resourse);
+        Parent parent = loader.load();
+
+        ancPane.getChildren().add(parent);
+
+        AnchorPane.setTopAnchor(parent, 0.0);
+        AnchorPane.setBottomAnchor(parent, 0.0);
+        AnchorPane.setLeftAnchor(parent, 0.0);
+        AnchorPane.setRightAnchor(parent, 0.0);
     }
 
     @FXML
     void btnMngProgramOnAction(ActionEvent event) throws Exception {
+        ancPane.getChildren().clear();
+
         ManageProgramController.facultyDTO = FacultyUIController.facultyDTO;
-        System.out.println(ManageProgramController.facultyDTO);
+
         URL resourse = getClass().getResource("../view/facultyUiPane/ManageProgramUI.fxml");
         FXMLLoader loader = new FXMLLoader(resourse);
         Parent parent = loader.load();
+
         ancPane.getChildren().add(parent);
+
         AnchorPane.setTopAnchor(parent, 0.0);
         AnchorPane.setBottomAnchor(parent, 0.0);
         AnchorPane.setLeftAnchor(parent, 0.0);

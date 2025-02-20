@@ -3,6 +3,8 @@ package edu.ijse.crs.service.custom.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import org.hibernate.Session;
 
 import edu.ijse.crs.dao.DaoFactory;
@@ -32,7 +34,9 @@ public class ProgramServiceImpl implements ProgramService {
                 session.getTransaction().commit();
                 return "Program Saved";
             }
-        } catch (Exception e) {
+        }catch(PersistenceException e){
+            throw e;
+        }catch (Exception e) {
             session.getTransaction().rollback();
             e.printStackTrace();
             return "Program Save Failed";
@@ -44,13 +48,18 @@ public class ProgramServiceImpl implements ProgramService {
     public List<ProgramDTO> loadTable(FacultyDTO facultyDTO) throws Exception {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        List<ProgramEntity> all = programDao.getAllWhereFaculty(EntityDTOConversion.toFacultyEntity(facultyDTO),
-                session);
+
+        List<ProgramEntity> all = programDao.getAllWhereFaculty(
+            EntityDTOConversion.toFacultyEntity(facultyDTO), session);
+
         session.getTransaction().commit();
+
         List<ProgramDTO> programDTOs = new ArrayList<>();
+
         for (ProgramEntity programEntity : all) {
             programDTOs.add(EntityDTOConversion.toProgramDTO(programEntity));
         }
+        
         session.close();
         return programDTOs;
     }
@@ -58,14 +67,19 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public ProgramDTO searchProgram(String id,String facultyId) throws Exception {
         Session session=HibernateUtil.getSession();
+
         ProgramEntity search = programDao.search(id, session);
+
         if(search==null){
             throw new CustomException("Program Not Found");
         }
+
         ProgramDTO programDTO = EntityDTOConversion.toProgramDTO(search);
+
         if(!programDTO.getFacultyDTO().getFacultyId().equals(facultyId)){
             throw new CustomException("Program Not Allowed This Faculty");
         }
+        
         session.close();
         return programDTO;
     }

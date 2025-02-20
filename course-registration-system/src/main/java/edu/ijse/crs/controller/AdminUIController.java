@@ -28,6 +28,7 @@ public class AdminUIController {
 
     @FXML
     void btnMngFacultyOnAction(ActionEvent event) throws Exception {
+        ancScrollPane.getChildren().clear();
         btnBack.setVisible(true);
         URL resource = getClass().getResource("../view/adminUiPane/ManageFacultyUI.fxml");
         Parent node = FXMLLoader.load(resource);
@@ -37,6 +38,7 @@ public class AdminUIController {
 
     @FXML
     void btnMngStudenOnAction(ActionEvent event) throws Exception {
+        ancScrollPane.getChildren().clear();
         btnBack.setVisible(true);
         URL resource = getClass().getResource("../view/adminUiPane/ManageStudentUI.fxml");
         Parent node = FXMLLoader.load(resource);

@@ -3,9 +3,11 @@ package edu.ijse.crs.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.ijse.crs.dto.DepartmentDTO;
 import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.dto.ProgramDTO;
 import edu.ijse.crs.dto.UserDTO;
+import edu.ijse.crs.entity.DepartmentEntity;
 import edu.ijse.crs.entity.FacultyEntity;
 import edu.ijse.crs.entity.ProgramEntity;
 import edu.ijse.crs.entity.UserEntity;
@@ -68,5 +70,19 @@ public class EntityDTOConversion {
                 entity.getProgramTitle(),
                 entity.getTotalSemester(),
                 toFacultyDTO(entity.getFaculty()));
+    }
+
+    //Department
+
+    public static DepartmentDTO toDepartmentDTO(DepartmentEntity entity){
+        return new DepartmentDTO(entity.getDepartmentId(),
+        entity.getDepartmentName(),
+        toFacultyDTO(entity.getFaculty()));
+    }
+
+    public static DepartmentEntity toDepartmentEntity(DepartmentDTO dto){
+        return new DepartmentEntity(dto.getDepartmentId(),
+        dto.getDepartmentName(),
+        toFacultyEntity(dto.getFacultyDTO()));
     }
 }

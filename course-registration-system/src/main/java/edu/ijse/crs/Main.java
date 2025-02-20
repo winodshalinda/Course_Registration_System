@@ -15,11 +15,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        URL resource = getClass().getResource("view/UserUI.fxml"); // TODO change to login UI "view/UserUI.fxml" "view/AdminUI.fxml"
+        URL resource = getClass().getResource("view/UserUI.fxml");
         Parent root = FXMLLoader.load(resource);
         stage.setScene(new Scene(root));
         stage.setTitle("Login");
-        stage.setResizable(false); // TODO change to false
+        stage.setResizable(false);
         stage.show();
         stage.centerOnScreen();
     }

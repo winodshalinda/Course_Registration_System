@@ -25,6 +25,12 @@ public class DepartmentEntity {
     public DepartmentEntity() {
     }
 
+    public DepartmentEntity(String departmentId, String departmentName, FacultyEntity faculty) {
+        this.departmentId = departmentId;
+        this.departmentName = departmentName;
+        this.faculty = faculty;
+    }
+
     public String getDepartmentId() {
         return departmentId;
     }

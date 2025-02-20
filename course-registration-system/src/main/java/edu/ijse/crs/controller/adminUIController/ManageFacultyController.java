@@ -9,8 +9,8 @@ import edu.ijse.crs.exception.CustomException;
 import edu.ijse.crs.service.ServiceFactory;
 import edu.ijse.crs.service.ServiceFactory.ServiceTypes;
 import edu.ijse.crs.service.custom.FacultyService;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+// import javafx.animation.KeyFrame;
+// import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
+// import javafx.util.Duration;
 
 public class ManageFacultyController {
     @FXML
@@ -67,7 +67,7 @@ public class ManageFacultyController {
 
         colFacId.setCellValueFactory(new PropertyValueFactory<>("facultyId"));
         colFacName.setCellValueFactory(new PropertyValueFactory<>("facultyName"));
-        startPolling();
+        // startPolling();
 
         tblFaculty.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -89,6 +89,7 @@ public class ManageFacultyController {
             String saveFaculty = facultyService.saveFaculty(faculty);
             alert.setContentText(saveFaculty);
             alert.showAndWait();
+            getAllFaculty();
         } catch (PersistenceException e) {
             alert.setContentText(txtFacultyId.getText() + " already exists");
             alert.showAndWait();
@@ -125,6 +126,7 @@ public class ManageFacultyController {
             String deleteFaculty = facultyService.deleteFaculty(txtSelectedFacultyId.getText());
             alert.setContentText(deleteFaculty);
             alert.showAndWait();
+            getAllFaculty();
             paneGetFaculty.setVisible(false);
         }catch (Exception e) {
             e.printStackTrace();
@@ -164,11 +166,13 @@ public class ManageFacultyController {
         }
     }
 
-    public void startPolling() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
-            getAllFaculty();
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-    }
+    // Test for always update table
+
+    // public void startPolling() {
+    //     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+    //         getAllFaculty();
+    //     }));
+    //     timeline.setCycleCount(Timeline.INDEFINITE);
+    //     timeline.play();
+    // }
 }
