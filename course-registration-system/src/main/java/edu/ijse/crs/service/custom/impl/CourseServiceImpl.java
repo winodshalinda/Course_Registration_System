@@ -3,6 +3,8 @@ package edu.ijse.crs.service.custom.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import org.hibernate.Session;
 
 import edu.ijse.crs.dao.DaoFactory;
@@ -54,7 +56,13 @@ public class CourseServiceImpl implements CourseService {
                 session.getTransaction().commit();
                 return "Course Saved";
             }
+        } catch (PersistenceException e) {
+
+            session.getTransaction().rollback();
+            return "Course ID Already Have";
+
         } catch (Exception e) {
+
             session.getTransaction().rollback();
             e.printStackTrace();
             return "Course save Failed";
@@ -115,7 +123,7 @@ public class CourseServiceImpl implements CourseService {
         session.beginTransaction();
         CourseEntity search = courseDao.search(id, session);
         session.getTransaction().commit();
-            session.close();
+        session.close();
         if (search.getDepartment().getDepartmentId().equalsIgnoreCase(departmentDTO.getDepartmentId())) {
             return EntityDTOConversion.toCourseDTO(search);
         } else {
@@ -126,14 +134,59 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseDTO> getCourseAllPrerequisites(CourseDTO courseDTO) throws Exception {
         Session session = HibernateUtil.getSession();
-        List<PrerequisitesEntity> allWhereCourse = prerequisitesDao.getAllWhereCourse(EntityDTOConversion.toCourseEntity(courseDTO), session);
+        List<PrerequisitesEntity> allWhereCourse = prerequisitesDao
+                .getAllWhereCourse(EntityDTOConversion.toCourseEntity(courseDTO), session);
 
-        
         List<CourseDTO> courseDTOs = new ArrayList<>();
 
         for (PrerequisitesEntity entity : allWhereCourse) {
             courseDTOs.add(EntityDTOConversion.toCourseDTO(entity.getPrerequisitesCourse()));
         }
         return courseDTOs;
+    }
+
+    @Override
+    public List<CourseDTO> loadTable(DepartmentDTO departmentDTO) throws Exception {
+        Session session = HibernateUtil.getSession();
+
+        List<CourseEntity> allWhereDepartment = courseDao.getAllWhereDepartment(departmentDTO.getDepartmentId(),
+                session);
+        List<CourseDTO> courseDTOs = new ArrayList<>();
+        for (CourseEntity entity : allWhereDepartment) {
+            courseDTOs.add(EntityDTOConversion.toCourseDTO(entity));
+        }
+        return courseDTOs;
+    }
+
+    @Override
+    public String updateCourse(CourseDTO courseDTO, List<CourseDTO> prerequisites) {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        CourseEntity courseEntity = EntityDTOConversion.toCourseEntity(courseDTO);
+        try {
+
+            courseDao.update(courseEntity, session);
+
+            List<PrerequisitesEntity> existingPrerequisites = prerequisitesDao.getAllWhereCourse(courseEntity, session);
+            for (PrerequisitesEntity prerequisite : existingPrerequisites) {
+                prerequisitesDao.delete(prerequisite, session);
+            }
+
+            for (CourseDTO prerequisiteDTO : prerequisites) {
+                CourseEntity prerequisiteEntity = EntityDTOConversion.toCourseEntity(prerequisiteDTO);
+                PrerequisitesEntity prerequisitesEntity = new PrerequisitesEntity(courseEntity, prerequisiteEntity);
+                prerequisitesDao.save(prerequisitesEntity, session);
+            }
+
+            session.getTransaction().commit();
+            return "Course updated successfully";
+
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            return "Course update failed"+e.getMessage();
+        }finally {
+            session.close();
+        }
     }
 }

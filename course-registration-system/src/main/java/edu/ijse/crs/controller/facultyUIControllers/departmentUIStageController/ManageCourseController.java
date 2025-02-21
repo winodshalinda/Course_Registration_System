@@ -9,6 +9,8 @@ import edu.ijse.crs.exception.CustomException;
 import edu.ijse.crs.service.ServiceFactory;
 import edu.ijse.crs.service.ServiceFactory.ServiceTypes;
 import edu.ijse.crs.service.custom.CourseService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -17,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -36,19 +39,19 @@ public class ManageCourseController {
     private Button btnUpdate;
 
     @FXML
-    private TableColumn<?, ?> colAvailableEnrollment;
+    private TableColumn<CourseDTO, String> colAvailableEnrollment;
 
     @FXML
-    private TableColumn<?, ?> colCreditHours;
+    private TableColumn<CourseDTO, String> colCreditHours;
 
     @FXML
-    private TableColumn<?, ?> colEnrollmentCapacity;
+    private TableColumn<CourseDTO, String> colEnrollmentCapacity;
 
     @FXML
-    private TableColumn<?, ?> colId;
+    private TableColumn<CourseDTO, String> colId;
 
     @FXML
-    private TableColumn<?, ?> colTitle;
+    private TableColumn<CourseDTO, String> colTitle;
 
     @FXML
     private Label lblDepartmentName;
@@ -60,7 +63,7 @@ public class ManageCourseController {
     private TextFlow tFlowPrerequisites;
 
     @FXML
-    private TableView<?> tblCourse;
+    private TableView<CourseDTO> tblCourse;
 
     @FXML
     private TextField txtCourseId;
@@ -84,6 +87,8 @@ public class ManageCourseController {
 
     private DepartmentDTO departmentDTO;
 
+    private CourseDTO searchCourse;
+
     List<CourseDTO> prerequisites = new ArrayList<>();
 
     CourseService courseService = (CourseService) ServiceFactory.getInstance().getService(ServiceTypes.COURSE);
@@ -91,9 +96,17 @@ public class ManageCourseController {
     public void setDepartmentDTO(DepartmentDTO departmentDTO) {
         this.departmentDTO = departmentDTO;
         lblDepartmentName.setText("" + departmentDTO.getDepartmentName() + " Department Course Management");
+        loadTable();
     }
 
     public void initialize() {
+
+        // Initialize table columns
+        colId.setCellValueFactory(new PropertyValueFactory<>("courseId"));
+        colTitle.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
+        colEnrollmentCapacity.setCellValueFactory(new PropertyValueFactory<>("enrollmentCapacity"));
+        colAvailableEnrollment.setCellValueFactory(new PropertyValueFactory<>("availableEnrollment"));
+        colCreditHours.setCellValueFactory(new PropertyValueFactory<>("creditHours"));
 
         // Only allows numeric input in txtEnrollmentCapacity field
         txtEnrollmentCapacity.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -108,6 +121,7 @@ public class ManageCourseController {
                 txtCreditHours.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
+
     }
 
     @FXML
@@ -160,6 +174,7 @@ public class ManageCourseController {
 
     @FXML
     void btnCancelOnAction(ActionEvent event) {
+
         clearForm();
         btnSave.setVisible(true);
         btnUpdate.setVisible(false);
@@ -167,7 +182,7 @@ public class ManageCourseController {
         btnCancel.setVisible(false);
         txtCourseId.setDisable(false);
         tFlowCourse.setVisible(false);
-        // TODO
+
     }
 
     @FXML
@@ -182,7 +197,7 @@ public class ManageCourseController {
         if (txtCourseId.getText().isEmpty() || txtCourseTitle.getText().isEmpty() ||
                 txtEnrollmentCapacity.getText().isEmpty() || txtCreditHours.getText().isEmpty()) {
 
-            alert.setContentText("Please Fill All * Fileds");
+            alert.setContentText("Please Fill All Fileds");
             alert.show();
             return;
         }
@@ -197,6 +212,7 @@ public class ManageCourseController {
         alert.setContentText(saveCourse);
         alert.show();
         clearForm();
+        loadTable();
     }
 
     @FXML
@@ -213,7 +229,7 @@ public class ManageCourseController {
         }
         try {
 
-            CourseDTO searchCourse = courseService.searchCourse(txtSearch.getText(), departmentDTO);
+            searchCourse = courseService.searchCourse(txtSearch.getText(), departmentDTO);
 
             if (searchCourse == null) {
                 alert.setContentText("Course Not Found");
@@ -257,7 +273,35 @@ public class ManageCourseController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        // TODO
+        alert.setHeaderText(null);
+
+        if (txtCourseTitle.getText().isEmpty() || txtEnrollmentCapacity.getText().isEmpty()
+                || txtCreditHours.getText().isEmpty()) {
+
+            alert.setContentText("Please Fill All Fileds");
+            alert.show();
+            return;
+        }
+
+        try {
+            String updateCourse = courseService.updateCourse(new CourseDTO(
+                    searchCourse.getCourseId(),
+                    txtCourseTitle.getText(),
+                    Integer.parseInt(txtEnrollmentCapacity.getText()),
+                    searchCourse.getAvailableEnrollment(),
+                    Integer.parseInt(txtCreditHours.getText()),
+                    departmentDTO), prerequisites);
+
+            alert.setContentText(updateCourse);
+            alert.show();
+            clearForm();
+            loadTable();
+            
+        } catch (Exception e) {
+            alert.setContentText("Failed to update course: " + e.getMessage());
+            alert.show();
+            e.printStackTrace();
+        }
     }
 
     public void clearForm() {
@@ -277,7 +321,22 @@ public class ManageCourseController {
         tFlowPrerequisites.getChildren().clear();
         for (CourseDTO courseDTO : prerequisites) {
             tFlowPrerequisites.getChildren()
-                    .addAll(new Text("\t"+courseDTO.getCourseTitle() + " (" + courseDTO.getCourseId() + ")\n"));
+                    .addAll(new Text("\t" + courseDTO.getCourseTitle() + " (" + courseDTO.getCourseId() + ")\n"));
+        }
+    }
+
+    public void loadTable() {
+        try {
+
+            List<CourseDTO> table = courseService.loadTable(departmentDTO);
+            ObservableList<CourseDTO> observableList = FXCollections.observableArrayList();
+            observableList.addAll(table);
+            tblCourse.setItems(observableList);
+
+        } catch (Exception e) {
+            alert.setContentText("Table Load Faield");
+            alert.show();
+            e.printStackTrace();
         }
     }
 }

@@ -224,6 +224,7 @@ public class ManageDepartmentController {
 
         ManageCourseController controller = loader.getController();
         controller.setDepartmentDTO(departmentDTO);
+        controller.loadTable();
 
         stage.setTitle("Course Management");
         stage.show();
