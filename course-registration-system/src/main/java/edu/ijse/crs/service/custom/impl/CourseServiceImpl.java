@@ -123,10 +123,16 @@ public class CourseServiceImpl implements CourseService {
         session.beginTransaction();
         CourseEntity search = courseDao.search(id, session);
         session.getTransaction().commit();
-        session.close();
-        if (search.getDepartment().getDepartmentId().equalsIgnoreCase(departmentDTO.getDepartmentId())) {
+
+        if (search == null) {
+            throw new CustomException("Course Not Found");
+
+        } else if (search.getDepartment().getDepartmentId().equalsIgnoreCase(departmentDTO.getDepartmentId())) {
+            session.close();
             return EntityDTOConversion.toCourseDTO(search);
+            
         } else {
+            session.close();
             throw new CustomException("Course Not Allowed This Departmnet");
         }
     }
@@ -134,8 +140,12 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseDTO> getCourseAllPrerequisites(CourseDTO courseDTO) throws Exception {
         Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
         List<PrerequisitesEntity> allWhereCourse = prerequisitesDao
                 .getAllWhereCourse(EntityDTOConversion.toCourseEntity(courseDTO), session);
+
+        session.getTransaction().commit();
 
         List<CourseDTO> courseDTOs = new ArrayList<>();
 
@@ -148,13 +158,17 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseDTO> loadTable(DepartmentDTO departmentDTO) throws Exception {
         Session session = HibernateUtil.getSession();
-
+        session.beginTransaction();
         List<CourseEntity> allWhereDepartment = courseDao.getAllWhereDepartment(departmentDTO.getDepartmentId(),
                 session);
+
+        session.getTransaction().commit();
+
         List<CourseDTO> courseDTOs = new ArrayList<>();
         for (CourseEntity entity : allWhereDepartment) {
             courseDTOs.add(EntityDTOConversion.toCourseDTO(entity));
         }
+        session.close();
         return courseDTOs;
     }
 
@@ -180,12 +194,46 @@ public class CourseServiceImpl implements CourseService {
             }
 
             session.getTransaction().commit();
+            session.close();
             return "Course updated successfully";
 
         } catch (Exception e) {
             session.getTransaction().rollback();
-            return "Course update failed"+e.getMessage();
-        }finally {
+            return "Course update failed" + e.getMessage();
+
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public String deleteCourse(CourseDTO courseDTO) {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        try {
+            CourseEntity courseEntity = courseDao.search(courseDTO.getCourseId(), session);
+            if (courseEntity == null) {
+                session.getTransaction().rollback();
+                return "Course not found";
+            }
+
+            List<PrerequisitesEntity> prerequisites = prerequisitesDao.getAllWhereCourse(courseEntity, session);
+
+            for (PrerequisitesEntity prerequisite : prerequisites) {
+                prerequisitesDao.delete(prerequisite, session);
+            }
+
+            courseDao.delete(courseEntity, session);
+
+            session.getTransaction().commit();
+            return "Course deleted successfully";
+
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+            return "Failed to delete course: " + e.getMessage();
+
+        } finally {
             session.close();
         }
     }

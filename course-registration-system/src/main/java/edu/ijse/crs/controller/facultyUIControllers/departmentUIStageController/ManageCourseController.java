@@ -182,12 +182,18 @@ public class ManageCourseController {
         btnCancel.setVisible(false);
         txtCourseId.setDisable(false);
         tFlowCourse.setVisible(false);
+        searchCourse=null;
 
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        // TODO
+        String deleteCourse = courseService.deleteCourse(searchCourse);
+        alert.setContentText(deleteCourse);
+        alert.show();
+        btnCancelOnAction(event);
+        clearForm();
+        loadTable();
     }
 
     @FXML
@@ -213,6 +219,8 @@ public class ManageCourseController {
         alert.show();
         clearForm();
         loadTable();
+        btnCancelOnAction(event);
+
     }
 
     @FXML
@@ -232,8 +240,6 @@ public class ManageCourseController {
             searchCourse = courseService.searchCourse(txtSearch.getText(), departmentDTO);
 
             if (searchCourse == null) {
-                alert.setContentText("Course Not Found");
-                alert.show();
                 return;
             }
 
@@ -283,25 +289,20 @@ public class ManageCourseController {
             return;
         }
 
-        try {
-            String updateCourse = courseService.updateCourse(new CourseDTO(
-                    searchCourse.getCourseId(),
-                    txtCourseTitle.getText(),
-                    Integer.parseInt(txtEnrollmentCapacity.getText()),
-                    searchCourse.getAvailableEnrollment(),
-                    Integer.parseInt(txtCreditHours.getText()),
-                    departmentDTO), prerequisites);
+        String updateCourse = courseService.updateCourse(new CourseDTO(
+                searchCourse.getCourseId(),
+                txtCourseTitle.getText(),
+                Integer.parseInt(txtEnrollmentCapacity.getText()),
+                searchCourse.getAvailableEnrollment(),
+                Integer.parseInt(txtCreditHours.getText()),
+                departmentDTO), prerequisites);
 
-            alert.setContentText(updateCourse);
-            alert.show();
-            clearForm();
-            loadTable();
-            
-        } catch (Exception e) {
-            alert.setContentText("Failed to update course: " + e.getMessage());
-            alert.show();
-            e.printStackTrace();
-        }
+        alert.setContentText(updateCourse);
+        alert.show();
+        clearForm();
+        loadTable();
+        btnCancelOnAction(event);
+
     }
 
     public void clearForm() {

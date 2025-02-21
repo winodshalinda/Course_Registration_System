@@ -18,5 +18,7 @@ public interface CourseService extends SuperService{
 
     List<CourseDTO> loadTable(DepartmentDTO departmentDTO) throws Exception;
 
-    String updateCourse(CourseDTO courseDTO, List<CourseDTO> prerequisites) throws Exception;
+    String updateCourse(CourseDTO courseDTO, List<CourseDTO> prerequisites);
+
+    String deleteCourse(CourseDTO courseDTO);
 }
