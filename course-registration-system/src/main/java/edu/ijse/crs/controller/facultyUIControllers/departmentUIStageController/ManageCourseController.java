@@ -48,9 +48,6 @@ public class ManageCourseController {
     private TableColumn<?, ?> colId;
 
     @FXML
-    private TableColumn<?, ?> colPrerequisites;
-
-    @FXML
     private TableColumn<?, ?> colTitle;
 
     @FXML
@@ -126,10 +123,7 @@ public class ManageCourseController {
             alert.setContentText("Prerequisites Course Added");
             alert.show();
 
-            tFlowPrerequisites.getChildren().clear();
-            for (CourseDTO courseDTO : prerequisites) {
-                tFlowPrerequisites.getChildren().addAll(new Text(courseDTO.getCourseTitle()+" ("+courseDTO.getCourseId()+")\n"));
-            }
+            refreshPrerequisites();
 
         } catch (CustomException e) {
             alert.setContentText(e.getMessage());
@@ -141,11 +135,38 @@ public class ManageCourseController {
 
     @FXML
     void btnRemovePrerequisitesOnAction(ActionEvent event) {
-        // TODO
+        alert.setHeaderText(null);
+        if (txtPrerequisites.getText().isEmpty()) {
+            alert.setContentText("Please Enter Course Id");
+            alert.show();
+            return;
+        }
+        try {
+
+            prerequisites = courseService.RemovePrerequisites(txtPrerequisites.getText(), prerequisites);
+            alert.setContentText("Course Removed From Prerequisites Courses");
+            alert.show();
+
+            refreshPrerequisites();
+
+        } catch (CustomException e) {
+            alert.setContentText(e.getMessage());
+            alert.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     void btnCancelOnAction(ActionEvent event) {
+        clearForm();
+        btnSave.setVisible(true);
+        btnUpdate.setVisible(false);
+        btnDelete.setVisible(false);
+        btnCancel.setVisible(false);
+        txtCourseId.setDisable(false);
+        tFlowCourse.setVisible(false);
         // TODO
     }
 
@@ -171,16 +192,67 @@ public class ManageCourseController {
                 Integer.parseInt(txtEnrollmentCapacity.getText()),
                 Integer.parseInt(txtEnrollmentCapacity.getText()),
                 Integer.parseInt(txtCreditHours.getText()),
-                departmentDTO),prerequisites);
+                departmentDTO), prerequisites);
 
         alert.setContentText(saveCourse);
         alert.show();
-        tFlowPrerequisites.getChildren().clear();
+        clearForm();
     }
 
     @FXML
     void btnSearchOnAction(ActionEvent event) {
-        // TODO
+        tFlowCourse.getChildren().clear();
+        tFlowPrerequisites.getChildren().clear();
+
+        alert.setHeaderText(null);
+
+        if (txtSearch.getText().isEmpty()) {
+            alert.setContentText("Search Field Empty");
+            alert.show();
+            return;
+        }
+        try {
+
+            CourseDTO searchCourse = courseService.searchCourse(txtSearch.getText(), departmentDTO);
+
+            if (searchCourse == null) {
+                alert.setContentText("Course Not Found");
+                alert.show();
+                return;
+            }
+
+            txtCourseId.setText(searchCourse.getCourseId());
+            txtCourseTitle.setText(searchCourse.getCourseTitle());
+            txtEnrollmentCapacity.setText(Integer.toString(searchCourse.getEnrollmentCapacity()));
+            txtCreditHours.setText(Integer.toString(searchCourse.getCreditHours()));
+
+            btnSave.setVisible(false);
+            btnUpdate.setVisible(true);
+            btnDelete.setVisible(true);
+            btnCancel.setVisible(true);
+            txtCourseId.setDisable(true);
+            tFlowCourse.setVisible(true);
+
+            prerequisites = courseService.getCourseAllPrerequisites(searchCourse);
+
+            tFlowCourse.getChildren().addAll(
+                    new Text(searchCourse.toString()),
+                    new Text("Prerequisites Courses:-\n"));
+
+            for (CourseDTO courseDTO : prerequisites) {
+                tFlowCourse.getChildren()
+                        .addAll(new Text("\t\t" + courseDTO.getCourseTitle() + " (" + courseDTO.getCourseId() + ")\n"));
+            }
+
+            refreshPrerequisites();
+
+        } catch (CustomException e) {
+            alert.setContentText(e.getMessage());
+            alert.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -188,4 +260,24 @@ public class ManageCourseController {
         // TODO
     }
 
+    public void clearForm() {
+        txtCourseId.clear();
+        txtCourseTitle.clear();
+        txtEnrollmentCapacity.clear();
+        txtCreditHours.clear();
+        txtPrerequisites.clear();
+        tFlowPrerequisites.getChildren().clear();
+        prerequisites = null;
+    }
+
+    public void refreshPrerequisites() {
+        if (prerequisites == null) {
+            return;
+        }
+        tFlowPrerequisites.getChildren().clear();
+        for (CourseDTO courseDTO : prerequisites) {
+            tFlowPrerequisites.getChildren()
+                    .addAll(new Text("\t"+courseDTO.getCourseTitle() + " (" + courseDTO.getCourseId() + ")\n"));
+        }
+    }
 }

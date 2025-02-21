@@ -1,5 +1,6 @@
 package edu.ijse.crs.service.custom.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -9,6 +10,7 @@ import edu.ijse.crs.dao.DaoFactory.DaoTypes;
 import edu.ijse.crs.dao.custom.CourseDao;
 import edu.ijse.crs.dao.custom.PrerequisitesDao;
 import edu.ijse.crs.dto.CourseDTO;
+import edu.ijse.crs.dto.DepartmentDTO;
 import edu.ijse.crs.entity.CourseEntity;
 import edu.ijse.crs.entity.PrerequisitesEntity;
 import edu.ijse.crs.exception.CustomException;
@@ -34,7 +36,7 @@ public class CourseServiceImpl implements CourseService {
             } else {
 
                 for (CourseDTO prerequisitesCourseDTO : prerequisites) {
-                    
+
                     PrerequisitesEntity prerequisitesEntity = new PrerequisitesEntity(
                             courseEntity,
                             EntityDTOConversion.toCourseEntity(prerequisitesCourseDTO));
@@ -93,5 +95,45 @@ public class CourseServiceImpl implements CourseService {
         prerequisites.add(searchDTO);
 
         return prerequisites;
+    }
+
+    @Override
+    public List<CourseDTO> RemovePrerequisites(String id, List<CourseDTO> prerequisites) throws Exception {
+        for (CourseDTO courseDTO : prerequisites) {
+            if (courseDTO.getCourseId().equals(id)) {
+                prerequisites.remove(courseDTO);
+                return prerequisites;
+            }
+        }
+        throw new CustomException("Course Not Found in Prerequisites Course List");
+    }
+
+    @Override
+    public CourseDTO searchCourse(String id, DepartmentDTO departmentDTO) throws Exception {
+        Session session = HibernateUtil.getSession();
+
+        session.beginTransaction();
+        CourseEntity search = courseDao.search(id, session);
+        session.getTransaction().commit();
+            session.close();
+        if (search.getDepartment().getDepartmentId().equalsIgnoreCase(departmentDTO.getDepartmentId())) {
+            return EntityDTOConversion.toCourseDTO(search);
+        } else {
+            throw new CustomException("Course Not Allowed This Departmnet");
+        }
+    }
+
+    @Override
+    public List<CourseDTO> getCourseAllPrerequisites(CourseDTO courseDTO) throws Exception {
+        Session session = HibernateUtil.getSession();
+        List<PrerequisitesEntity> allWhereCourse = prerequisitesDao.getAllWhereCourse(EntityDTOConversion.toCourseEntity(courseDTO), session);
+
+        
+        List<CourseDTO> courseDTOs = new ArrayList<>();
+
+        for (PrerequisitesEntity entity : allWhereCourse) {
+            courseDTOs.add(EntityDTOConversion.toCourseDTO(entity.getPrerequisitesCourse()));
+        }
+        return courseDTOs;
     }
 }

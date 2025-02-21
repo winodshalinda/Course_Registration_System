@@ -43,6 +43,6 @@ public class AdminUIController {
         URL resource = getClass().getResource("../view/adminUiPane/ManageStudentUI.fxml");
         Parent node = FXMLLoader.load(resource);
         ancScrollPane.getChildren().add(node);
-        //TODO
+        ((Stage) ancAdminUI.getScene().getWindow()).setMinWidth(968);
     }
 }

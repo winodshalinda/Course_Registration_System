@@ -69,4 +69,14 @@ public class CourseDTO {
     public void setDepartmentDTO(DepartmentDTO departmentDTO) {
         this.departmentDTO = departmentDTO;
     }
+
+    @Override
+    public String toString() {
+        return "Course ID: " + courseId + 
+        "\nCourse Title: " + courseTitle +
+        "\nEnrollment Capacity: "+ enrollmentCapacity + 
+        "\nAvailable Enrollment: " + availableEnrollment + 
+        "\nCredit Hours: " + creditHours+"\n";
+    }
+    
 }
