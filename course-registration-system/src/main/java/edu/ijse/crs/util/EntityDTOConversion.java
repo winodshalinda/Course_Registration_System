@@ -8,12 +8,14 @@ import edu.ijse.crs.dto.DepartmentDTO;
 import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.dto.PrerequisitesDTO;
 import edu.ijse.crs.dto.ProgramDTO;
+import edu.ijse.crs.dto.StudentDTO;
 import edu.ijse.crs.dto.UserDTO;
 import edu.ijse.crs.entity.CourseEntity;
 import edu.ijse.crs.entity.DepartmentEntity;
 import edu.ijse.crs.entity.FacultyEntity;
 import edu.ijse.crs.entity.PrerequisitesEntity;
 import edu.ijse.crs.entity.ProgramEntity;
+import edu.ijse.crs.entity.StudentEntity;
 import edu.ijse.crs.entity.UserEntity;
 
 public class EntityDTOConversion {
@@ -120,5 +122,35 @@ public class EntityDTOConversion {
         return new PrerequisitesEntity(
                 toCourseEntity(dto.getCourseDTO()),
                 toCourseEntity(dto.getPrerequisitesDTO()));
+    }
+
+    // Student
+
+    public static StudentDTO toStudentDTO(StudentEntity entity) {
+
+        ProgramDTO programDTO = toProgramDTO(entity.getProgram());
+
+        return new StudentDTO(
+                entity.getStudentId(),
+                entity.getStudentName(),
+                entity.getDob(),
+                programDTO,
+                entity.getYear(),
+                entity.getEmail(),
+                entity.getAddress());
+    }
+
+    public static StudentEntity toStudentEntity(StudentDTO dto) {
+        ProgramEntity programEntity = toProgramEntity(dto.getProgram());
+
+        return new StudentEntity(
+                dto.getStudentId(),
+                dto.getStudentName(),
+                dto.getDob(),
+                programEntity,
+                dto.getYear(),
+                dto.getEmail(),
+                dto.getAddress());
+
     }
 }

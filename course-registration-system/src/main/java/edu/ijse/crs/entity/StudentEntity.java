@@ -20,13 +20,24 @@ public class StudentEntity {
     private ProgramEntity program;
     @Column(nullable = false)
     private int year;
-    private int contractNumber;
+    private String email;
     private String address;
 
     @OneToOne(mappedBy = "student")
     private UserEntity user;
 
     public StudentEntity() {
+    }
+
+    public StudentEntity(String studentId, String studentName, LocalDate dob, ProgramEntity program, int year,
+            String email, String address) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.dob = dob;
+        this.program = program;
+        this.year = year;
+        this.email = email;
+        this.address = address;
     }
 
     public String getStudentId() {
@@ -69,14 +80,6 @@ public class StudentEntity {
         this.year = year;
     }
 
-    public int getContractNumber() {
-        return contractNumber;
-    }
-
-    public void setContractNumber(int contractNumber) {
-        this.contractNumber = contractNumber;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -85,10 +88,18 @@ public class StudentEntity {
         this.address = address;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "StudentEntity [studentId=" + studentId + ", studentName=" + studentName + ", dob=" + dob + ", program="
-                + program + ", year=" + year + ", contractNumber=" + contractNumber + ", address=" + address + "]";
+                + program + ", year=" + year + ", email=" + email + ", address=" + address + "]";
     }
-
+    
 }

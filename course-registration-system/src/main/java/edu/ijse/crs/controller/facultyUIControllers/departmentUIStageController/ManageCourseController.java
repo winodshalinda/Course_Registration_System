@@ -39,9 +39,6 @@ public class ManageCourseController {
     private Button btnUpdate;
 
     @FXML
-    private TableColumn<CourseDTO, String> colAvailableEnrollment;
-
-    @FXML
     private TableColumn<CourseDTO, String> colCreditHours;
 
     @FXML
@@ -105,7 +102,6 @@ public class ManageCourseController {
         colId.setCellValueFactory(new PropertyValueFactory<>("courseId"));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
         colEnrollmentCapacity.setCellValueFactory(new PropertyValueFactory<>("enrollmentCapacity"));
-        colAvailableEnrollment.setCellValueFactory(new PropertyValueFactory<>("availableEnrollment"));
         colCreditHours.setCellValueFactory(new PropertyValueFactory<>("creditHours"));
 
         // Only allows numeric input in txtEnrollmentCapacity field

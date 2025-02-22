@@ -1,7 +1,7 @@
 package edu.ijse.crs.dto;
 
 public class ProgramDTO {
-    
+
     private String programId;
     private String programTitle;
     private int totalSemester;
@@ -49,10 +49,19 @@ public class ProgramDTO {
         this.programTitle = programTitle;
     }
 
+    public String toString(Integer i) {
+        switch (i) {
+            case 1:
+                return "Program Id: " + programId + "\nProgram Title: " + programTitle + "\nTotal Semester: "+ totalSemester;
+            default:
+                return null;
+        }
+
+    }
+
     @Override
     public String toString() {
-        return "Program Id: " + programId + "\nProgram Title: " + programTitle + "\nTotal Semester: "
-                + totalSemester;
+        return programTitle+" ("+programId+")";
     }
 
 }

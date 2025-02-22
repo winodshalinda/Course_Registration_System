@@ -7,7 +7,7 @@ public class UserDTO {
     private String password;
     private Role role;
     private FacultyDTO facultyDTO;
-    // private StudentDTO studentDTO; TODO
+    private StudentDTO studentDTO;
 
     public UserDTO() {
     }
@@ -17,11 +17,12 @@ public class UserDTO {
         this.password = password;
     }
 
-    public UserDTO(String userName, String password, Role role, FacultyDTO facultyDTO) {
+    public UserDTO(String userName, String password, Role role, FacultyDTO facultyDTO, StudentDTO studentDTO) {
         this.userName = userName;
         this.password = password;
         this.role = role;
         this.facultyDTO = facultyDTO;
+        this.studentDTO = studentDTO;
     }
 
     public String getUserName() {
@@ -56,8 +57,11 @@ public class UserDTO {
         this.facultyDTO = facultyDTO;
     }
 
-    @Override
-    public String toString() {
-        return "UserDTO [userName=" + userName + ", role=" + role + ", facultyDTO=" + facultyDTO + "]";
+    public StudentDTO getStudentDTO() {
+        return studentDTO;
+    }
+
+    public void setStudentDTO(StudentDTO studentDTO) {
+        this.studentDTO = studentDTO;
     }
 }

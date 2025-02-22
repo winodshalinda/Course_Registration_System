@@ -1,0 +1,60 @@
+package edu.ijse.crs.service.custom.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
+
+import edu.ijse.crs.dao.DaoFactory;
+import edu.ijse.crs.dao.DaoFactory.DaoTypes;
+import edu.ijse.crs.dao.custom.ProgramDao;
+import edu.ijse.crs.dao.custom.StudentDao;
+import edu.ijse.crs.dto.ProgramDTO;
+import edu.ijse.crs.dto.StudentDTO;
+import edu.ijse.crs.entity.ProgramEntity;
+import edu.ijse.crs.entity.StudentEntity;
+import edu.ijse.crs.service.custom.StudentService;
+import edu.ijse.crs.util.EntityDTOConversion;
+import edu.ijse.crs.util.HibernateUtil;
+
+public class StudentServiceImpl implements StudentService{
+
+    StudentDao studentDao=(StudentDao) DaoFactory.getInstance().getDao(DaoTypes.STUDENT);
+    ProgramDao programDao=(ProgramDao) DaoFactory.getInstance().getDao(DaoTypes.PROGRAM);
+
+
+    @Override
+    public String saveStudent() throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'saveStudent'");
+    }
+
+    @Override
+    public List<StudentDTO> loadTable() throws Exception {
+        Session session=HibernateUtil.getSession();
+
+        List<StudentEntity> all = studentDao.getAll(session);
+        
+        List<StudentDTO> studentDTOs=new ArrayList<>();
+        for (StudentEntity studentEntity : all) {
+            studentDTOs.add(EntityDTOConversion.toStudentDTO(studentEntity));
+        }
+        return studentDTOs;
+    }
+
+    @Override
+    public List<ProgramDTO> loadChoiseBox() throws Exception {
+        Session session=HibernateUtil.getSession();
+
+        List<ProgramEntity> all = programDao.getAll(session);
+
+        List<ProgramDTO> programDTOs=new ArrayList<>();
+        for (ProgramEntity programEntity : all) {
+            programDTOs.add(EntityDTOConversion.toProgramDTO(programEntity));
+        }
+
+        session.close();
+        return programDTOs;
+    }
+
+}

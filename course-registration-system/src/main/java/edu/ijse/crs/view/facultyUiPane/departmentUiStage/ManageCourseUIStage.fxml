@@ -79,7 +79,6 @@
                 <TableColumn fx:id="colId" prefWidth="106.0" text="Course ID" />
                 <TableColumn fx:id="colTitle" prefWidth="262.0" text="Course Title" />
                   <TableColumn fx:id="colEnrollmentCapacity" prefWidth="138.0" text="Enrollment Capacity" />
-                  <TableColumn fx:id="colAvailableEnrollment" prefWidth="149.0" text="Available Enrollment" />
                   <TableColumn fx:id="colCreditHours" prefWidth="130.0" text="Credit Hours" />
               </columns>
                      <columnResizePolicy>

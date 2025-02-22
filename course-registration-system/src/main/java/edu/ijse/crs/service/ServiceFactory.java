@@ -4,6 +4,7 @@ import edu.ijse.crs.service.custom.impl.CourseServiceImpl;
 import edu.ijse.crs.service.custom.impl.DepartmentServiceImpl;
 import edu.ijse.crs.service.custom.impl.FacultyServiceImpl;
 import edu.ijse.crs.service.custom.impl.ProgramServiceImpl;
+import edu.ijse.crs.service.custom.impl.StudentServiceImpl;
 import edu.ijse.crs.service.custom.impl.UserServiceImpl;
 
 public class ServiceFactory {
@@ -32,7 +33,8 @@ public class ServiceFactory {
                 return new DepartmentServiceImpl();
             case COURSE:
                 return new CourseServiceImpl();
-            // TODO
+            case STUDENT:
+                return new StudentServiceImpl();
             default:
                 return null;
         }
