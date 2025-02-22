@@ -211,7 +211,6 @@ public class ManageCourseController {
         String saveCourse = courseService.saveCourse(new CourseDTO(txtCourseId.getText(),
                 txtCourseTitle.getText(),
                 Integer.parseInt(txtEnrollmentCapacity.getText()),
-                Integer.parseInt(txtEnrollmentCapacity.getText()),
                 Integer.parseInt(txtCreditHours.getText()),
                 departmentDTO), prerequisites);
 
@@ -293,7 +292,6 @@ public class ManageCourseController {
                 searchCourse.getCourseId(),
                 txtCourseTitle.getText(),
                 Integer.parseInt(txtEnrollmentCapacity.getText()),
-                searchCourse.getAvailableEnrollment(),
                 Integer.parseInt(txtCreditHours.getText()),
                 departmentDTO), prerequisites);
 

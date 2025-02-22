@@ -111,6 +111,8 @@ public class ManageDepartmentController {
             alert.setContentText(e.getMessage());
             alert.show();
         } catch (Exception e) {
+            alert.setContentText(e.getMessage());
+            alert.show();
             e.printStackTrace();
         }
     }

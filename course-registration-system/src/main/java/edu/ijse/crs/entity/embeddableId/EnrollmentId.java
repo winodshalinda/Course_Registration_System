@@ -9,41 +9,50 @@ import edu.ijse.crs.entity.CourseEntity;
 import edu.ijse.crs.entity.StudentEntity;
 
 @Embeddable
-public class EnrollmentId implements Serializable{
+public class EnrollmentId implements Serializable {
     @ManyToOne
     private StudentEntity student;
     @ManyToOne
     private CourseEntity course;
-    private int enrolledYear;
+    private int enrolledSemester;
+
     public EnrollmentId() {
     }
+
     public StudentEntity getStudent() {
         return student;
     }
+
     public void setStudent(StudentEntity student) {
         this.student = student;
     }
+
     public CourseEntity getCourse() {
         return course;
     }
+
     public void setCourse(CourseEntity course) {
         this.course = course;
     }
-    public int getEnrolledYear() {
-        return enrolledYear;
+
+    public int getEnrolledSemester() {
+        return enrolledSemester;
     }
-    public void setEnrolledYear(int enrolledYear) {
-        this.enrolledYear = enrolledYear;
+
+    public void setEnrolledSemester(int enrolledSemester) {
+        this.enrolledSemester = enrolledSemester;
     }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((student == null) ? 0 : student.hashCode());
         result = prime * result + ((course == null) ? 0 : course.hashCode());
-        result = prime * result + enrolledYear;
+        result = prime * result + enrolledSemester;
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -63,7 +72,7 @@ public class EnrollmentId implements Serializable{
                 return false;
         } else if (!course.equals(other.course))
             return false;
-        if (enrolledYear != other.enrolledYear)
+        if (enrolledSemester != other.enrolledSemester)
             return false;
         return true;
     }

@@ -96,7 +96,6 @@ public class EntityDTOConversion {
         return new CourseEntity(dto.getCourseId(),
                 dto.getCourseTitle(),
                 dto.getEnrollmentCapacity(),
-                dto.getAvailableEnrollment(),
                 dto.getCreditHours(),
                 toDepartmentEntity(dto.getDepartmentDTO()));
     }
@@ -105,7 +104,6 @@ public class EntityDTOConversion {
         return new CourseDTO(entity.getCourseId(),
                 entity.getCourseTitle(),
                 entity.getEnrollmentCapacity(),
-                entity.getAvailableEnrollment(),
                 entity.getCreditHours(),
                 toDepartmentDTO(entity.getDepartment()));
     }

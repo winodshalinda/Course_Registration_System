@@ -5,19 +5,17 @@ public class CourseDTO {
     private String courseId;
     private String courseTitle;
     private int enrollmentCapacity;
-    private int availableEnrollment;
     private int creditHours;
     private DepartmentDTO departmentDTO;
 
     public CourseDTO() {
     }
 
-    public CourseDTO(String courseId, String courseTitle, int enrollmentCapacity, int availableEnrollment,
+    public CourseDTO(String courseId, String courseTitle, int enrollmentCapacity,
             int creditHours, DepartmentDTO departmentDTO) {
         this.courseId = courseId;
         this.courseTitle = courseTitle;
         this.enrollmentCapacity = enrollmentCapacity;
-        this.availableEnrollment = availableEnrollment;
         this.creditHours = creditHours;
         this.departmentDTO = departmentDTO;
     }
@@ -46,14 +44,6 @@ public class CourseDTO {
         this.enrollmentCapacity = enrollmentCapacity;
     }
 
-    public int getAvailableEnrollment() {
-        return availableEnrollment;
-    }
-
-    public void setAvailableEnrollment(int availableEnrollment) {
-        this.availableEnrollment = availableEnrollment;
-    }
-
     public int getCreditHours() {
         return creditHours;
     }
@@ -74,8 +64,7 @@ public class CourseDTO {
     public String toString() {
         return "Course ID: " + courseId + 
         "\nCourse Title: " + courseTitle +
-        "\nEnrollment Capacity: "+ enrollmentCapacity + 
-        "\nAvailable Enrollment: " + availableEnrollment + 
+        "\nEnrollment Capacity: "+ enrollmentCapacity +
         "\nCredit Hours: " + creditHours+"\n";
     }
     

@@ -15,7 +15,6 @@ public class CourseEntity {
     private String courseId;
     private String courseTitle;
     private int enrollmentCapacity;
-    private int availableEnrollment;
     private int creditHours;
     @ManyToOne
     private DepartmentEntity department;
@@ -28,12 +27,12 @@ public class CourseEntity {
     public CourseEntity() {
     }
 
-    public CourseEntity(String courseId, String courseTitle, int enrollmentCapacity, int availableEnrollment,
-            int creditHours, DepartmentEntity department) {
+    public CourseEntity(String courseId, String courseTitle, int enrollmentCapacity, int creditHours,
+            DepartmentEntity department) {
+
         this.courseId = courseId;
         this.courseTitle = courseTitle;
         this.enrollmentCapacity = enrollmentCapacity;
-        this.availableEnrollment = availableEnrollment;
         this.creditHours = creditHours;
         this.department = department;
     }
@@ -70,7 +69,6 @@ public class CourseEntity {
         this.department = department;
     }
 
-
     public List<ProgramDetailsEntity> getProgramDetails() {
         return programDetails;
     }
@@ -85,14 +83,6 @@ public class CourseEntity {
 
     public void setCreditHours(int creditHours) {
         this.creditHours = creditHours;
-    }
-
-    public int getAvailableEnrollment() {
-        return availableEnrollment;
-    }
-
-    public void setAvailableEnrollment(int availableEnrollment) {
-        this.availableEnrollment = availableEnrollment;
     }
 
     public List<PrerequisitesEntity> getPrerequisites() {
