@@ -15,6 +15,7 @@ public class StudentEntity {
     @Id
     private String studentId;
     private String studentName;
+    @Column(nullable = false)
     private LocalDate dob;
     @ManyToOne
     private ProgramEntity program;

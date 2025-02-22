@@ -9,33 +9,74 @@ import edu.ijse.crs.dao.DaoFactory;
 import edu.ijse.crs.dao.DaoFactory.DaoTypes;
 import edu.ijse.crs.dao.custom.ProgramDao;
 import edu.ijse.crs.dao.custom.StudentDao;
+import edu.ijse.crs.dao.custom.UserDao;
 import edu.ijse.crs.dto.ProgramDTO;
 import edu.ijse.crs.dto.StudentDTO;
 import edu.ijse.crs.entity.ProgramEntity;
 import edu.ijse.crs.entity.StudentEntity;
+import edu.ijse.crs.entity.UserEntity;
+import edu.ijse.crs.entity.UserEntity.Role;
 import edu.ijse.crs.service.custom.StudentService;
 import edu.ijse.crs.util.EntityDTOConversion;
 import edu.ijse.crs.util.HibernateUtil;
 
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
 
-    StudentDao studentDao=(StudentDao) DaoFactory.getInstance().getDao(DaoTypes.STUDENT);
-    ProgramDao programDao=(ProgramDao) DaoFactory.getInstance().getDao(DaoTypes.PROGRAM);
-
+    StudentDao studentDao = (StudentDao) DaoFactory.getInstance().getDao(DaoTypes.STUDENT);
+    ProgramDao programDao = (ProgramDao) DaoFactory.getInstance().getDao(DaoTypes.PROGRAM);
+    UserDao userDao = (UserDao) DaoFactory.getInstance().getDao(DaoTypes.USER);
 
     @Override
-    public String saveStudent() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveStudent'");
+    public String saveStudent(StudentDTO studentDTO) {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        
+        StudentEntity studentEntity = EntityDTOConversion.toStudentEntity(studentDTO);
+        try {
+
+            Boolean isStudentSaved = studentDao.save(studentEntity, session);
+
+            if (isStudentSaved) {
+                UserEntity userEntity = new UserEntity(
+                        studentDTO.getStudentId(),
+                        studentDTO.getPassword(),
+                        Role.STUDENT, null,
+                        studentEntity);
+
+                Boolean isUserSaved = userDao.save(userEntity, session);
+
+                if (isUserSaved) {
+                    session.getTransaction().commit();
+                    return "Student Save Successfully";
+
+                } else {
+                    session.getTransaction().rollback();
+                    return "User Save Failed";
+                }
+
+            } else {
+
+                session.getTransaction().rollback();
+                return "Studen Save Failed";
+            }
+
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+            return "Student Save Error";
+        } finally {
+            session.close();
+        }
+
     }
 
     @Override
     public List<StudentDTO> loadTable() throws Exception {
-        Session session=HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
 
         List<StudentEntity> all = studentDao.getAll(session);
-        
-        List<StudentDTO> studentDTOs=new ArrayList<>();
+
+        List<StudentDTO> studentDTOs = new ArrayList<>();
         for (StudentEntity studentEntity : all) {
             studentDTOs.add(EntityDTOConversion.toStudentDTO(studentEntity));
         }
@@ -44,11 +85,11 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public List<ProgramDTO> loadChoiseBox() throws Exception {
-        Session session=HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
 
         List<ProgramEntity> all = programDao.getAll(session);
 
-        List<ProgramDTO> programDTOs=new ArrayList<>();
+        List<ProgramDTO> programDTOs = new ArrayList<>();
         for (ProgramEntity programEntity : all) {
             programDTOs.add(EntityDTOConversion.toProgramDTO(programEntity));
         }

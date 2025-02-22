@@ -18,6 +18,19 @@ public class StudentDTO {
     }
 
     public StudentDTO(String studentId, String studentName, LocalDate dob, ProgramDTO program, int year, String email,
+            String address, String password, String rePassword) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.dob = dob;
+        this.program = program;
+        this.year = year;
+        this.email = email;
+        this.address = address;
+        this.password = password;
+        this.rePassword = rePassword;
+    }
+
+    public StudentDTO(String studentId, String studentName, LocalDate dob, ProgramDTO program, int year, String email,
             String address) {
         this.studentId = studentId;
         this.studentName = studentName;
