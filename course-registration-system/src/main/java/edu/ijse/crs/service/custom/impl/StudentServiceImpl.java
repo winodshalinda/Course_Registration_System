@@ -103,9 +103,61 @@ public class StudentServiceImpl implements StudentService {
         Session session = HibernateUtil.getSession();
 
         StudentEntity search = studentDao.search(id, session);
-        
+
         session.close();
         return EntityDTOConversion.toStudentDTO(search);
+    }
+
+    @Override
+    public boolean updateStudent(StudentDTO studentDTO) {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        StudentEntity studentEntity = EntityDTOConversion.toStudentEntity(studentDTO);
+
+        try {
+            studentDao.update(studentEntity, session);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.close();
+        }
+
+    }
+
+    @Override
+    public boolean deleteStudent(StudentDTO studentDTO) throws Exception {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        StudentEntity studentEntity = EntityDTOConversion.toStudentEntity(studentDTO);
+
+        Boolean isStudentUserDelete = userDao.deleteByStudentId(studentEntity, session);
+
+        if (!isStudentUserDelete) {
+            session.getTransaction().rollback();
+            session.close();
+            return false;
+
+        } else {
+            try {
+                studentDao.delete(studentEntity, session);
+                session.getTransaction().commit();
+                return true;
+
+            } catch (Exception e) {
+                session.getTransaction().rollback();
+                throw e;
+                
+            } finally {
+                session.close();
+            }
+        }
+
     }
 
 }

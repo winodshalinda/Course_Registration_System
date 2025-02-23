@@ -134,7 +134,31 @@ public class ManageStudentController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        // TODO
+
+        alert.setHeaderText(null);
+
+        try {
+
+            boolean deleteStudent = studentService.deleteStudent(searchStudentDTO);
+
+            if (deleteStudent) {
+
+                alert.setContentText("Student Deleted Successfully");
+                alert.show();
+                btnCancelOnAction(event);
+                loadTable();
+
+            }else{
+
+                alert.setContentText("Student Delete Failed");
+                alert.show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert.setContentText("Student Delete Error: "+e.getMessage());
+            alert.show();
+        }
     }
 
     @FXML
@@ -214,11 +238,11 @@ public class ManageStudentController {
                 txtYear.setText(Integer.toString(searchStudentDTO.getYear()));
                 txtEmail.setText(searchStudentDTO.getEmail());
                 txtAddress.setText(searchStudentDTO.getAddress());
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();
-            alert.setContentText("Search Error "+e.getMessage());
+            alert.setContentText("Search Error " + e.getMessage());
             alert.show();
         }
 
@@ -226,7 +250,37 @@ public class ManageStudentController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        // TODO
+        alert.setHeaderText(null);
+
+        if (txtName.getText().isEmpty() || dpDateOfBirth.getValue() == null ||
+                choiceProgram.getValue() == null || txtAddress.getText().isEmpty() ||
+                txtYear.getText().isEmpty() || txtEmail.getText().isEmpty()) {
+
+            alert.setContentText("All Field Required");
+            alert.show();
+            return;
+        }
+
+        StudentDTO studentDTO = new StudentDTO(
+                searchStudentDTO.getStudentId(),
+                txtName.getText(),
+                dpDateOfBirth.getValue(),
+                choiceProgram.getValue(),
+                Integer.parseInt(txtYear.getText()),
+                txtEmail.getText(),
+                txtAddress.getText());
+        
+        Boolean isUpdateStudent = studentService.updateStudent(studentDTO);
+
+        if (isUpdateStudent) {
+            alert.setContentText("Student Update Successfully");
+            alert.show();
+            btnCancelOnAction(event);
+            loadTable();
+        } else {
+            alert.setContentText("Student Update Failed");
+            alert.show();
+        }
     }
 
     @FXML
