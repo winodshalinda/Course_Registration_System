@@ -30,7 +30,7 @@ public class StudentServiceImpl implements StudentService {
     public String saveStudent(StudentDTO studentDTO) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        
+
         StudentEntity studentEntity = EntityDTOConversion.toStudentEntity(studentDTO);
         try {
 
@@ -96,6 +96,16 @@ public class StudentServiceImpl implements StudentService {
 
         session.close();
         return programDTOs;
+    }
+
+    @Override
+    public StudentDTO searchStudent(String id) throws Exception {
+        Session session = HibernateUtil.getSession();
+
+        StudentEntity search = studentDao.search(id, session);
+        
+        session.close();
+        return EntityDTOConversion.toStudentDTO(search);
     }
 
 }

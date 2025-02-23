@@ -25,6 +25,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class ManageStudentController {
 
@@ -97,11 +99,14 @@ public class ManageStudentController {
     @FXML
     private TextField txtYear;
 
+    @FXML
+    private TextFlow tFlowStudent;
+
     StudentService studentService = (StudentService) ServiceFactory.getInstance().getService(ServiceTypes.STUDENT);
 
     Alert alert = new Alert(AlertType.INFORMATION);
 
-    private StudentDTO studentDTO;
+    private StudentDTO searchStudentDTO;
 
     public void initialize() {
 
@@ -175,7 +180,48 @@ public class ManageStudentController {
 
     @FXML
     void btnSearchOnAction(ActionEvent event) {
-        // TODO
+        clearForm();
+
+        if (txtSearch.getText().isEmpty()) {
+            alert.setContentText("Search Field Empty");
+            alert.show();
+            return;
+        }
+
+        try {
+            searchStudentDTO = studentService.searchStudent(txtSearch.getText());
+
+            if (searchStudentDTO == null) {
+                alert.setContentText("Student Not Found");
+                alert.show();
+
+            } else {
+                tFlowStudent.setVisible(true);
+                tFlowStudent.getChildren().add(new Text(searchStudentDTO.toString()));
+
+                btnSave.setVisible(false);
+                btnUpdate.setVisible(true);
+                btnDelete.setVisible(true);
+                btnCancel.setVisible(true);
+                txtId.setDisable(true);
+                txtPassword.setDisable(true);
+                txtRePassword.setDisable(true);
+
+                txtId.setText(searchStudentDTO.getStudentId());
+                txtName.setText(searchStudentDTO.getStudentName());
+                dpDateOfBirth.setValue(searchStudentDTO.getDob());
+                choiceProgram.setValue(searchStudentDTO.getProgram());
+                txtYear.setText(Integer.toString(searchStudentDTO.getYear()));
+                txtEmail.setText(searchStudentDTO.getEmail());
+                txtAddress.setText(searchStudentDTO.getAddress());
+                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert.setContentText("Search Error "+e.getMessage());
+            alert.show();
+        }
+
     }
 
     @FXML
@@ -191,9 +237,10 @@ public class ManageStudentController {
         btnDelete.setVisible(false);
         btnCancel.setVisible(false);
         txtId.setDisable(false);
-        txtPassword.setVisible(true);
-        txtRePassword.setVisible(true);
-        studentDTO=null;
+        txtPassword.setDisable(false);
+        txtRePassword.setDisable(false);
+        tFlowStudent.setVisible(false);
+        searchStudentDTO = null;
     }
 
     public void loadChoiseProgram() {
@@ -230,6 +277,7 @@ public class ManageStudentController {
     }
 
     public void clearForm() {
+        tFlowStudent.getChildren().clear();
         txtId.clear();
         txtName.clear();
         dpDateOfBirth.setValue(null);

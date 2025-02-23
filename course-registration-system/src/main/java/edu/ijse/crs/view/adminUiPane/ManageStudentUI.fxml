@@ -12,9 +12,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <AnchorPane prefHeight="1232.0" prefWidth="1193.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.crs.controller.adminUIController.ManageStudentController">
    <children>
@@ -132,12 +132,12 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Pane fx:id="paneStudentDetails" layoutX="543.0" layoutY="77.0" prefHeight="497.0" prefWidth="522.0" visible="false" />
       <Button fx:id="btnSave" layoutX="14.0" layoutY="599.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: green; -fx-background-radius: 50;" text="SAVE" textFill="WHITE" />
       <Button fx:id="btnUpdate" layoutX="135.0" layoutY="599.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: blue; -fx-background-radius: 50;" text="UPDATE" textFill="WHITE" visible="false" />
       <Button fx:id="btnDelete" layoutX="248.0" layoutY="599.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: red; -fx-background-radius: 50;" text="DELETE" textFill="WHITE" visible="false" />
       <TextField fx:id="txtSearch" layoutX="682.0" layoutY="14.0" prefHeight="35.0" prefWidth="161.0" promptText="Search" />
       <Button layoutX="855.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnSearchOnAction" prefHeight="35.0" prefWidth="71.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-background-radius: 150px; -fx-border-radius: 150px;" text="Search" />
       <Button fx:id="btnCancel" layoutX="11.0" layoutY="599.0" mnemonicParsing="false" onAction="#btnCancelOnAction" prefHeight="35.0" prefWidth="71.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-background-radius: 150px; -fx-border-radius: 150px;" text="Cancel" visible="false" />
+      <TextFlow fx:id="tFlowStudent" layoutX="551.0" layoutY="98.0" lineSpacing="5.0" prefHeight="483.0" prefWidth="519.0" visible="false" />
    </children>
 </AnchorPane>

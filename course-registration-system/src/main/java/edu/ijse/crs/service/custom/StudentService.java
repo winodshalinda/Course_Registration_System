@@ -12,4 +12,6 @@ public interface StudentService extends SuperService {
     List<StudentDTO> loadTable() throws Exception;
 
     List<ProgramDTO> loadChoiseBox() throws Exception;
+
+    StudentDTO searchStudent(String id)throws Exception;
 }
