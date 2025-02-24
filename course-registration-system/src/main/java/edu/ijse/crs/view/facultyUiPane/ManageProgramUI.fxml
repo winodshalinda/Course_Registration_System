@@ -52,6 +52,5 @@
       <Button fx:id="btnDelete" layoutX="212.0" layoutY="199.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: red; -fx-background-radius: 50;" text="DELETE" textFill="WHITE" visible="false" />
       <TextFlow fx:id="tFlowProgram" layoutX="417.0" layoutY="60.0" lineSpacing="15.0" prefHeight="200.0" prefWidth="334.0" visible="false" AnchorPane.leftAnchor="417.0" />
       <Button fx:id="btnCourse" layoutX="751.0" layoutY="60.0" mnemonicParsing="false" onAction="#btnCourseOnAction" prefHeight="27.0" prefWidth="146.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-background-radius: 150px; -fx-border-radius: 150px;" text="Add/Remove Courses" visible="false" />
-      <Button fx:id="btnTerm" layoutX="751.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnTremOnAction" prefHeight="27.0" prefWidth="171.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-background-radius: 150px; -fx-border-radius: 150px;" text="Add/Change Semester Term" visible="false" />
    </children>
 </AnchorPane>

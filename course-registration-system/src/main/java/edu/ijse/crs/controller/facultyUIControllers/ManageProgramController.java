@@ -60,9 +60,6 @@ public class ManageProgramController {
     private Button btnCourse;
 
     @FXML
-    private Button btnTerm;
-
-    @FXML
     private TextField txtProgramId;
 
     @FXML
@@ -108,7 +105,6 @@ public class ManageProgramController {
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
         btnCourse.setVisible(false);
-        btnTerm.setVisible(false);
         txtProgramId.setDisable(false);
         tFlowProgram.setVisible(false);
         tFlowProgram.getChildren().clear();
@@ -197,7 +193,6 @@ public class ManageProgramController {
             btnUpdate.setVisible(true);
             btnDelete.setVisible(true);
             btnCourse.setVisible(true);
-            btnTerm.setVisible(true);
             txtProgramId.setDisable(true);
 
             tFlowProgram.setVisible(true);
@@ -266,11 +261,6 @@ public class ManageProgramController {
             alert.show();
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    void btnTremOnAction(ActionEvent event) {
-        // TODO
     }
 
     public void loadTable() {

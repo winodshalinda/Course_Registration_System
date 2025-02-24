@@ -17,7 +17,7 @@
         <mapping class="edu.ijse.crs.entity.PrerequisitesEntity"/>
         <mapping class="edu.ijse.crs.entity.ProgramDetailsEntity"/>
         <mapping class="edu.ijse.crs.entity.ProgramEntity"/>
-        <mapping class="edu.ijse.crs.entity.ProgramSemesterEntity"/>
+        <mapping class="edu.ijse.crs.entity.SemesterEntity"/>
         <mapping class="edu.ijse.crs.entity.StudentEntity"/>
         <mapping class="edu.ijse.crs.entity.UserEntity"/>
 

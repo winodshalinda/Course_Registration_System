@@ -13,7 +13,6 @@ import edu.ijse.crs.entity.embeddableId.ProgramDetailsId;
 public class ProgramDetailsEntity {
     @EmbeddedId
     private ProgramDetailsId id;
-    private int semester;
     @ManyToOne
     @MapsId("course")
     private CourseEntity course;
@@ -22,6 +21,12 @@ public class ProgramDetailsEntity {
     private ProgramEntity program;
 
     public ProgramDetailsEntity() {
+    }
+
+    public ProgramDetailsEntity( CourseEntity course, ProgramEntity program) {
+        this.id = new ProgramDetailsId();
+        this.id.setCourse(course);
+        this.id.setProgram(program);
     }
 
     public ProgramDetailsId getId() {
@@ -48,18 +53,9 @@ public class ProgramDetailsEntity {
         this.program = program;
     }
 
-    public int getSemester() {
-        return semester;
-    }
-
-    public void setSemester(int semester) {
-        this.semester = semester;
-    }
-
     @Override
     public String toString() {
-        return "ProgramDetailsEntity [id=" + id + ", semester=" + semester + ", course=" + course + ", program="
-                + program + "]";
+        return "ProgramDetailsEntity [id=" + id + ", course=" + course + ", program=" + program + "]";
     }
 
 }

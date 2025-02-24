@@ -21,6 +21,8 @@ public class FacultyEntity {
     private UserEntity userEntity;
     @OneToMany(mappedBy = "faculty")
     private List<ProgramEntity> program;
+    @OneToMany(mappedBy = "faculty")
+    private List<SemesterEntity> semester;
 
     public FacultyEntity() {
     }

@@ -4,11 +4,11 @@ import org.hibernate.Session;
 
 import edu.ijse.crs.dao.CrudUtil;
 import edu.ijse.crs.dao.custom.ProgramSemesterDao;
-import edu.ijse.crs.entity.ProgramSemesterEntity;
+import edu.ijse.crs.entity.SemesterEntity;
 
-public class ProgramSemesterDaoImpl extends CrudUtil<ProgramSemesterEntity, String, Session> implements ProgramSemesterDao {
+public class ProgramSemesterDaoImpl extends CrudUtil<SemesterEntity, String, Session> implements ProgramSemesterDao {
 
-    public ProgramSemesterDaoImpl(Class<ProgramSemesterEntity> entityClass) {
+    public ProgramSemesterDaoImpl(Class<SemesterEntity> entityClass) {
         super(entityClass);
     }
 

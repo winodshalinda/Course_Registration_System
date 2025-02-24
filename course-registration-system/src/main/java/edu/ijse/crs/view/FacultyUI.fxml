@@ -33,6 +33,11 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
+            <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnMngFacultyTremOnAction" prefHeight="27.0" prefWidth="136.0" style="-fx-border-color: white; -fx-border-style: solid; -fx-border-radius: 50px; -fx-background-color: #22c60d;" text="Manage Faculty Trem" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </HBox>
       <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="78.0" prefHeight="522.0" prefWidth="1300.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">

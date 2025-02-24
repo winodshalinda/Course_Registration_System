@@ -78,4 +78,9 @@ public class FacultyUIController {
         AnchorPane.setLeftAnchor(parent, 0.0);
         AnchorPane.setRightAnchor(parent, 0.0);
     }
+
+    @FXML
+    void btnMngFacultyTremOnAction(ActionEvent event) {
+        //TODO
+    }
 }

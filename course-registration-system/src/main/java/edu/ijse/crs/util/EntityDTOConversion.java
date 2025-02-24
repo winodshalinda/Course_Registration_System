@@ -8,12 +8,14 @@ import edu.ijse.crs.dto.DepartmentDTO;
 import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.dto.PrerequisitesDTO;
 import edu.ijse.crs.dto.ProgramDTO;
+import edu.ijse.crs.dto.ProgramDetailsDTO;
 import edu.ijse.crs.dto.StudentDTO;
 import edu.ijse.crs.dto.UserDTO;
 import edu.ijse.crs.entity.CourseEntity;
 import edu.ijse.crs.entity.DepartmentEntity;
 import edu.ijse.crs.entity.FacultyEntity;
 import edu.ijse.crs.entity.PrerequisitesEntity;
+import edu.ijse.crs.entity.ProgramDetailsEntity;
 import edu.ijse.crs.entity.ProgramEntity;
 import edu.ijse.crs.entity.StudentEntity;
 import edu.ijse.crs.entity.UserEntity;
@@ -151,6 +153,28 @@ public class EntityDTOConversion {
                 dto.getYear(),
                 dto.getEmail(),
                 dto.getAddress());
+
+    }
+
+    // ProgarmDetails
+
+    public static ProgramDetailsDTO toProgramDetailsDTO(ProgramDetailsEntity entity){
+
+        CourseDTO courseDTO = toCourseDTO(entity.getCourse());
+        ProgramDTO programDTO = toProgramDTO(entity.getProgram());
+
+        return new ProgramDetailsDTO(
+            entity.getId().getSemester(), 
+            courseDTO, 
+            programDTO);
+    }
+
+    public static ProgramDetailsEntity toProgramDetailsEntity(ProgramDetailsDTO dto){
+
+        CourseEntity courseEntity = toCourseEntity(dto.getCourse());
+        ProgramEntity programEntity= toProgramEntity(dto.getProgram());
+
+        return new ProgramDetailsEntity(courseEntity, programEntity);
 
     }
 }

@@ -17,7 +17,7 @@ import edu.ijse.crs.entity.FacultyEntity;
 import edu.ijse.crs.entity.PrerequisitesEntity;
 import edu.ijse.crs.entity.ProgramDetailsEntity;
 import edu.ijse.crs.entity.ProgramEntity;
-import edu.ijse.crs.entity.ProgramSemesterEntity;
+import edu.ijse.crs.entity.SemesterEntity;
 import edu.ijse.crs.entity.StudentEntity;
 import edu.ijse.crs.entity.UserEntity;
 
@@ -41,7 +41,7 @@ public class DaoFactory {
             case PREREQUISITES:return new PrerequisitesDaoImpl(PrerequisitesEntity.class);
             case PROGRAM:return new ProgramDaoImpl(ProgramEntity.class);
             case PROGRAMDEATAILS:return new ProgramDetailsDaoImpl(ProgramDetailsEntity.class);
-            case PROGRAMSEMESTER:return new ProgramSemesterDaoImpl(ProgramSemesterEntity.class);
+            case PROGRAMSEMESTER:return new ProgramSemesterDaoImpl(SemesterEntity.class);
             case STUDENT:return new StudentDaoImpl(StudentEntity.class);
             default:
                 return null;   

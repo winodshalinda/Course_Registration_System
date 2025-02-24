@@ -25,8 +25,6 @@ public class ProgramEntity {
     private List<ProgramDetailsEntity> programDetails;
     @OneToMany(mappedBy = "program")
     private List<StudentEntity> student;
-    @OneToMany(mappedBy = "program")
-    private List<ProgramSemesterEntity> semester;
     
     public ProgramEntity() {
     }
