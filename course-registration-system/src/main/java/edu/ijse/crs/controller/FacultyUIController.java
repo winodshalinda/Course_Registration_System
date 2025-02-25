@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import edu.ijse.crs.controller.facultyUIControllers.ManageDepartmentController;
+import edu.ijse.crs.controller.facultyUIControllers.ManageFacultyTremController;
 import edu.ijse.crs.controller.facultyUIControllers.ManageProgramController;
 import edu.ijse.crs.dto.FacultyDTO;
 import javafx.event.ActionEvent;
@@ -80,7 +81,21 @@ public class FacultyUIController {
     }
 
     @FXML
-    void btnMngFacultyTremOnAction(ActionEvent event) {
-        //TODO
+    void btnMngFacultyTremOnAction(ActionEvent event) throws IOException {
+        ancPane.getChildren().clear();
+
+        URL resourse = getClass().getResource("../view/facultyUiPane/ManageFacultyTremUI.fxml");
+        FXMLLoader loader = new FXMLLoader(resourse);
+        Parent parent = loader.load();
+        
+        ManageFacultyTremController controller = loader.getController();
+        controller.setFacultyDTO(facultyDTO);
+
+        ancPane.getChildren().add(parent);
+
+        AnchorPane.setTopAnchor(parent, 0.0);
+        AnchorPane.setBottomAnchor(parent, 0.0);
+        AnchorPane.setLeftAnchor(parent, 0.0);
+        AnchorPane.setRightAnchor(parent, 0.0);
     }
 }

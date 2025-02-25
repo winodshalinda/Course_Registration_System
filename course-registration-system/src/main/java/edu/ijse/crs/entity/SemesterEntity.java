@@ -26,6 +26,16 @@ public class SemesterEntity {
     public SemesterEntity() {
     }
 
+    public SemesterEntity(int year, PartOfSemester partOfSemester, LocalDate startDate, LocalDate endDate, FacultyEntity faculty) {
+        this.embeddedId = new SemesterId();
+        this.embeddedId.setYear(year);
+        this.embeddedId.setPartOfSemester(partOfSemester);
+        this.embeddedId.setFaculty(faculty);
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.faculty = faculty;
+    }
+
     public SemesterId getEmbeddedId() {
         return embeddedId;
     }

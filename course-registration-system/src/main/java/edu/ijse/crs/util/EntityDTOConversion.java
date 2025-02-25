@@ -9,6 +9,7 @@ import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.dto.PrerequisitesDTO;
 import edu.ijse.crs.dto.ProgramDTO;
 import edu.ijse.crs.dto.ProgramDetailsDTO;
+import edu.ijse.crs.dto.SemesterDTO;
 import edu.ijse.crs.dto.StudentDTO;
 import edu.ijse.crs.dto.UserDTO;
 import edu.ijse.crs.entity.CourseEntity;
@@ -17,6 +18,7 @@ import edu.ijse.crs.entity.FacultyEntity;
 import edu.ijse.crs.entity.PrerequisitesEntity;
 import edu.ijse.crs.entity.ProgramDetailsEntity;
 import edu.ijse.crs.entity.ProgramEntity;
+import edu.ijse.crs.entity.SemesterEntity;
 import edu.ijse.crs.entity.StudentEntity;
 import edu.ijse.crs.entity.UserEntity;
 
@@ -181,5 +183,32 @@ public class EntityDTOConversion {
 
         return new ProgramDetailsEntity(dto.getSemester(), courseEntity, programEntity);
 
+    }
+
+    // Semester
+
+    public static SemesterEntity toSemesterEntity(SemesterDTO dto) {
+
+        FacultyEntity facultyEntity = toFacultyEntity(dto.getFaculty());
+
+        return new SemesterEntity(
+                dto.getYear(),
+                dto.getPartOfSemester(),
+                dto.getStarDate(),
+                dto.getEndDate(),
+                facultyEntity);
+
+    }
+
+    public static SemesterDTO toSemesterDTO(SemesterEntity entity) {
+
+        FacultyDTO facultyDTO = toFacultyDTO(entity.getFaculty());
+
+        return new SemesterDTO(
+                entity.getEmbeddedId().getYear(),
+                entity.getEmbeddedId().getPartOfSemester(),
+                entity.getStartDate(),
+                entity.getEndDate(),
+                facultyDTO);
     }
 }

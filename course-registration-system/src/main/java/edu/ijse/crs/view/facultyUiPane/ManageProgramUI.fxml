@@ -34,7 +34,7 @@
             </HBox>
          </children>
       </VBox>
-      <TableView fx:id="tblProgram" layoutX="14.0" layoutY="273.0" prefHeight="386.0" prefWidth="561.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="273.0">
+      <TableView fx:id="tblProgram" layoutX="14.0" layoutY="273.0" prefHeight="386.0" prefWidth="561.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="273.0">
         <columns>
           <TableColumn fx:id="colId" prefWidth="135.0" text="Program ID" />
           <TableColumn fx:id="colTitle" prefWidth="252.0" text="Program Title" />

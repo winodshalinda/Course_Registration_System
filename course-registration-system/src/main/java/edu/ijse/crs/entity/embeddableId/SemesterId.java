@@ -76,5 +76,4 @@ public class SemesterId implements Serializable {
             return false;
         return true;
     }
-
 }

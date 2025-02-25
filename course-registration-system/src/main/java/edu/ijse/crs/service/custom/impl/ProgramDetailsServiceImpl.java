@@ -119,5 +119,4 @@ public class ProgramDetailsServiceImpl implements ProgramDetailsService {
             session.close();
         }
     }
-
 }
