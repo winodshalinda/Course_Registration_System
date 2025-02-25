@@ -3,6 +3,8 @@ package edu.ijse.crs.service.custom.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import org.hibernate.Session;
 
 import edu.ijse.crs.dao.DaoFactory;
@@ -51,6 +53,11 @@ public class SemesterServiceImpl implements SemesterService {
             semesterDao.save(semesterEntity, session);
             session.getTransaction().commit();
             return "Semester Saved";
+
+        }catch(PersistenceException e){
+            session.getTransaction().rollback();
+            return "Semester Already Exists";
+
         } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
@@ -63,15 +70,62 @@ public class SemesterServiceImpl implements SemesterService {
     @Override
     public SemesterDTO searchSemester(SemesterDTO semesterDTO) {
         Session session = HibernateUtil.getSession();
-        
+
         SemesterId id = new SemesterId();
         id.setYear(semesterDTO.getYear());
         id.setPartOfSemester(semesterDTO.getPartOfSemester());
         id.setFaculty(EntityDTOConversion.toFacultyEntity(semesterDTO.getFaculty()));
 
         SemesterEntity searchSemester = semesterDao.searchSemester(id, session);
+        session.close();
 
         return EntityDTOConversion.toSemesterDTO(searchSemester);
+    }
+
+    @Override
+    public String updateSemester(SemesterDTO semesterDTO) {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        SemesterEntity semesterEntity = EntityDTOConversion.toSemesterEntity(semesterDTO);
+
+        try {
+            semesterDao.update(semesterEntity, session);
+            session.getTransaction().commit();
+            return "Updated";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return "Update Failed";
+
+        }finally{
+            session.close();
+        }
+
+    }
+
+    @Override
+    public String deleteSemester(SemesterDTO semesterDTO) {
+        Session session=HibernateUtil.getSession();
+        session.beginTransaction();
+        
+        SemesterEntity semesterEntity = EntityDTOConversion.toSemesterEntity(semesterDTO);
+
+        try {
+            semesterDao.delete(semesterEntity, session);
+            session.getTransaction().commit();
+            return "Semester Deleted";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return "Semester Delete Failed";
+
+        }finally{
+            session.close();
+        }
+
     }
 
 }

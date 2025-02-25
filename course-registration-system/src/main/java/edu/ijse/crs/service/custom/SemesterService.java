@@ -14,4 +14,8 @@ public interface SemesterService extends SuperService {
 
     SemesterDTO searchSemester(SemesterDTO semesterDTO);
 
+    String updateSemester(SemesterDTO semesterDTO);
+
+    String deleteSemester(SemesterDTO semesterDTO);
+    
 }

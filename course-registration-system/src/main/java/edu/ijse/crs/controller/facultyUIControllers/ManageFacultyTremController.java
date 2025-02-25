@@ -110,7 +110,7 @@ public class ManageFacultyTremController {
 
     @FXML
     void btnCancelOnAction(ActionEvent event) {
-        
+
         btnSave.setVisible(true);
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
@@ -127,7 +127,13 @@ public class ManageFacultyTremController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        // TODO
+        String deleteSemester = semesterService.deleteSemester(searchSemester);
+        if(deleteSemester.equals("Semester Deleted")){
+            btnCancelOnAction(event);
+            loadTable();
+        }
+        alert.setContentText(deleteSemester);
+        alert.show();
     }
 
     @FXML
@@ -193,7 +199,28 @@ public class ManageFacultyTremController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        // TODO
+        if (dpStartDate.getValue() == null || dpEndDate.getValue() == null) {
+            alert.setContentText("All Field Required");
+            alert.show();
+            return;
+        }
+
+        SemesterDTO semesterDTO = new SemesterDTO(
+                searchSemester.getYear(),
+                searchSemester.getPartOfSemester(),
+                dpStartDate.getValue(),
+                dpEndDate.getValue(),
+                searchSemester.getFaculty());
+
+        String updateSemester = semesterService.updateSemester(semesterDTO);
+
+        if (updateSemester.equals("Updated")) {
+            btnCancelOnAction(event);
+            loadTable();
+        }
+
+        alert.setContentText(updateSemester);
+        alert.show();
     }
 
     void loadTable() {
