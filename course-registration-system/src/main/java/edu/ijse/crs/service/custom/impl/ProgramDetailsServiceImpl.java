@@ -97,4 +97,27 @@ public class ProgramDetailsServiceImpl implements ProgramDetailsService {
 
     }
 
+    @Override
+    public String removeCourse(ProgramDetailsDTO programDetailsDTO) {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        ProgramDetailsEntity programDetailsEntity = EntityDTOConversion.toProgramDetailsEntity(programDetailsDTO);
+
+        try {
+            detailsDao.delete(programDetailsEntity, session);
+            session.getTransaction().commit();
+
+            return "Course Successfully Removed From Program";
+
+        }catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+            return "Course Removed From Program Failed";
+
+        } finally {
+            session.close();
+        }
+    }
+
 }

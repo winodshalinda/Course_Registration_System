@@ -13,4 +13,6 @@ public interface ProgramDetailsService extends SuperService{
     CourseDTO searchCourse(String text) throws Exception;
 
     String addCourse(ProgramDetailsDTO programDetailsDTO) throws Exception;
+
+    String removeCourse(ProgramDetailsDTO programDetailsDTO);
 }

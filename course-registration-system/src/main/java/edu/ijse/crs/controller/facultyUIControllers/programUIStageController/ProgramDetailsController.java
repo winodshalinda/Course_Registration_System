@@ -122,8 +122,6 @@ public class ProgramDetailsController {
 
         } else {
 
-            System.out.println("Selected Semester: " + choiceBoxSemester.getValue());
-
             ProgramDetailsDTO programDetailsDTO = new ProgramDetailsDTO(choiceBoxSemester.getValue(), courseDTO,
                     programDTO);
             String course;
@@ -133,11 +131,11 @@ public class ProgramDetailsController {
                 alert.show();
                 loadTables();
                 btnCancelOnAction(event);
-                
+
             } catch (Exception e) {
                 alert.setContentText("Adding Course Failed");
                 alert.show();
-                
+
             }
 
         }
@@ -145,7 +143,16 @@ public class ProgramDetailsController {
 
     @FXML
     void btnRemoveOnAction(ActionEvent event) {
-        // TODO
+
+        ProgramDetailsDTO programDetailsDTO = new ProgramDetailsDTO();
+        programDetailsDTO.setCourse(courseDTO);
+        programDetailsDTO.setProgram(programDTO);
+
+        String removeCoures = detailsService.removeCourse(programDetailsDTO);
+        alert.setContentText(removeCoures);
+        alert.show();
+        loadTables();
+        btnCancelOnAction(event);
     }
 
     @FXML
