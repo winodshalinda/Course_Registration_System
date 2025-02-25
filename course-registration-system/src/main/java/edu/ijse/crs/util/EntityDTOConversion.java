@@ -28,7 +28,7 @@ public class EntityDTOConversion {
         userEntity.setPassword(dto.getPassword());
         userEntity.setRole(dto.getRole());
         userEntity.setFaculty(toFacultyEntity(dto.getFacultyDTO()));
-        userEntity.setStudent(null);// TODO
+        userEntity.setStudent(toStudentEntity(dto.getStudentDTO()));
         return userEntity;
     }
 
@@ -38,6 +38,7 @@ public class EntityDTOConversion {
         userDTO.setPassword(entity.getPassword());
         userDTO.setRole(entity.getRole());
         userDTO.setFacultyDTO(toFacultyDTO(entity.getFaculty()));
+        userDTO.setStudentDTO(toStudentDTO(entity.getStudent()));
         return userDTO;
     }
 
@@ -130,6 +131,10 @@ public class EntityDTOConversion {
 
     public static StudentDTO toStudentDTO(StudentEntity entity) {
 
+        if (entity == null) {
+            return null;
+        }
+
         ProgramDTO programDTO = toProgramDTO(entity.getProgram());
 
         return new StudentDTO(
@@ -158,23 +163,23 @@ public class EntityDTOConversion {
 
     // ProgarmDetails
 
-    public static ProgramDetailsDTO toProgramDetailsDTO(ProgramDetailsEntity entity){
+    public static ProgramDetailsDTO toProgramDetailsDTO(ProgramDetailsEntity entity) {
 
         CourseDTO courseDTO = toCourseDTO(entity.getCourse());
         ProgramDTO programDTO = toProgramDTO(entity.getProgram());
 
         return new ProgramDetailsDTO(
-            entity.getId().getSemester(), 
-            courseDTO, 
-            programDTO);
+                entity.getSemester(),
+                courseDTO,
+                programDTO);
     }
 
-    public static ProgramDetailsEntity toProgramDetailsEntity(ProgramDetailsDTO dto){
+    public static ProgramDetailsEntity toProgramDetailsEntity(ProgramDetailsDTO dto) {
 
         CourseEntity courseEntity = toCourseEntity(dto.getCourse());
-        ProgramEntity programEntity= toProgramEntity(dto.getProgram());
+        ProgramEntity programEntity = toProgramEntity(dto.getProgram());
 
-        return new ProgramDetailsEntity(courseEntity, programEntity);
+        return new ProgramDetailsEntity(dto.getSemester(), courseEntity, programEntity);
 
     }
 }

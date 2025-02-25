@@ -40,6 +40,7 @@ public class UserUIController {
             alert.setHeaderText(null);
             alert.setContentText(e.getMessage());
             alert.showAndWait();
+            e.printStackTrace();
         }
         if (userDTO.getRole() != null) {
             Stage stage = (Stage) ancLoginUI.getScene().getWindow();

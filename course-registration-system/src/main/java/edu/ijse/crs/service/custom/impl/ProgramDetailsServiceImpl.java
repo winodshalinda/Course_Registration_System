@@ -3,6 +3,8 @@ package edu.ijse.crs.service.custom.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import org.hibernate.Session;
 
 import edu.ijse.crs.dao.DaoFactory;
@@ -22,14 +24,14 @@ import edu.ijse.crs.util.HibernateUtil;
 public class ProgramDetailsServiceImpl implements ProgramDetailsService {
 
     ProgramDetailsDao detailsDao = (ProgramDetailsDao) DaoFactory.getInstance().getDao(DaoTypes.PROGRAMDEATAILS);
-    CourseDao courseDao=(CourseDao) DaoFactory.getInstance().getDao(DaoTypes.COURSE);
+    CourseDao courseDao = (CourseDao) DaoFactory.getInstance().getDao(DaoTypes.COURSE);
 
     @Override
     public List<ProgramDetailsDTO> loadTables(ProgramDTO programDTO) throws Exception {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
 
-        ProgramEntity programEntity =EntityDTOConversion.toProgramEntity(programDTO);
+        ProgramEntity programEntity = EntityDTOConversion.toProgramEntity(programDTO);
 
         List<ProgramDetailsEntity> allWhereProgarm = detailsDao.getAllWhereProgram(programEntity, session);
 
@@ -44,16 +46,55 @@ public class ProgramDetailsServiceImpl implements ProgramDetailsService {
     }
 
     @Override
-    public CourseDTO searchCourse(String text) throws Exception {
-        // TODO Auto-generated method stub
-        Session session=HibernateUtil.getSession();
+    public CourseDTO searchCourse(String text) {
 
-        CourseEntity search = courseDao.search(text, session);
+        Session session = HibernateUtil.getSession();
 
-        CourseDTO courseDTO = EntityDTOConversion.toCourseDTO(search);
+        CourseEntity search;
+        try {
+            search = courseDao.search(text, session);
+            CourseDTO courseDTO = EntityDTOConversion.toCourseDTO(search);
 
-        session.close();
-        return courseDTO;
+            
+            return courseDTO;
+        } catch (NullPointerException e) {
+            return null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }finally{
+            session.close();
+        }
+
+    }
+
+    @Override
+    public String addCourse(ProgramDetailsDTO programDetailsDTO)throws Exception {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        ProgramDetailsEntity programDetailsEntity = EntityDTOConversion.toProgramDetailsEntity(programDetailsDTO);
+
+        try {
+            detailsDao.save(programDetailsEntity, session);
+            session.getTransaction().commit();
+
+            return "Course Successfully Added To Program";
+
+        } catch (PersistenceException e) {
+            session.getTransaction().rollback();
+            return "Course Already Added One Of Semester";
+
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+            throw e;
+
+        } finally {
+            session.close();
+        }
+
     }
 
 }

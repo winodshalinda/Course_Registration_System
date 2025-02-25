@@ -49,19 +49,13 @@ public class ProgramDTO {
         this.programTitle = programTitle;
     }
 
-    public String toString(Integer i) {
-        switch (i) {
-            case 1:
-                return "Program Id: " + programId + "\nProgram Title: " + programTitle + "\nTotal Semester: "+ totalSemester;
-            default:
-                return null;
-        }
-
+    public String toShow() {
+        return "Program Id: " + programId + "\nProgram Title: " + programTitle + "\nTotal Semester: " + totalSemester;
     }
 
     @Override
     public String toString() {
-        return programTitle+" ("+programId+")";
+        return programTitle + " (" + programId + ")";
     }
 
 }

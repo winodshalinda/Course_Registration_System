@@ -196,7 +196,7 @@ public class ManageProgramController {
             txtProgramId.setDisable(true);
 
             tFlowProgram.setVisible(true);
-            tFlowProgram.getChildren().addAll(new Text(programDTO.toString(1)));
+            tFlowProgram.getChildren().addAll(new Text(programDTO.toShow()));
 
         } catch (CustomException e) {
             alert.setContentText(e.getMessage());

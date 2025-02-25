@@ -8,16 +8,15 @@ import edu.ijse.crs.dto.ProgramDetailsDTO;
 import edu.ijse.crs.service.ServiceFactory;
 import edu.ijse.crs.service.ServiceFactory.ServiceTypes;
 import edu.ijse.crs.service.custom.ProgramDetailsService;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -52,7 +51,7 @@ public class ProgramDetailsController {
     private TextField txtSearch;
 
     @FXML
-    private TableView<ProgramDetailsDTO> tblProgramCourse;
+    private HBox hBoxCourseTable;
 
     Alert alert = new Alert(AlertType.INFORMATION);
 
@@ -65,25 +64,18 @@ public class ProgramDetailsController {
     public void setProgramDTO(ProgramDTO programDTO) {
         this.programDTO = programDTO;
         lblProgramName.setText(programDTO.getProgramTitle());
-        createColumn();
         loadTables();
     }
 
     public void initialize() {
         alert.setHeaderText(null);
-        createColumn();
-        loadTables();
-        loadChoiceBox();
-        // TODO
-    }
 
-    @FXML
-    void btnAddOnAction(ActionEvent event) {
-        // TODO
     }
 
     @FXML
     void btnAddOrRemoveOnAction(ActionEvent event) {
+
+        tFlowCourse.getChildren().clear();
 
         if (txtSearch.getText().isEmpty()) {
             alert.setContentText("Search Field Empty");
@@ -92,7 +84,7 @@ public class ProgramDetailsController {
         }
 
         try {
-            
+
             courseDTO = detailsService.searchCourse(txtSearch.getText());
 
             if (courseDTO == null) {
@@ -100,12 +92,17 @@ public class ProgramDetailsController {
                 alert.showAndWait();
 
             } else {
+                loadChoiceBox();
+
+                txtSearch.setDisable(true);
                 btnAddOrRemove.setVisible(false);
                 btnAdd.setVisible(true);
                 btnCancel.setVisible(true);
                 btnRemove.setVisible(true);
                 lblSemester.setVisible(true);
                 choiceBoxSemester.setVisible(true);
+                tFlowCourse.setVisible(true);
+                tFlowCourse.getChildren().add(new Text(courseDTO.toShow()));
             }
 
         } catch (Exception e) {
@@ -117,8 +114,33 @@ public class ProgramDetailsController {
     }
 
     @FXML
-    void btnCancelOnAction(ActionEvent event) {
-        // TODO
+    void btnAddOnAction(ActionEvent event) {
+
+        if (choiceBoxSemester.getValue() == null) {
+            alert.setContentText("Please Select Semester");
+            alert.show();
+
+        } else {
+
+            System.out.println("Selected Semester: " + choiceBoxSemester.getValue());
+
+            ProgramDetailsDTO programDetailsDTO = new ProgramDetailsDTO(choiceBoxSemester.getValue(), courseDTO,
+                    programDTO);
+            String course;
+            try {
+                course = detailsService.addCourse(programDetailsDTO);
+                alert.setContentText(course);
+                alert.show();
+                loadTables();
+                btnCancelOnAction(event);
+                
+            } catch (Exception e) {
+                alert.setContentText("Adding Course Failed");
+                alert.show();
+                
+            }
+
+        }
     }
 
     @FXML
@@ -126,36 +148,54 @@ public class ProgramDetailsController {
         // TODO
     }
 
-    void createColumn() {
+    @FXML
+    void btnCancelOnAction(ActionEvent event) {
 
-        for (int i = 1; i <= programDTO.getTotalSemester(); i++) {
+        txtSearch.setDisable(false);
 
-            final int semesterNumber = i;
-
-            TableColumn<ProgramDetailsDTO, String> colSemester = new TableColumn<>("Semester " + semesterNumber);
-
-            colSemester.setCellValueFactory(cellData -> {
-                ProgramDetailsDTO detailsDTO = cellData.getValue();
-
-                if (detailsDTO.getSemester() == semesterNumber) {
-                    return new SimpleStringProperty(detailsDTO.getCourse().toString());
-                } else {
-                    return null;
-                }
-            });
-
-            tblProgramCourse.getColumns().add(colSemester);
-        }
-
+        courseDTO = null;
+        btnAddOrRemove.setVisible(true);
+        btnAdd.setVisible(false);
+        btnCancel.setVisible(false);
+        btnRemove.setVisible(false);
+        lblSemester.setVisible(false);
+        choiceBoxSemester.setVisible(false);
+        tFlowCourse.getChildren().clear();
+        tFlowCourse.setVisible(false);
+        choiceBoxSemester.setValue(null);
     }
 
     void loadTables() {
+        hBoxCourseTable.getChildren().clear();
         alert.setHeaderText(null);
 
         try {
             List<ProgramDetailsDTO> tables = detailsService.loadTables(programDTO);
-            ObservableList<ProgramDetailsDTO> observableList = FXCollections.observableArrayList(tables);
-            tblProgramCourse.setItems(observableList);
+
+            for (int i = 0; i < programDTO.getTotalSemester(); i++) {
+
+                TextFlow textFlow = new TextFlow();
+                textFlow.setPrefWidth(300);
+                textFlow.setPrefHeight(hBoxCourseTable.getPrefHeight());
+
+                Text semester = new Text("Semester " + (i + 1) + "\n\n");
+
+                semester.setStyle(
+                        "-fx-font-weight: bold; -fx-border-color: black; -fx-border-width: 1px;");
+
+                textFlow.getChildren().add(semester);
+
+                for (ProgramDetailsDTO programDetailsDTO : tables) {
+
+                    if ((i + 1) == programDetailsDTO.getSemester()) {
+                        textFlow.getChildren().add(new Text(programDetailsDTO.getCourse().toString() + "\n"));
+                    }
+
+                }
+
+                textFlow.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-padding: 10px;");
+                hBoxCourseTable.getChildren().add(textFlow);
+            }
 
         } catch (Exception e) {
             alert.setContentText("Table Load Failed");
@@ -166,8 +206,8 @@ public class ProgramDetailsController {
 
     void loadChoiceBox() {
         ObservableList<Integer> observableList = FXCollections.observableArrayList();
-        for (int i = 0; i < programDTO.getTotalSemester(); i++) {
-            observableList.add((i + 1));
+        for (int i = 1; i <= programDTO.getTotalSemester(); i++) {
+            observableList.add(i);
         }
         choiceBoxSemester.setItems(observableList);
     }

@@ -221,7 +221,7 @@ public class ManageStudentController {
 
             } else {
                 tFlowStudent.setVisible(true);
-                tFlowStudent.getChildren().add(new Text(searchStudentDTO.toString()));
+                tFlowStudent.getChildren().add(new Text(searchStudentDTO.toShow()));
 
                 btnSave.setVisible(false);
                 btnUpdate.setVisible(true);

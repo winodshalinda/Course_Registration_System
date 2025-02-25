@@ -113,15 +113,20 @@ public class StudentDTO {
         this.rePassword = rePassword;
     }
 
+    public String toShow() {
+        return "Student ID: " + studentId
+                + "\nStudent Name: " + studentName
+                + "\nDate Of Brith: " + dob
+                + "\nProgram Of Study: " + program
+                + "\nYear: " + year
+                + "\nEmail: " + email
+                + "\nAddress:-\n" + address;
+    }
+
     @Override
     public String toString() {
-        return "Student ID: " + studentId 
-        + "\nStudent Name: " + studentName 
-        +"\nDate Of Brith: " + dob 
-        +"\nProgram Of Study: "+ program 
-        +"\nYear: " + year 
-        +"\nEmail: " + email 
-        +"\nAddress:-\n" + address;
+        return "StudentDTO [studentId=" + studentId + ", studentName=" + studentName + ", dob=" + dob + ", program="
+                + program + ", year=" + year + ", email=" + email + ", address=" + address + "]";
     }
 
 }

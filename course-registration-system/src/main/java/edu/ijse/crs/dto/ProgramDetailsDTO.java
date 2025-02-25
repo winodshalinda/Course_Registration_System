@@ -1,10 +1,21 @@
 package edu.ijse.crs.dto;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class ProgramDetailsDTO {
 
     private int semester;
     private CourseDTO course;
     private ProgramDTO program;
+
+    private final Map<Integer, StringProperty> semesterCourses = new HashMap<>();
+
+    public ProgramDetailsDTO() {
+    }
 
     public ProgramDetailsDTO(int semester, CourseDTO course, ProgramDTO program) {
         this.semester = semester;
@@ -39,6 +50,14 @@ public class ProgramDetailsDTO {
     @Override
     public String toString() {
         return "ProgramDetailsDTO [semester=" + semester + ", course=" + course + ", program=" + program + "]";
+    }
+
+    public void setCourseForSemester(int semester, String course) {
+        semesterCourses.put(semester, new SimpleStringProperty(course));
+    }
+
+    public StringProperty getCourseForSemester(int semester) {
+        return semesterCourses.getOrDefault(semester, new SimpleStringProperty(""));
     }
 
 }

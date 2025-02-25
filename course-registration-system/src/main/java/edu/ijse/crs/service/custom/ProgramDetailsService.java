@@ -11,4 +11,6 @@ public interface ProgramDetailsService extends SuperService{
     List<ProgramDetailsDTO> loadTables(ProgramDTO programDTO)throws Exception;
 
     CourseDTO searchCourse(String text) throws Exception;
+
+    String addCourse(ProgramDetailsDTO programDetailsDTO) throws Exception;
 }

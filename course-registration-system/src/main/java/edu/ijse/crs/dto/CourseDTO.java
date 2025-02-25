@@ -60,12 +60,17 @@ public class CourseDTO {
         this.departmentDTO = departmentDTO;
     }
 
-    @Override
-    public String toString() {
+    public String toShow() {
         return "Course ID: " + courseId + 
         "\nCourse Title: " + courseTitle +
         "\nEnrollment Capacity: "+ enrollmentCapacity +
         "\nCredit Hours: " + creditHours+"\n";
     }
+
+    @Override
+    public String toString() {
+        return courseId +" ("+courseTitle+")"+" ("+creditHours+")";
+    }
+    
     
 }
