@@ -1,4 +1,4 @@
-package edu.ijse.crs.controller.adminUIController;
+package edu.ijse.crs.controller.adminUIControllers;
 
 import java.util.List;
 

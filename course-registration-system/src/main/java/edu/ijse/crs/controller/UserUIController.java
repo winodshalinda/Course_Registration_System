@@ -35,45 +35,79 @@ public class UserUIController {
             userDTO = userService.login(txtUserName.getText(), txtPassword.getText());
 
         } catch (Exception e) {
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Login Error");
             alert.setHeaderText(null);
             alert.setContentText(e.getMessage());
             alert.showAndWait();
+
             e.printStackTrace();
         }
+
         if (userDTO.getRole() != null) {
+
             Stage stage = (Stage) ancLoginUI.getScene().getWindow();
             stage.setResizable(true);
+
             ancLoginUI.getScene().getWindow().setWidth(1300.00);
             ancLoginUI.getScene().getWindow().setHeight(610.00);
             ancLoginUI.getChildren().clear();
+
             switch (userDTO.getRole()) {
+
                 case Role.ADMIN: {
+
                     URL resource = getClass().getResource("../view/AdminUI.fxml");
                     Parent node = FXMLLoader.load(resource);
+
                     ancLoginUI.getChildren().add(node);
                     AnchorPane.setTopAnchor(node, 0.0);
                     AnchorPane.setBottomAnchor(node, 0.0);
                     AnchorPane.setLeftAnchor(node, 0.0);
                     AnchorPane.setRightAnchor(node, 0.0);
+
                     stage.setTitle("Admin Panel");
                     stage.centerOnScreen();
                 }
                     break;
+
                 case Role.FACULTY: {
-                    System.out.println(userDTO.getFacultyDTO());
+
                     URL resource = getClass().getResource("../view/FacultyUI.fxml");
                     FXMLLoader fxmlLoader = new FXMLLoader(resource);
                     Parent node = fxmlLoader.load();
+
                     FacultyUIController controller = fxmlLoader.getController();
                     controller.setFacultyDTO(userDTO.getFacultyDTO());
+
                     ancLoginUI.getChildren().add(node);
                     AnchorPane.setTopAnchor(node, 0.0);
                     AnchorPane.setBottomAnchor(node, 0.0);
                     AnchorPane.setLeftAnchor(node, 0.0);
                     AnchorPane.setRightAnchor(node, 0.0);
+
                     stage.setTitle("Faculty Panel");
+                    stage.centerOnScreen();
+                }
+                    break;
+
+                case Role.STUDENT: {
+
+                    URL resource = getClass().getResource("../view/StudentUI.fxml");
+                    FXMLLoader fxmlLoader = new FXMLLoader(resource);
+                    Parent node = fxmlLoader.load();
+
+                    StudentUIController controller = fxmlLoader.getController();
+                    controller.setStudentDTO(userDTO.getStudentDTO());
+
+                    ancLoginUI.getChildren().add(node);
+                    AnchorPane.setTopAnchor(node, 0.0);
+                    AnchorPane.setBottomAnchor(node, 0.0);
+                    AnchorPane.setLeftAnchor(node, 0.0);
+                    AnchorPane.setRightAnchor(node, 0.0);
+
+                    stage.setTitle("Student Panel");
                     stage.centerOnScreen();
                 }
                     break;

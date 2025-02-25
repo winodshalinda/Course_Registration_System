@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="-Infinity" minWidth="741.0" prefHeight="675.0" prefWidth="937.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.crs.controller.adminUIController.ManageFacultyController">
+<AnchorPane minHeight="-Infinity" minWidth="741.0" prefHeight="675.0" prefWidth="937.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.crs.controller.adminUIControllers.ManageFacultyController">
    <children>
       <VBox layoutX="14.0" prefHeight="675.0" prefWidth="463.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

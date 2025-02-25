@@ -1,4 +1,4 @@
-package edu.ijse.crs.controller.adminUIController;
+package edu.ijse.crs.controller.adminUIControllers;
 
 import edu.ijse.crs.dto.ProgramDTO;
 import edu.ijse.crs.dto.StudentDTO;

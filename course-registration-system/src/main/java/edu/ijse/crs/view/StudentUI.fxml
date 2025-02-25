@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.crs.controller.StudentUIController">
+   <children>
+      <Label alignment="CENTER" minHeight="43.0" minWidth="-Infinity" prefHeight="43.0" prefWidth="600.0" style="-fx-background-color: green;" text="Course Registration System" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_LEFT" layoutY="43.0" prefHeight="35.0" prefWidth="600.0" spacing="20.0" style="-fx-background-color: #22c60d;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="43.0">
+         <children>
+            <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnViewEnrollmentOnAction" prefHeight="27.0" prefWidth="144.0" style="-fx-border-color: white; -fx-border-style: solid; -fx-background-radius: 50px; -fx-border-radius: 50px; -fx-background-color: #22c60d;" text="View Your Enrollment" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnRegisterCourseOnAction" prefHeight="27.0" prefWidth="147.0" style="-fx-border-color: white; -fx-border-style: solid; -fx-border-radius: 50px; -fx-background-color: #22c60d;" text="Register For Courses" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </HBox>
+      <ScrollPane fx:id="scrollPane" layoutX="200.0" layoutY="78.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
+        <content>
+          <AnchorPane fx:id="ancPane" minHeight="0.0" minWidth="0.0" prefHeight="718.0" prefWidth="1265.0" />
+        </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
