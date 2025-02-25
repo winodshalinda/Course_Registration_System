@@ -201,7 +201,9 @@ public class EntityDTOConversion {
     }
 
     public static SemesterDTO toSemesterDTO(SemesterEntity entity) {
-
+        if(entity==null){
+            return null;
+        }
         FacultyDTO facultyDTO = toFacultyDTO(entity.getFaculty());
 
         return new SemesterDTO(

@@ -9,6 +9,7 @@ import edu.ijse.crs.dao.CrudUtil;
 import edu.ijse.crs.dao.custom.SemesterDao;
 import edu.ijse.crs.entity.FacultyEntity;
 import edu.ijse.crs.entity.SemesterEntity;
+import edu.ijse.crs.entity.embeddableId.SemesterId;
 
 public class SemesterDaoImpl extends CrudUtil<SemesterEntity, String, Session> implements SemesterDao {
 
@@ -18,7 +19,7 @@ public class SemesterDaoImpl extends CrudUtil<SemesterEntity, String, Session> i
 
     @Override
     public List<SemesterEntity> getAllWhereFaculty(FacultyEntity facultyEntity, Session session) throws Exception {
-        
+
         String facultyId = facultyEntity.getFacultyId();
 
         Query<SemesterEntity> query = session
@@ -28,4 +29,10 @@ public class SemesterDaoImpl extends CrudUtil<SemesterEntity, String, Session> i
         return query.list();
     }
 
+    public SemesterEntity searchSemester(SemesterId id, Session session) {
+
+        SemesterEntity semesterEntity = session.get(SemesterEntity.class, id);
+
+        return semesterEntity;
+    }
 }

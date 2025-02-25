@@ -11,6 +11,17 @@ public class SemesterDTO {
     private LocalDate endDate;
     private FacultyDTO faculty;
 
+    
+
+    public SemesterDTO() {
+    }
+
+    public SemesterDTO(int year, PartOfSemester partOfSemester, FacultyDTO faculty) {
+        this.year = year;
+        this.partOfSemester = partOfSemester;
+        this.faculty = faculty;
+    }
+
     public SemesterDTO(int year, PartOfSemester partOfSemester, LocalDate starDate, LocalDate endDate,
             FacultyDTO faculty) {
         this.year = year;

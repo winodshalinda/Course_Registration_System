@@ -15,7 +15,7 @@
       <Label layoutX="14.0" layoutY="70.0" prefHeight="41.0" prefWidth="100.0" text="Part Of Year" />
       <Label layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="100.0" text="Year" />
       <TextField fx:id="txtYear" layoutX="114.0" layoutY="14.0" prefHeight="41.0" prefWidth="187.0" />
-      <ChoiceBox fx:id="cbPartYear" layoutX="114.0" layoutY="78.0" prefHeight="24.0" prefWidth="45.0" />
+      <ChoiceBox fx:id="cbPartYear" layoutX="114.0" layoutY="78.0" prefHeight="25.0" prefWidth="80.0" />
       <Label layoutX="14.0" layoutY="128.0" prefHeight="41.0" prefWidth="100.0" text="Start Date" />
       <Label layoutX="14.0" layoutY="184.0" prefHeight="41.0" prefWidth="100.0" text="End Date" />
       <TableView fx:id="tblSemester" layoutX="14.0" layoutY="324.0" prefHeight="397.0" prefWidth="538.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="14.0">
@@ -32,8 +32,8 @@
       <DatePicker fx:id="dpStartDate" layoutX="114.0" layoutY="128.0" prefHeight="41.0" prefWidth="174.0" />
       <DatePicker fx:id="dpEndDate" layoutX="114.0" layoutY="184.0" prefHeight="41.0" prefWidth="174.0" />
       <TextField fx:id="txtSearch" layoutX="484.0" layoutY="17.0" prefHeight="35.0" prefWidth="161.0" promptText="Search" />
-      <Button layoutX="722.0" layoutY="17.0" mnemonicParsing="false" onAction="#btnSearchOnAction" prefHeight="35.0" prefWidth="71.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-background-radius: 150px; -fx-border-radius: 150px;" text="Search" />
-      <ChoiceBox fx:id="cbSearchPartYear" layoutX="659.0" layoutY="22.0" prefHeight="24.0" prefWidth="45.0" />
+      <Button layoutX="760.0" layoutY="17.0" mnemonicParsing="false" onAction="#btnSearchOnAction" prefHeight="35.0" prefWidth="71.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-background-radius: 150px; -fx-border-radius: 150px;" text="Search" />
+      <ChoiceBox fx:id="cbSearchPartYear" layoutX="659.0" layoutY="22.0" prefHeight="24.0" prefWidth="80.0" />
       <Button fx:id="btnSave" layoutX="24.0" layoutY="265.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: green; -fx-background-radius: 50;" text="SAVE" textFill="WHITE" />
       <Button fx:id="btnCancel" layoutX="21.0" layoutY="265.0" mnemonicParsing="false" onAction="#btnCancelOnAction" prefHeight="35.0" prefWidth="71.0" style="-fx-background-color: white; -fx-border-style: solid; -fx-background-radius: 150px; -fx-border-radius: 150px;" text="Cancel" visible="false" />
       <Button fx:id="btnUpdate" layoutX="121.0" layoutY="265.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="35.0" prefWidth="65.0" style="-fx-background-color: blue; -fx-background-radius: 50;" text="UPDATE" textFill="WHITE" visible="false" />

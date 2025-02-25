@@ -38,19 +38,19 @@ public class ManageFacultyTremController {
     private Button btnUpdate;
 
     @FXML
-    private ChoiceBox<?> cbPartYear;
+    private ChoiceBox<PartOfSemester> cbPartYear;
 
     @FXML
-    private ChoiceBox<?> cbSearchPartYear;
+    private ChoiceBox<PartOfSemester> cbSearchPartYear;
 
     @FXML
-    private TableColumn<SemesterDTO,LocalDate> colEndDate;
+    private TableColumn<SemesterDTO, LocalDate> colEndDate;
 
     @FXML
     private TableColumn<SemesterDTO, PartOfSemester> colPartYear;
 
     @FXML
-    private TableColumn<SemesterDTO,LocalDate> colStartDate;
+    private TableColumn<SemesterDTO, LocalDate> colStartDate;
 
     @FXML
     private TableColumn<SemesterDTO, Integer> colYear;
@@ -72,6 +72,8 @@ public class ManageFacultyTremController {
 
     private FacultyDTO facultyDTO;
 
+    private SemesterDTO searchSemester;
+
     Alert alert = new Alert(AlertType.INFORMATION);
 
     SemesterService semesterService = (SemesterService) ServiceFactory.getInstance().getService(ServiceTypes.SEMESTER);
@@ -84,35 +86,114 @@ public class ManageFacultyTremController {
     public void initialize() {
         alert.setHeaderText(null);
 
+        loadChoiseBox();
+
         colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         colPartYear.setCellValueFactory(new PropertyValueFactory<>("partOfSemester"));
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("starDate"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+
+        // Only allows numeric input in txtYear field
+        txtYear.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                txtYear.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+
+        // Only allows numeric input in txtSearch field
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                txtSearch.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
     }
 
     @FXML
     void btnCancelOnAction(ActionEvent event) {
+        
+        btnSave.setVisible(true);
+        btnUpdate.setVisible(false);
+        btnDelete.setVisible(false);
+        btnCancel.setVisible(false);
+        txtYear.setDisable(false);
+        cbPartYear.setDisable(false);
 
+        txtYear.clear();
+        cbPartYear.setValue(null);
+        dpStartDate.setValue(null);
+        dpEndDate.setValue(null);
+        searchSemester = null;
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-
+        // TODO
     }
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
+        if (txtYear.getText().isEmpty() || cbPartYear.getValue() == null ||
+                dpStartDate.getValue() == null || dpEndDate.getValue() == null) {
 
+            alert.setContentText("All Field Required");
+            alert.show();
+            return;
+        }
+
+        SemesterDTO semesterDTO = new SemesterDTO(Integer.parseInt(
+                txtYear.getText()),
+                cbPartYear.getValue(),
+                dpStartDate.getValue(),
+                dpEndDate.getValue(),
+                facultyDTO);
+
+        String saveSemester = semesterService.saveSemester(semesterDTO);
+
+        if (saveSemester.equals("Semester Saved")) {
+            btnCancelOnAction(event);
+            loadTable();
+        }
+        alert.setContentText(saveSemester);
+        alert.show();
     }
 
     @FXML
     void btnSearchOnAction(ActionEvent event) {
+        if (txtSearch.getText().isEmpty() || cbSearchPartYear.getValue() == null) {
+            alert.setContentText("Search And Semester Field Needed");
+            alert.show();
+            return;
+        }
+        SemesterDTO semesterDTO = new SemesterDTO(
+                Integer.parseInt(txtSearch.getText()),
+                cbSearchPartYear.getValue(),
+                facultyDTO);
+
+        searchSemester = semesterService.searchSemester(semesterDTO);
+
+        if (searchSemester == null) {
+            alert.setContentText("Semester Not Found");
+            alert.show();
+            return;
+        }
+
+        txtYear.setText(Integer.toString(searchSemester.getYear()));
+        cbPartYear.setValue(searchSemester.getPartOfSemester());
+        dpStartDate.setValue(searchSemester.getStarDate());
+        dpEndDate.setValue(searchSemester.getEndDate());
+
+        btnSave.setVisible(false);
+        btnUpdate.setVisible(true);
+        btnDelete.setVisible(true);
+        btnCancel.setVisible(true);
+        txtYear.setDisable(true);
+        cbPartYear.setDisable(true);
 
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-
+        // TODO
     }
 
     void loadTable() {
@@ -130,4 +211,10 @@ public class ManageFacultyTremController {
 
     }
 
+    void loadChoiseBox() {
+        ObservableList<PartOfSemester> observableList = FXCollections.observableArrayList();
+        observableList.addAll(PartOfSemester.FRIST, PartOfSemester.SECONED);
+        cbPartYear.setItems(observableList);
+        cbSearchPartYear.setItems(observableList);
+    }
 }

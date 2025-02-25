@@ -10,4 +10,8 @@ public interface SemesterService extends SuperService {
 
     List<SemesterDTO> loadTable(FacultyDTO facultyDTO) throws Exception;
 
+    String saveSemester(SemesterDTO semesterDTO);
+
+    SemesterDTO searchSemester(SemesterDTO semesterDTO);
+
 }
