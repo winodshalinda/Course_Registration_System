@@ -16,4 +16,6 @@ public interface EnrollmentService extends SuperService{
     List<ProgramDetailsDTO> getStudentProgramCourse(StudentDTO studentDTO) throws Exception;
 
     CourseDTO searchCourse(String id, List<ProgramDetailsDTO> detailsDTOs) throws Exception;
+
+    String dropCourse(StudentDTO studentDTO, CourseDTO searchCourse, SemesterDTO availableEnrollSemester);
 }

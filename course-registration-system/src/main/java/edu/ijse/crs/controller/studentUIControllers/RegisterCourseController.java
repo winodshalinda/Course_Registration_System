@@ -83,7 +83,11 @@ public class RegisterCourseController {
 
     @FXML
     void btnDropOnAction(ActionEvent event) {
-        // TODO
+
+        String dropCourse=enrollmentService.dropCourse(studentDTO, searchCourse,availableEnrollSemester);
+        alert.setContentText(dropCourse);
+        alert.show();
+
     }
 
     @FXML

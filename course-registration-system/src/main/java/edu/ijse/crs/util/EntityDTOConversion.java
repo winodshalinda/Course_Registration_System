@@ -108,6 +108,9 @@ public class EntityDTOConversion {
     }
 
     public static CourseDTO toCourseDTO(CourseEntity entity) {
+        if(entity==null){
+            return null;
+        }
         return new CourseDTO(entity.getCourseId(),
                 entity.getCourseTitle(),
                 entity.getEnrollmentCapacity(),

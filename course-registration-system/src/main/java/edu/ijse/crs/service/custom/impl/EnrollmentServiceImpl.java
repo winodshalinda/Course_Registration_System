@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import org.hibernate.Session;
 
 import edu.ijse.crs.dao.DaoFactory;
@@ -25,6 +27,7 @@ import edu.ijse.crs.entity.ProgramDetailsEntity;
 import edu.ijse.crs.entity.ProgramEntity;
 import edu.ijse.crs.entity.SemesterEntity;
 import edu.ijse.crs.entity.EnrollmentEntity.EnrollmentStatus;
+import edu.ijse.crs.entity.embeddableId.EnrollmentId;
 import edu.ijse.crs.entity.embeddableId.SemesterId;
 import edu.ijse.crs.exception.CustomException;
 import edu.ijse.crs.service.custom.EnrollmentService;
@@ -98,10 +101,23 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 session.getTransaction().rollback();
                 return "Enroll Failed";
             }
+
+        } catch (PersistenceException e) {
+
+            session.getTransaction().rollback();
+
+            if (e.getCause().getMessage().equals("could not execute statement")) {
+                return "You Already Enrolled";
+            }
+            return e.getCause().getMessage();
+
         } catch (Exception e) {
             session.getTransaction().rollback();
             e.printStackTrace();
             return "Enroll Save Error";
+            
+        } finally {
+            session.close();
         }
     }
 
@@ -227,6 +243,23 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
 
         return courseDTO;
+    }
+
+    @Override
+    public String dropCourse(StudentDTO studentDTO, CourseDTO searchCourse, SemesterDTO availableEnrollSemester) {
+        Session session=HibernateUtil.getSession();
+        session.beginTransaction();
+
+       EnrollmentId enrollmentId = new EnrollmentId();
+       enrollmentId.setCourse(EntityDTOConversion.toCourseEntity(searchCourse));
+       enrollmentId.setSemester(EntityDTOConversion.toSemesterEntity(availableEnrollSemester));
+       enrollmentId.setStudent(EntityDTOConversion.toStudentEntity(studentDTO));
+
+       enrollmentDao.deleteEnrollment(enrollmentId, session);
+
+       session.getTransaction().commit();
+       
+       return "Course Droped";
     }
 
 }
