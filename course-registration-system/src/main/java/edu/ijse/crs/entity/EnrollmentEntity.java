@@ -30,11 +30,24 @@ public class EnrollmentEntity {
     private SemesterEntity semester;
 
     private int grade;
-    
+
     @Enumerated(EnumType.STRING)
     private EnrollmentStatus status;
 
     public EnrollmentEntity() {
+    }
+
+    public EnrollmentEntity(StudentEntity student, CourseEntity course, SemesterEntity semester,
+            EnrollmentStatus status) {
+                
+        this.id = new EnrollmentId();
+        this.id.setCourse(course);
+        this.id.setSemester(semester);
+        this.id.setStudent(student);
+        this.student = student;
+        this.course = course;
+        this.semester = semester;
+        this.status = status;
     }
 
     public StudentEntity getStudent() {

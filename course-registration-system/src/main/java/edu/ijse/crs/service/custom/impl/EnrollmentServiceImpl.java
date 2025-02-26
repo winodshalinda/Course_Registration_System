@@ -10,6 +10,7 @@ import edu.ijse.crs.dao.DaoFactory;
 import edu.ijse.crs.dao.DaoFactory.DaoTypes;
 import edu.ijse.crs.dao.custom.CourseDao;
 import edu.ijse.crs.dao.custom.EnrollmentDao;
+import edu.ijse.crs.dao.custom.PrerequisitesDao;
 import edu.ijse.crs.dao.custom.ProgramDetailsDao;
 import edu.ijse.crs.dao.custom.SemesterDao;
 import edu.ijse.crs.dto.CourseDTO;
@@ -19,9 +20,11 @@ import edu.ijse.crs.dto.SemesterDTO;
 import edu.ijse.crs.dto.StudentDTO;
 import edu.ijse.crs.entity.CourseEntity;
 import edu.ijse.crs.entity.EnrollmentEntity;
+import edu.ijse.crs.entity.PrerequisitesEntity;
 import edu.ijse.crs.entity.ProgramDetailsEntity;
 import edu.ijse.crs.entity.ProgramEntity;
 import edu.ijse.crs.entity.SemesterEntity;
+import edu.ijse.crs.entity.EnrollmentEntity.EnrollmentStatus;
 import edu.ijse.crs.entity.embeddableId.SemesterId;
 import edu.ijse.crs.exception.CustomException;
 import edu.ijse.crs.service.custom.EnrollmentService;
@@ -34,11 +37,72 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     SemesterDao semesterDao = (SemesterDao) DaoFactory.getInstance().getDao(DaoTypes.SEMESTER);
     ProgramDetailsDao detailsDao = (ProgramDetailsDao) DaoFactory.getInstance().getDao(DaoTypes.PROGRAMDEATAILS);
     CourseDao courseDao = (CourseDao) DaoFactory.getInstance().getDao(DaoTypes.COURSE);
+    PrerequisitesDao prerequisitesDao = (PrerequisitesDao) DaoFactory.getInstance().getDao(DaoTypes.PREREQUISITES);
 
     @Override
-    public String enrollCourse(StudentDTO studentDTO, CourseDTO courseDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enrollCourse'");
+    public String enrollCourse(StudentDTO studentDTO, CourseDTO courseDTO, SemesterDTO semesterDTO) {
+
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        List<EnrollmentEntity> studentEnrollmet = getStudentEnrollmet(studentDTO);
+        CourseEntity courseEntity = EntityDTOConversion.toCourseEntity(courseDTO);
+
+        List<PrerequisitesEntity> allWhereCourse;
+        try {
+            allWhereCourse = prerequisitesDao.getAllWhereCourse(courseEntity, session);
+
+            // cheack prerequisite course is complete
+            boolean isCompleteAllPrerequisite = true;
+
+            for (PrerequisitesEntity prerequisitesEntity : allWhereCourse) {
+
+                CourseEntity course = prerequisitesEntity.getPrerequisitesCourse();
+
+                boolean isCompletePrerequisite = false;
+
+                for (EnrollmentEntity enrollment : studentEnrollmet) {
+
+                    if (enrollment.getCourse().getCourseId().equals(course.getCourseId())) {
+
+                        if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
+                            isCompletePrerequisite = true;
+                            break;
+                        }
+
+                    }
+                }
+
+                if (!isCompletePrerequisite) {
+                    isCompleteAllPrerequisite = false;
+                }
+            }
+
+            if (!isCompleteAllPrerequisite) {
+                return "Minimum Prerequisite Course Not Completed";
+            }
+
+            EnrollmentEntity enrollmentEntity = new EnrollmentEntity(
+                    EntityDTOConversion.toStudentEntity(studentDTO),
+                    courseEntity,
+                    EntityDTOConversion.toSemesterEntity(semesterDTO),
+                    EnrollmentStatus.ENROLLED);
+
+            boolean save = enrollmentDao.save(enrollmentEntity, session);
+
+            if (save) {
+                session.getTransaction().commit();
+                return "Enrolled";
+
+            } else {
+                session.getTransaction().rollback();
+                return "Enroll Failed";
+            }
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+            return "Enroll Save Error";
+        }
     }
 
     List<EnrollmentEntity> getStudentEnrollmet(StudentDTO studentDTO) {
@@ -155,7 +219,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
         // cheack course is in student program
         boolean isAvailableInStudentProgram = detailsDTOs.stream()
-                .anyMatch(programDetailsDTO -> programDetailsDTO.getCourse().getCourseId().equals(courseDTO.getCourseId()));
+                .anyMatch(programDetailsDTO -> programDetailsDTO.getCourse().getCourseId()
+                        .equals(courseDTO.getCourseId()));
 
         if (!isAvailableInStudentProgram) {
             throw new CustomException("Course Not Available For Your Progrm");

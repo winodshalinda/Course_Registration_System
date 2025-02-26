@@ -9,7 +9,7 @@ import edu.ijse.crs.dto.StudentDTO;
 import edu.ijse.crs.service.SuperService;
 
 public interface EnrollmentService extends SuperService{
-    String enrollCourse(StudentDTO studentDTO, CourseDTO courseDTO);
+    String enrollCourse(StudentDTO studentDTO, CourseDTO courseDTO, SemesterDTO semesterDTO);
 
     SemesterDTO canEnroll(StudentDTO studentDTO);
 

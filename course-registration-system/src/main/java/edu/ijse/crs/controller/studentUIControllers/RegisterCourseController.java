@@ -69,7 +69,16 @@ public class RegisterCourseController {
 
     @FXML
     void btnCancelOnAction(ActionEvent event) {
-        // TODO
+        textFlowCourse.getChildren().clear();
+
+        textFlowCourse.setVisible(false);
+        btnEnroll.setVisible(false);
+        btnDrop.setVisible(false);
+        btnCancel.setVisible(false);
+        btnSearch.setVisible(true);
+        txtSearch.setDisable(false);
+
+
     }
 
     @FXML
@@ -79,23 +88,27 @@ public class RegisterCourseController {
 
     @FXML
     void btnEnrollOnAction(ActionEvent event) {
-        // TODO
+
+        String enrollCourse = enrollmentService.enrollCourse(studentDTO, searchCourse,availableEnrollSemester);
+        alert.setContentText(enrollCourse);
+        alert.show();
+
     }
 
     @FXML
     void btnSearchCourseOnAction(ActionEvent event) {
 
-        if(txtSearch.getText().isEmpty()){
+        if (txtSearch.getText().isEmpty()) {
             alert.setContentText("Search Field Empty");
             alert.show();
             return;
         }
 
         try {
-            //search course
-            searchCourse=enrollmentService.searchCourse(txtSearch.getText(),detailsDTOs);
+            // search course
+            searchCourse = enrollmentService.searchCourse(txtSearch.getText(), detailsDTOs);
 
-            if(searchCourse==null){
+            if (searchCourse == null) {
                 alert.setContentText("Course Not Found");
                 alert.show();
                 return;
@@ -106,12 +119,13 @@ public class RegisterCourseController {
             btnDrop.setVisible(true);
             btnCancel.setVisible(true);
             btnSearch.setVisible(false);
+            txtSearch.setDisable(true);
 
             textFlowCourse.getChildren().clear();
             textFlowCourse.getChildren().add(new Text(searchCourse.toShow()));
 
-        }catch(CustomException e){
-            searchCourse=null;
+        } catch (CustomException e) {
+            searchCourse = null;
             alert.setContentText(e.getMessage());
             alert.show();
 
