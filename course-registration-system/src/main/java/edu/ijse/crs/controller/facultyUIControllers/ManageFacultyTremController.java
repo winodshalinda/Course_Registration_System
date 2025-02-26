@@ -5,7 +5,6 @@ import java.util.List;
 
 import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.dto.SemesterDTO;
-import edu.ijse.crs.entity.SemesterEntity.PartOfSemester;
 import edu.ijse.crs.service.ServiceFactory;
 import edu.ijse.crs.service.ServiceFactory.ServiceTypes;
 import edu.ijse.crs.service.custom.SemesterService;
@@ -38,16 +37,16 @@ public class ManageFacultyTremController {
     private Button btnUpdate;
 
     @FXML
-    private ChoiceBox<PartOfSemester> cbPartYear;
+    private ChoiceBox<String> cbPartYear;
 
     @FXML
-    private ChoiceBox<PartOfSemester> cbSearchPartYear;
+    private ChoiceBox<String> cbSearchPartYear;
 
     @FXML
     private TableColumn<SemesterDTO, LocalDate> colEndDate;
 
     @FXML
-    private TableColumn<SemesterDTO, PartOfSemester> colPartYear;
+    private TableColumn<SemesterDTO, String> colPartYear;
 
     @FXML
     private TableColumn<SemesterDTO, LocalDate> colStartDate;
@@ -128,7 +127,7 @@ public class ManageFacultyTremController {
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         String deleteSemester = semesterService.deleteSemester(searchSemester);
-        if(deleteSemester.equals("Semester Deleted")){
+        if (deleteSemester.equals("Semester Deleted")) {
             btnCancelOnAction(event);
             loadTable();
         }
@@ -239,8 +238,9 @@ public class ManageFacultyTremController {
     }
 
     void loadChoiseBox() {
-        ObservableList<PartOfSemester> observableList = FXCollections.observableArrayList();
-        observableList.addAll(PartOfSemester.FRIST, PartOfSemester.SECONED);
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+        observableList.removeAll();
+        observableList.addAll("FIRST", "SECOND");
         cbPartYear.setItems(observableList);
         cbSearchPartYear.setItems(observableList);
     }

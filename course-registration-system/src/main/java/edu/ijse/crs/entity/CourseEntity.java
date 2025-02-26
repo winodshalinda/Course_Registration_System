@@ -2,6 +2,7 @@ package edu.ijse.crs.entity;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 @Table(name = "course")
 public class CourseEntity {
     @Id
+    @Column(length = 10)
     private String courseId;
     private String courseTitle;
     private int enrollmentCapacity;
@@ -23,6 +25,8 @@ public class CourseEntity {
     private List<PrerequisitesEntity> prerequisites;
     @OneToMany(mappedBy = "course")
     private List<ProgramDetailsEntity> programDetails;
+    @OneToMany(mappedBy = "course")
+    private List<EnrollmentEntity> enrollment;
 
     public CourseEntity() {
     }

@@ -192,11 +192,11 @@ public class EntityDTOConversion {
         FacultyEntity facultyEntity = toFacultyEntity(dto.getFaculty());
 
         return new SemesterEntity(
-                dto.getYear(),
-                dto.getPartOfSemester(),
-                dto.getStarDate(),
-                dto.getEndDate(),
-                facultyEntity);
+            dto.getYear(), 
+            dto.getStarDate(), 
+            dto.getEndDate(), 
+            dto.getPartOfSemester(), 
+            facultyEntity);
 
     }
 
@@ -205,10 +205,13 @@ public class EntityDTOConversion {
             return null;
         }
         FacultyDTO facultyDTO = toFacultyDTO(entity.getFaculty());
-
+        String p=entity.getEmbeddedId().getPartOfSemester();
+        
+        System.out.println(p);
+        
         return new SemesterDTO(
                 entity.getEmbeddedId().getYear(),
-                entity.getEmbeddedId().getPartOfSemester(),
+                p,
                 entity.getStartDate(),
                 entity.getEndDate(),
                 facultyDTO);

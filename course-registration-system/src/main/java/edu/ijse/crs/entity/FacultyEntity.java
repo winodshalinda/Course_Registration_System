@@ -13,7 +13,9 @@ import javax.persistence.Table;
 @Table(name = "faculty")
 public class FacultyEntity {
     @Id
+    @Column(length = 10)
     private String facultyId;
+    
     @Column(nullable = false)
     private String facultyName;
 

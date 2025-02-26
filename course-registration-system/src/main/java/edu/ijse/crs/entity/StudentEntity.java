@@ -1,11 +1,13 @@
 package edu.ijse.crs.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,6 +28,9 @@ public class StudentEntity {
 
     @OneToOne(mappedBy = "student")
     private UserEntity user;
+
+    @OneToMany(mappedBy = "student")
+    private List<EnrollmentEntity> enrollment;
 
     public StudentEntity() {
     }

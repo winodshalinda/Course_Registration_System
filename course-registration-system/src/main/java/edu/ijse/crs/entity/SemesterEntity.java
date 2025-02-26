@@ -1,11 +1,13 @@
 package edu.ijse.crs.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import edu.ijse.crs.entity.embeddableId.SemesterId;
@@ -13,6 +15,7 @@ import edu.ijse.crs.entity.embeddableId.SemesterId;
 @Entity
 @Table(name = "semester")
 public class SemesterEntity {
+
     @EmbeddedId
     private SemesterId embeddedId;
 
@@ -23,17 +26,10 @@ public class SemesterEntity {
     @MapsId("faculty")
     private FacultyEntity faculty;
 
-    public SemesterEntity() {
-    }
+    @OneToMany(mappedBy = "semester")
+    private List<EnrollmentEntity> enrollment;
 
-    public SemesterEntity(int year, PartOfSemester partOfSemester, LocalDate startDate, LocalDate endDate, FacultyEntity faculty) {
-        this.embeddedId = new SemesterId();
-        this.embeddedId.setYear(year);
-        this.embeddedId.setPartOfSemester(partOfSemester);
-        this.embeddedId.setFaculty(faculty);
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.faculty = faculty;
+    public SemesterEntity() {
     }
 
     public SemesterId getEmbeddedId() {
@@ -68,7 +64,16 @@ public class SemesterEntity {
         this.faculty = faculty;
     }
 
-    public enum PartOfSemester {
-        FRIST, SECONED
+    public SemesterEntity(int year, LocalDate startDate, LocalDate endDate, String partOfSemester,
+            FacultyEntity faculty) {
+                
+        this.embeddedId = new SemesterId();
+        this.embeddedId.setYear(year);
+        this.embeddedId.setPartOfSemester(partOfSemester);
+        this.embeddedId.setFaculty(faculty);
+
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.faculty = faculty;
     }
 }

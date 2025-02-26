@@ -2,11 +2,10 @@ package edu.ijse.crs.dto;
 
 import java.time.LocalDate;
 
-import edu.ijse.crs.entity.SemesterEntity.PartOfSemester;
-
 public class SemesterDTO {
+    
     private int year;
-    private PartOfSemester partOfSemester;
+    private String partOfSemester;
     private LocalDate starDate;
     private LocalDate endDate;
     private FacultyDTO faculty;
@@ -16,13 +15,13 @@ public class SemesterDTO {
     public SemesterDTO() {
     }
 
-    public SemesterDTO(int year, PartOfSemester partOfSemester, FacultyDTO faculty) {
+    public SemesterDTO(int year, String partOfSemester, FacultyDTO faculty) {
         this.year = year;
         this.partOfSemester = partOfSemester;
         this.faculty = faculty;
     }
 
-    public SemesterDTO(int year, PartOfSemester partOfSemester, LocalDate starDate, LocalDate endDate,
+    public SemesterDTO(int year, String partOfSemester, LocalDate starDate, LocalDate endDate,
             FacultyDTO faculty) {
         this.year = year;
         this.partOfSemester = partOfSemester;
@@ -39,11 +38,11 @@ public class SemesterDTO {
         this.year = year;
     }
 
-    public PartOfSemester getPartOfSemester() {
+    public String getPartOfSemester() {
         return partOfSemester;
     }
 
-    public void setPartOfSemester(PartOfSemester partOfSemester) {
+    public void setPartOfSemester(String partOfSemester) {
         this.partOfSemester = partOfSemester;
     }
 
@@ -73,8 +72,7 @@ public class SemesterDTO {
 
     @Override
     public String toString() {
-        return "SemesterDTO [year=" + year + ", partOfSemester=" + partOfSemester + ", starDate=" + starDate
-                + ", endDate=" + endDate + ", faculty=" + faculty + "]";
+        return year+" "+partOfSemester;
     }
-
+    
 }

@@ -13,9 +13,12 @@ import javax.persistence.Table;
 @Table(name = "department")
 public class DepartmentEntity {
     @Id
+    @Column(length = 10)
     private String departmentId;
+
     @Column(nullable = false)
     private String departmentName;
+    
     @ManyToOne
     private FacultyEntity faculty;
 

@@ -9,18 +9,28 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import edu.ijse.crs.entity.embeddableId.EnrollmentId;
+
 @Entity
 @Table(name = "enrollment")
 public class EnrollmentEntity {
+
     @EmbeddedId
     private EnrollmentId id;
+
     @ManyToOne
     @MapsId("student")
     private StudentEntity student;
+
     @ManyToOne
     @MapsId("course")
     private CourseEntity course;
+
+    @ManyToOne
+    @MapsId("semester")
+    private SemesterEntity semester;
+
     private int grade;
+    
     @Enumerated(EnumType.STRING)
     private EnrollmentStatus status;
 
@@ -59,12 +69,30 @@ public class EnrollmentEntity {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "EnrollmentEntity [student=" + student + ", course=" + course + ", grade=" + grade + ", status=" + status + "]";
-    }
-
     public enum EnrollmentStatus {
         COMPLETED, ENROLLED
     }
+
+    public EnrollmentId getId() {
+        return id;
+    }
+
+    public void setId(EnrollmentId id) {
+        this.id = id;
+    }
+
+    public SemesterEntity getSemester() {
+        return semester;
+    }
+
+    public void setSemester(SemesterEntity semester) {
+        this.semester = semester;
+    }
+
+    @Override
+    public String toString() {
+        return "EnrollmentEntity [id=" + id + ", student=" + student + ", course=" + course + ", semester=" + semester
+                + ", grade=" + grade + ", status=" + status + "]";
+    }
+
 }

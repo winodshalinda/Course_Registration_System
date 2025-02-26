@@ -3,39 +3,29 @@ package edu.ijse.crs.entity.embeddableId;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 
 import edu.ijse.crs.entity.FacultyEntity;
-import edu.ijse.crs.entity.SemesterEntity.PartOfSemester;
 
 @Embeddable
 public class SemesterId implements Serializable {
-    
-    @Enumerated(EnumType.STRING)
-    private PartOfSemester partOfSemester;
+
+    private int year;
+
+    private String partOfSemester;
+
     @ManyToOne
     private FacultyEntity faculty;
-    private int year;
 
     public SemesterId() {
     }
 
-    public PartOfSemester getPartOfSemester() {
+    public String getPartOfSemester() {
         return partOfSemester;
     }
 
-    public void setPartOfSemester(PartOfSemester partOfSemester) {
+    public void setPartOfSemester(String partOfSemester) {
         this.partOfSemester = partOfSemester;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     public FacultyEntity getFaculty() {
@@ -44,6 +34,14 @@ public class SemesterId implements Serializable {
 
     public void setFaculty(FacultyEntity faculty) {
         this.faculty = faculty;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     @Override
@@ -76,4 +74,5 @@ public class SemesterId implements Serializable {
             return false;
         return true;
     }
+
 }
