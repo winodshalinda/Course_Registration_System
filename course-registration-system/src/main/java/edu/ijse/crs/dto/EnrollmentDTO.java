@@ -64,4 +64,12 @@ public class EnrollmentDTO {
         return "EnrollmentDTO [studentDTO=" + studentDTO + ", courseDTO=" + courseDTO + ", semesterDTO=" + semesterDTO
                 + ", grade=" + grade + ", status=" + status + "]";
     }
+
+    public String toShow() {
+        return studentDTO.toShow() + "\n\n" +
+                "Course= " + courseDTO.toShow() + "\n" +
+                "Semester= " + semesterDTO.toString() + "\n" +
+                "Grade= " + grade + "\n" +
+                "Status= " + status + "\n";
+    }
 }
