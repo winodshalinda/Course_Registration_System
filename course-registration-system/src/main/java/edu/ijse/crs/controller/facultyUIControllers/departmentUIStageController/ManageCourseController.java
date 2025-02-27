@@ -306,7 +306,6 @@ public class ManageCourseController {
         txtCreditHours.clear();
         txtPrerequisites.clear();
         tFlowPrerequisites.getChildren().clear();
-        prerequisites = null;
     }
 
     public void refreshPrerequisites() {
