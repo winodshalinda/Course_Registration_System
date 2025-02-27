@@ -130,7 +130,7 @@ public class CourseServiceImpl implements CourseService {
         } else if (search.getDepartment().getDepartmentId().equalsIgnoreCase(departmentDTO.getDepartmentId())) {
             session.close();
             return EntityDTOConversion.toCourseDTO(search);
-            
+
         } else {
             session.close();
             throw new CustomException("Course Not Allowed This Departmnet");
@@ -235,6 +235,25 @@ public class CourseServiceImpl implements CourseService {
 
         } finally {
             session.close();
+        }
+    }
+
+    @Override
+    public CourseDTO searchCourse(String text) throws Exception {
+        Session session = HibernateUtil.getSession();
+
+        session.beginTransaction();
+        CourseEntity search = courseDao.search(text, session);
+        session.getTransaction().commit();
+
+        if (search == null) {
+            session.close();
+            throw new CustomException("Course Not Found");
+
+        } else {
+            session.close();
+            return EntityDTOConversion.toCourseDTO(search);
+
         }
     }
 }

@@ -21,4 +21,6 @@ public interface CourseService extends SuperService{
     String updateCourse(CourseDTO courseDTO, List<CourseDTO> prerequisites);
 
     String deleteCourse(CourseDTO courseDTO);
+
+    CourseDTO searchCourse(String text) throws Exception;
 }
