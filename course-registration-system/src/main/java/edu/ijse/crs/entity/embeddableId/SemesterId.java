@@ -75,4 +75,9 @@ public class SemesterId implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return year + " " + partOfSemester ;
+    }
+
 }

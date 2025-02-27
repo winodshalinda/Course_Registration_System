@@ -37,7 +37,7 @@ public class EnrollmentEntity {
     public EnrollmentEntity() {
     }
 
-    public EnrollmentEntity(StudentEntity student, CourseEntity course, SemesterEntity semester,
+    public EnrollmentEntity(StudentEntity student, CourseEntity course, SemesterEntity semester,int grade,
             EnrollmentStatus status) {
                 
         this.id = new EnrollmentId();
@@ -48,6 +48,7 @@ public class EnrollmentEntity {
         this.course = course;
         this.semester = semester;
         this.status = status;
+        this.grade=grade;
     }
 
     public StudentEntity getStudent() {

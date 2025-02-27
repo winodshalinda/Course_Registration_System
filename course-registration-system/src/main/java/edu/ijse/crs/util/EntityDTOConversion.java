@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.ijse.crs.dto.CourseDTO;
 import edu.ijse.crs.dto.DepartmentDTO;
+import edu.ijse.crs.dto.EnrollmentDTO;
 import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.dto.PrerequisitesDTO;
 import edu.ijse.crs.dto.ProgramDTO;
@@ -14,6 +15,7 @@ import edu.ijse.crs.dto.StudentDTO;
 import edu.ijse.crs.dto.UserDTO;
 import edu.ijse.crs.entity.CourseEntity;
 import edu.ijse.crs.entity.DepartmentEntity;
+import edu.ijse.crs.entity.EnrollmentEntity;
 import edu.ijse.crs.entity.FacultyEntity;
 import edu.ijse.crs.entity.PrerequisitesEntity;
 import edu.ijse.crs.entity.ProgramDetailsEntity;
@@ -108,7 +110,7 @@ public class EntityDTOConversion {
     }
 
     public static CourseDTO toCourseDTO(CourseEntity entity) {
-        if(entity==null){
+        if (entity == null) {
             return null;
         }
         return new CourseDTO(entity.getCourseId(),
@@ -195,28 +197,48 @@ public class EntityDTOConversion {
         FacultyEntity facultyEntity = toFacultyEntity(dto.getFaculty());
 
         return new SemesterEntity(
-            dto.getYear(), 
-            dto.getStarDate(), 
-            dto.getEndDate(), 
-            dto.getPartOfSemester(), 
-            facultyEntity);
+                dto.getYear(),
+                dto.getStarDate(),
+                dto.getEndDate(),
+                dto.getPartOfSemester(),
+                facultyEntity);
 
     }
 
     public static SemesterDTO toSemesterDTO(SemesterEntity entity) {
-        if(entity==null){
+        if (entity == null) {
             return null;
         }
         FacultyDTO facultyDTO = toFacultyDTO(entity.getFaculty());
-        String p=entity.getEmbeddedId().getPartOfSemester();
-        
+        String p = entity.getEmbeddedId().getPartOfSemester();
+
         System.out.println(p);
-        
+
         return new SemesterDTO(
                 entity.getEmbeddedId().getYear(),
                 p,
                 entity.getStartDate(),
                 entity.getEndDate(),
                 facultyDTO);
+    }
+
+    // Enrollment
+
+    public static EnrollmentEntity toEnrollmentEntity(EnrollmentDTO dto) {
+        CourseEntity courseEntity = toCourseEntity(dto.getCourseDTO());
+        SemesterEntity semesterEntity = toSemesterEntity(dto.getSemesterDTO());
+        StudentEntity studentEntity = toStudentEntity(dto.getStudentDTO());
+
+        return new EnrollmentEntity(studentEntity, courseEntity, semesterEntity, dto.getGrade(), dto.getStatus());
+    }
+
+    public static EnrollmentDTO toEnrollmentDTO(EnrollmentEntity entity) {
+
+        return new EnrollmentDTO(
+                toStudentDTO(entity.getStudent()),
+                toCourseDTO(entity.getCourse()),
+                toSemesterDTO(entity.getSemester()),
+                entity.getGrade(),
+                entity.getStatus());
     }
 }

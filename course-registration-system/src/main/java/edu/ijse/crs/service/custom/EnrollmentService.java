@@ -3,9 +3,11 @@ package edu.ijse.crs.service.custom;
 import java.util.List;
 
 import edu.ijse.crs.dto.CourseDTO;
+import edu.ijse.crs.dto.EnrollmentDTO;
 import edu.ijse.crs.dto.ProgramDetailsDTO;
 import edu.ijse.crs.dto.SemesterDTO;
 import edu.ijse.crs.dto.StudentDTO;
+import edu.ijse.crs.dto.VacanciesDTO;
 import edu.ijse.crs.service.SuperService;
 
 public interface EnrollmentService extends SuperService{
@@ -18,4 +20,8 @@ public interface EnrollmentService extends SuperService{
     CourseDTO searchCourse(String id, List<ProgramDetailsDTO> detailsDTOs) throws Exception;
 
     String dropCourse(StudentDTO studentDTO, CourseDTO searchCourse, SemesterDTO availableEnrollSemester);
+
+    List<EnrollmentDTO> loadTable(StudentDTO studentDTO);
+
+    List<VacanciesDTO> loadVacancies(StudentDTO studentDTO);
 }

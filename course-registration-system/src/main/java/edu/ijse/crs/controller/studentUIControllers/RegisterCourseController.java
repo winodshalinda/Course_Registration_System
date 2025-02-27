@@ -1,7 +1,9 @@
 package edu.ijse.crs.controller.studentUIControllers;
 
+import java.io.IOException;
 import java.util.List;
 
+import edu.ijse.crs.controller.studentUIControllers.stageController.VacanciesStageController;
 import edu.ijse.crs.dto.CourseDTO;
 import edu.ijse.crs.dto.ProgramDetailsDTO;
 import edu.ijse.crs.dto.SemesterDTO;
@@ -12,6 +14,8 @@ import edu.ijse.crs.service.ServiceFactory.ServiceTypes;
 import edu.ijse.crs.service.custom.EnrollmentService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 
 public class RegisterCourseController {
 
@@ -78,13 +83,12 @@ public class RegisterCourseController {
         btnSearch.setVisible(true);
         txtSearch.setDisable(false);
 
-
     }
 
     @FXML
     void btnDropOnAction(ActionEvent event) {
 
-        String dropCourse=enrollmentService.dropCourse(studentDTO, searchCourse,availableEnrollSemester);
+        String dropCourse = enrollmentService.dropCourse(studentDTO, searchCourse, availableEnrollSemester);
         alert.setContentText(dropCourse);
         alert.show();
 
@@ -93,7 +97,7 @@ public class RegisterCourseController {
     @FXML
     void btnEnrollOnAction(ActionEvent event) {
 
-        String enrollCourse = enrollmentService.enrollCourse(studentDTO, searchCourse,availableEnrollSemester);
+        String enrollCourse = enrollmentService.enrollCourse(studentDTO, searchCourse, availableEnrollSemester);
         alert.setContentText(enrollCourse);
         alert.show();
 
@@ -141,8 +145,21 @@ public class RegisterCourseController {
     }
 
     @FXML
-    void btnViewVacanciesOnAction(ActionEvent event) {
-        // TODO
+    void btnViewVacanciesOnAction(ActionEvent event) throws IOException {
+
+        Stage stage = new Stage();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                getClass().getResource("/edu/ijse/crs/view/studentUiPane/stage/VacanciesStage.fxml"));
+
+        stage.setScene(new Scene(fxmlLoader.load()));
+
+        VacanciesStageController controller = fxmlLoader.getController();
+        controller.setStudentDTO(studentDTO);
+        controller.setupStageCloseListener(stage);
+
+        stage.setTitle("Vacancies");
+        stage.show();
     }
 
     void getAvailableEnrollSemester() {

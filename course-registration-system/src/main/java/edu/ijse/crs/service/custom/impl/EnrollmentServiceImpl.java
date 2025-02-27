@@ -16,10 +16,12 @@ import edu.ijse.crs.dao.custom.PrerequisitesDao;
 import edu.ijse.crs.dao.custom.ProgramDetailsDao;
 import edu.ijse.crs.dao.custom.SemesterDao;
 import edu.ijse.crs.dto.CourseDTO;
+import edu.ijse.crs.dto.EnrollmentDTO;
 import edu.ijse.crs.dto.FacultyDTO;
 import edu.ijse.crs.dto.ProgramDetailsDTO;
 import edu.ijse.crs.dto.SemesterDTO;
 import edu.ijse.crs.dto.StudentDTO;
+import edu.ijse.crs.dto.VacanciesDTO;
 import edu.ijse.crs.entity.CourseEntity;
 import edu.ijse.crs.entity.EnrollmentEntity;
 import edu.ijse.crs.entity.PrerequisitesEntity;
@@ -88,7 +90,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             EnrollmentEntity enrollmentEntity = new EnrollmentEntity(
                     EntityDTOConversion.toStudentEntity(studentDTO),
                     courseEntity,
-                    EntityDTOConversion.toSemesterEntity(semesterDTO),
+                    EntityDTOConversion.toSemesterEntity(semesterDTO), 0,
                     EnrollmentStatus.ENROLLED);
 
             boolean save = enrollmentDao.save(enrollmentEntity, session);
@@ -115,7 +117,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             session.getTransaction().rollback();
             e.printStackTrace();
             return "Enroll Save Error";
-            
+
         } finally {
             session.close();
         }
@@ -247,19 +249,61 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public String dropCourse(StudentDTO studentDTO, CourseDTO searchCourse, SemesterDTO availableEnrollSemester) {
-        Session session=HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         session.beginTransaction();
 
-       EnrollmentId enrollmentId = new EnrollmentId();
-       enrollmentId.setCourse(EntityDTOConversion.toCourseEntity(searchCourse));
-       enrollmentId.setSemester(EntityDTOConversion.toSemesterEntity(availableEnrollSemester));
-       enrollmentId.setStudent(EntityDTOConversion.toStudentEntity(studentDTO));
+        EnrollmentId enrollmentId = new EnrollmentId();
+        enrollmentId.setCourse(EntityDTOConversion.toCourseEntity(searchCourse));
+        enrollmentId.setSemester(EntityDTOConversion.toSemesterEntity(availableEnrollSemester));
+        enrollmentId.setStudent(EntityDTOConversion.toStudentEntity(studentDTO));
 
-       enrollmentDao.deleteEnrollment(enrollmentId, session);
+        enrollmentDao.deleteEnrollment(enrollmentId, session);
 
-       session.getTransaction().commit();
-       
-       return "Course Droped";
+        session.getTransaction().commit();
+        session.close();
+
+        return "Course Droped";
+    }
+
+    @Override
+    public List<EnrollmentDTO> loadTable(StudentDTO studentDTO) {
+
+        List<EnrollmentEntity> studentEnrollmet = getStudentEnrollmet(studentDTO);
+        List<EnrollmentDTO> enrollmentDTOs = new ArrayList<>();
+
+        for (EnrollmentEntity enrollmentEntity : studentEnrollmet) {
+
+            EnrollmentDTO enrollmentDTO = EntityDTOConversion.toEnrollmentDTO(enrollmentEntity);
+
+            enrollmentDTOs.add(enrollmentDTO);
+        }
+        return enrollmentDTOs;
+    }
+
+    @Override
+    public List<VacanciesDTO> loadVacancies(StudentDTO studentDTO) {
+        Session session = HibernateUtil.getSession();
+
+        SemesterDTO canEnroll = canEnroll(studentDTO);
+        SemesterId semesterId = new SemesterId();
+
+        semesterId.setYear(canEnroll.getYear());
+        semesterId.setPartOfSemester(canEnroll.getPartOfSemester());
+        semesterId.setFaculty(EntityDTOConversion.toFacultyEntity(canEnroll.getFaculty()));
+
+        List<Object[]> vacancies = enrollmentDao.loadVacancies(semesterId, studentDTO.getProgram().getProgramId(),
+                session);
+
+        List<VacanciesDTO> vacanciesDTOs = new ArrayList<>();
+
+        for (Object[] objects : vacancies) {
+
+            CourseDTO courseDTO = EntityDTOConversion.toCourseDTO((CourseEntity) objects[1]);
+            VacanciesDTO vacanciesDTO = new VacanciesDTO(courseDTO, (Long) objects[0]);
+            vacanciesDTOs.add(vacanciesDTO);
+        }
+
+        return vacanciesDTOs;
     }
 
 }

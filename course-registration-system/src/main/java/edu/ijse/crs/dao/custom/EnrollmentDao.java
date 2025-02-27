@@ -8,6 +8,7 @@ import edu.ijse.crs.dao.CrudDao;
 import edu.ijse.crs.entity.EnrollmentEntity;
 import edu.ijse.crs.entity.StudentEntity;
 import edu.ijse.crs.entity.embeddableId.EnrollmentId;
+import edu.ijse.crs.entity.embeddableId.SemesterId;
 
 public interface EnrollmentDao extends CrudDao<EnrollmentEntity, String, Session> {
 
@@ -16,4 +17,6 @@ public interface EnrollmentDao extends CrudDao<EnrollmentEntity, String, Session
     void deleteEnrollment(EnrollmentId id, Session session);
 
     EnrollmentEntity searchEnrollment(EnrollmentId id, Session session);
+
+    List<Object[]> loadVacancies(SemesterId semesterId, String programId, Session session);
 }

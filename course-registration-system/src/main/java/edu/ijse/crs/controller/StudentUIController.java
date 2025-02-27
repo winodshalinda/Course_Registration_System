@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import edu.ijse.crs.controller.studentUIControllers.RegisterCourseController;
+import edu.ijse.crs.controller.studentUIControllers.ViewEnrollmentController;
 import edu.ijse.crs.dto.StudentDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,12 +39,32 @@ public class StudentUIController {
         controller.setStudentDTO(studentDTO);
 
         ancPane.getChildren().add(parent);
+
+        AnchorPane.setTopAnchor(parent, 0.0);
+        AnchorPane.setBottomAnchor(parent, 0.0);
+        AnchorPane.setLeftAnchor(parent, 0.0);
+        AnchorPane.setRightAnchor(parent, 0.0);
         
     }
 
     @FXML
-    void btnViewEnrollmentOnAction(ActionEvent event) {
+    void btnViewEnrollmentOnAction(ActionEvent event) throws IOException {
         // TODO
+        ancPane.getChildren().clear();
+
+        URL url=getClass().getResource("../view/studentUiPane/ViewEnrollmentUI.fxml");
+        FXMLLoader loader=new FXMLLoader(url);
+        Parent parent=loader.load();
+
+        ViewEnrollmentController controller = loader.getController();
+        controller.setStudentDTO(studentDTO);
+
+        ancPane.getChildren().add(parent);
+
+        AnchorPane.setTopAnchor(parent, 0.0);
+        AnchorPane.setBottomAnchor(parent, 0.0);
+        AnchorPane.setLeftAnchor(parent, 0.0);
+        AnchorPane.setRightAnchor(parent, 0.0);
     }
 
 }
