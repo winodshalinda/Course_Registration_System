@@ -9,6 +9,7 @@ import java.util.List;
 import edu.ijse.crs.service.ServiceFactory;
 import edu.ijse.crs.service.ServiceFactory.ServiceTypes;
 import edu.ijse.crs.service.custom.StudentService;
+import edu.ijse.crs.service.custom.impl.UserServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -185,7 +186,7 @@ public class ManageStudentController {
                     Integer.parseInt(txtYear.getText()),
                     txtEmail.getText(),
                     txtAddress.getText(),
-                    txtPassword.getText(),
+                    UserServiceImpl.hashPassword(txtPassword.getText()),
                     txtRePassword.getText());
 
             String saveStudent = studentService.saveStudent(studentDTO);

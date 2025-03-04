@@ -10,6 +10,7 @@ import edu.ijse.crs.entity.UserEntity;
 import edu.ijse.crs.service.custom.UserService;
 import edu.ijse.crs.util.EntityDTOConversion;
 import edu.ijse.crs.util.HibernateUtil;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UserServiceImpl implements UserService {
     UserDao userDao = (UserDao) DaoFactory.getInstance().getDao(DaoTypes.USER);
@@ -26,11 +27,14 @@ public class UserServiceImpl implements UserService {
     public UserDTO login(String userName, String password) throws Exception {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
+
         UserEntity searchUserEntity = userDao.search(userName, session);
         session.getTransaction().commit();
         session.close();
+
         if (searchUserEntity != null) {
-            if (searchUserEntity.getPassword().equals(password)) {
+            System.out.println(hashPassword(password));
+            if (checkPassword(password,searchUserEntity.getPassword())) {
                 return EntityDTOConversion.toUserDTO(searchUserEntity);
             } else {
                 throw new RuntimeException("Invalid Password");
@@ -38,5 +42,13 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new RuntimeException("Invalid User Name");
         }
+    }
+
+    public static String hashPassword(String password){
+        return BCrypt.hashpw(password,BCrypt.gensalt());
+    }
+
+    public boolean checkPassword(String password, String hashedPassword){
+        return BCrypt.checkpw(password,hashedPassword);
     }
 }

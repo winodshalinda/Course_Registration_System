@@ -39,6 +39,7 @@ public class FacultyServiceImpl implements FacultyService {
             return "All fields are required";
         }
         if (facultyDTO.getPassword().equals(facultyDTO.getRePassword())) {
+            facultyDTO.setPassword(UserServiceImpl.hashPassword(facultyDTO.getRePassword()));
             Session session = HibernateUtil.getSession();
             session.beginTransaction();
             Boolean isFacultySaved = facultyDao.save(EntityDTOConversion.toFacultyEntity(facultyDTO), session);
